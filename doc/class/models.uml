@@ -1,0 +1,78 @@
+@startuml
+package Orm {
+
+class SerializerTableFile {
+    - Path path
+
+    + SerializerTableFile()
+    + SerializerTableFile(Table, Path)
+    + SerializerTableFile(Table, String path)
+    + toFile(String) : void
+    + fromFile() : String
+    + fromFileEach(Function<String, void>) : void
+}
+
+class SerializerTableCsv{
+    + SerializerTableCsv()
+    + SerializerTableCsv(Table)
+    + SerializerTableCsv(Table, Path)
+    + SerializerTableCsV(table, String path)
+    + fromCsv() : void
+    + toCsv() : void
+}
+
+
+class Connector {
+    - String uri
+    - String user
+    - String password
+
+    + Connector()
+    + Connector(String uri)
+    + Connector(String uri, String user, String password)
+    + Connector(Path uri)
+    + Connector(Path uri, String user, String password)
+
+    + connect() : Connector
+    + execute(String query) : Connector
+    + close(): void
+}
+
+class MySql {
+    + Mysql()
+    + Mysql(String uri)
+    + Mysql(String uri, String user, String password)
+    + Mysql(Path uri)
+    + Mysql(Path uri, String user, String password)
+}
+
+class Fixture {
+    
+}
+
+class Table {
+    - String name
+
+    + Table()
+    + Table(String name)
+
+    + select(List<String> columns) : ResultSet
+    + insert(Map<String, String>) : ResultSet
+    + update(Map<String,String>) : ResultSet
+    + delete(Map<String, String>) : ResultSet
+}
+
+
+Connector <|-- MySql
+Table "*" --* "1" Connector
+
+SerializerTableFile  <|-- SerializerTableCsv
+}
+
+package Contact {
+class Contact {
+
+}
+}
+
+@enduml

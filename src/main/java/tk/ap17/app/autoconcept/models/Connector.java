@@ -1,87 +1,112 @@
 package tk.ap17.app.autoconcept.models;
 
-import java.nio.file.Path;
 import java.sql.*;
 
 public class Connector {
-    private String uri; // Uniform Resource Identifier
-    private String user; // Identifiant utilisateur
-    private String password; // Mot de passe
-    private String port; // Port de connection
+	private String host; // Uniform Resource Identifier
+	private String user; // Identifiant utilisateur
+	private String password; // Mot de passe
+	private String port; // Port de connection
+	private Connection connection = null; // A définir
+	private static boolean driverLoaded = false; // Etat de chargement du driver
 
-    /**
-     * Constructeurs
-     */
-    public Connector() {
+	/**
+	 * Constructeurs
+	 */
 
-    }
+	public Connector() {
+		this("localhost");
+	}
 
-    public Connector(String uri) {
+	public Connector(String host) {
+		this(host, "", "");
+	}
 
-    }
+	public Connector(String host, String user, String password) {
+		if (!driverLoaded) {
+			throw new IllegalStateException("Cannot instantiate if driver is not loaded. Please call "
+					+ getClass().getName() + ".init() method before invoking this constructor.");
+		}
 
-    public Connector(String uri, String user, String password) {
+		setHost(host);
+		setUser(user);
+		setPassword(password);
+	}
 
-    }
+	/**
+	 * Méthodes : connexion, execution, deconnexion
+	 */
 
-    public Connector(Path uri) {
+	public void connect() throws SQLException {
+		// Connexion a la base de données
+		System.out.println("Connexion à la base de données");
 
-    }
+		String dBurl = "jdbc:mysql://" + host + "/autoconcept-app";
+		connection = DriverManager.getConnection(dBurl, user, password);
+	}
 
-    public Connector(Path uri, String user, String password) {
+	public ResultSet execute(String query) throws SQLException {
+		System.out.println("creation et execution de la requête :" + query);
+		Statement stmt = connection.createStatement();
+		return stmt.executeQuery(query);
+	}
 
-    }
+	public void close() throws SQLException {
+		connection.close();
+	}
 
-    /**
-     * Méthodes : connexion, execution, deconnexion
-     */
+	/**
+	 * A definir
+	 * 
+	 * @return
+	 */
 
-    public void connect() {
+	public static boolean isDriverLoaded() {
+		return driverLoaded;
+	}
 
-    }
+	public static void init() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+		if (!driverLoaded) {
+			// Chargement du pilote
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			driverLoaded = true;
+		}
+	}
 
-    public void execute(String query) {
+	/* Accesseurs à l'attribut host ******************************/
+	public String getHost() {
+		return host;
+	}
 
-    }
+	void setHost(String newHost) {
+		host = newHost;
+	}
 
-    public void close() {
+	/* Accesseurs à l'attribut user *****************************/
+	public String getUser() {
+		return user;
+	}
 
-    }
+	void setUser(String newUser) {
+		user = newUser;
+	}
 
-    /* Accesseurs à l'attribut uri ******************************/
-    public String getUri() {
-        return uri;
-    }
+	/* Accesseurs à l'attribut password *************************/
+	public String getPassword() {
+		return password;
+	}
 
-    void setUri(String newUri) {
-        uri = newUri;
-    }
+	void setPassword(String newPassword) {
+		password = newPassword;
+	}
 
-    /* Accesseurs à l'attribut user *****************************/
-    public String getUser() {
-        return user;
-    }
+	/* Accesseurs à l'attribut port *****************************/
+	public String getPort() {
+		return port;
+	}
 
-    void setUser(String newUser) {
-        user = newUser;
-    }
-
-    /* Accesseurs à l'attribut password *************************/
-    public String getPassword() {
-        return password;
-    }
-
-    void setPassword(String newPassword) {
-        password = newPassword;
-    }
-
-    /* Accesseurs à l'attribut port *****************************/
-    public String getPort() {
-        return port;
-    }
-
-    void setPort(String newPort) {
-        port = newPort;
-    }
+	void setPort(String newPort) {
+		port = newPort;
+	}
 
 }

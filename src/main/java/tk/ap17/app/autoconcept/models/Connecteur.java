@@ -6,35 +6,63 @@ public class Connecteur {
 	private String	password;	//Mot de passe
 	private String	port;		//Port de connection
 
-/* Accesseurs à l'attribut uri ******************************/
+	/**
+	 * Retourne l'identifiant de la ressource sur le réseau
+	 * @return uri
+	 */
 	public String getUri(){
 		return uri;
 	}
-	void setUri(String newUri){
+	/**
+	 * Définit le nouvel identifiant de la ressource sur le réseau
+	 * @param newUri
+	 */
+	public void setUri(String newUri){
 		uri = newUri;
 	}
 
-/* Accesseurs à l'attribut user *****************************/
+	/**
+	 * Retourne le nom de l'utilisateur
+	 * @return nom de l'utilisateur
+	 */
 	public String getUser(){
 		return user;
 	}
-	void setUser(String newUser){
+	/**
+	 * Définit le nouveau nom de l'utilisateur
+	 * @param newUser
+	 */
+	public void setUser(String newUser){
 		user = newUser;
 	}
 	
-/* Accesseurs à l'attribut password *************************/
+	/**
+	 * Retourne le mot de passe
+	 * @return mot de passe
+	 */
 	public String getPassword(){
 		return password;
 	}
-	void setPassword(String newPassword){
+	/**
+	 * Définit le nouveau mot de passe
+	 * @param newPassword
+	 */
+	public void setPassword(String newPassword){
 		password = newPassword;
 	}
 	
-/* Accesseurs à l'attribut port *****************************/
+	/**
+	 * Retourne le numéro (String) de port
+	 * @return port
+	 */
 	public String getPort(){
 		return port;
 	}
-	void setPort(String newPort){
+	/**
+	 * Définit le nouveau port
+	 * @param newPort
+	 */
+	public void setPort(String newPort){
 		port = newPort;
 	}
 }

@@ -7,69 +7,69 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Orm {
-	/**
-	 * Select generique sur la bdd MySql
-	 */
-	public Map select (List<String> colums){
+    /**
+     * Select generique sur la bdd MySql
+     */
+    //public Map select (List<String> colums){
 
-		return Map<String,String>;
-	}
+        //return Map<String,String>;
+    //}
 
-	/**
-	 * Insérrer des champs
-	 */
-	public boolean insert(Map<String, String> value) {
+    /**
+     * Insérrer des champs
+     */
+    public boolean insert(Map<String, String> value) {
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Modifier des champs
-	 */
-	public boolean update(Map<String, String> value) {
+    /**
+     * Modifier des champs
+     */
+    public boolean update(Map<String, String> value) {
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Supprimer des champs
-	 */
-	public boolean delete(Map<String, String> value) {
+    /**
+     * Supprimer des champs
+     */
+    public boolean delete(Map<String, String> value) {
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Récupérer une table
-	 */
-	public String getTable() {
+    /**
+     * Récupérer une table
+     */
+    public String getTable() {
 
-		return "";
-	}
+        return "";
+    }
 
-	/**
-	 * Collection de tables unique
-	 * 
-	 * @param name
-	 */
-	public List setTable(String name) {
+    /**
+     * Collection de tables unique
+     *
+     * @param name
+     */
+    //public List setTable(String name) {
 
-		return;
-	}
+        //return;
+    //}
 
-	/**
-	 * Récuperer une colonne 
-	 */
-	public List getColums() {
+    /**
+     * Récuperer une colonne
+     */
+    //public List getColums() {
 
-		return
-	}
+        //return
+    //}
 
-	/**
-	 * Collection de colonnes unique
-	 */
-	public List setColums() {
+    /**
+     * Collection de colonnes unique
+     */
+    //public List setColums() {
 
-		return
-	}
+        //return
+    //}
 }

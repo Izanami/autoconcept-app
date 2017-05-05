@@ -53,7 +53,7 @@ public class Connector {
         return uri;
     }
 
-    void setUri(String newUri) {
+    public void setUri(String newUri) {
         uri = newUri;
     }
 
@@ -62,7 +62,7 @@ public class Connector {
         return user;
     }
 
-    void setUser(String newUser) {
+    public void setUser(String newUser) {
         user = newUser;
     }
 
@@ -71,7 +71,7 @@ public class Connector {
         return password;
     }
 
-    void setPassword(String newPassword) {
+   public void setPassword(String newPassword) {
         password = newPassword;
     }
 
@@ -80,7 +80,7 @@ public class Connector {
         return port;
     }
 
-    void setPort(String newPort) {
+    public void setPort(String newPort) {
         port = newPort;
     }
 

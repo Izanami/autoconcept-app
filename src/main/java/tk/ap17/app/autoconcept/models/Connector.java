@@ -23,6 +23,16 @@ public class Connector {
 	}
 
 	public Connector(String host, String user, String password) {
+		try {
+			Connector.init();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		}
+
 		if (!driverLoaded) {
 			throw new IllegalStateException("Cannot instantiate if driver is not loaded. Please call "
 					+ getClass().getName() + ".init() method before invoking this constructor.");

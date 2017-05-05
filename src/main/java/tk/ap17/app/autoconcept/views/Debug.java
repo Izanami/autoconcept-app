@@ -1,37 +1,30 @@
 package tk.ap17.app.autoconcept.views;
 
-import tk.ap17.app.autoconcept.models.Connecteur;
+import tk.ap17.app.autoconcept.models.Connector;
 
 public class Debug {
-	
-	Connecteur connecteur;
-	
-	/*
-	String uri;
-	String user;
-	String password;
-	*/
+
+	Connector connector;
+
 	public static void main(String[] args) {
+
+		Connector connector = new Connector();
 		
-		/*Debug debug = new Debug();
+		connector.setUri("LocalHost");
+		connector.setUser("Paf");
+		connector.setPassword("edfg");
+		connector.setPort("415.258.254");
 		
-		debug.uri = "URI: 	  BEAUREGARD";
-		debug.user = "USER: 	  jack";
-		debug.password = "PASSWORD: classe";
-		
-		display(debug.uri);
-		display(debug.user);
-		display(debug.password);
-		*/
-		
-		
+		display(connector.getUri());
+		display(connector.getUser());
+		display(connector.getPassword());
+		display(connector.getPort());
+
 	}
 
-	
-	
-	public static void display(String message){
-		
+	public static void display(String message) {
+
 		System.out.println(message);
-		
+
 	}
 }

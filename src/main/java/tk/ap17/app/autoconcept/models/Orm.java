@@ -48,17 +48,17 @@ public class Orm {
 	}
 
 	/**
-	 * Récupérer une liste des tables
+	 * Collection de tables unique
 	 * 
 	 * @param name
 	 */
 	public List setTable(String name) {
 
-		return 
+		return;
 	}
 
 	/**
-	 * 
+	 * Récuperer une colonne 
 	 */
 	public List getColums() {
 
@@ -66,7 +66,7 @@ public class Orm {
 	}
 
 	/**
-	 * 
+	 * Collection de colonnes unique
 	 */
 	public List setColums() {
 

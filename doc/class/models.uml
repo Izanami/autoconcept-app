@@ -1,26 +1,24 @@
 @startuml
 package Orm {
 
-class SerializerTableFile {
-    - Path path
-
-    + SerializerTableFile()
-    + SerializerTableFile(Table, Path)
-    + SerializerTableFile(Table, String path)
-    + toFile(String) : void
-    + fromFile() : String
-    + fromFileEach(Function<String, void>) : void
+package Serializable {
+interface SerializerTableFile {
+    + getPath() : Path
+    + toFile() : void <<default>>
+    + fromFile() : String <<default>>
+    + fromFileEach(Function<String, void>) : void <<default>>
 }
 
-class SerializerTableCsv{
-    + SerializerTableCsv()
-    + SerializerTableCsv(Table)
-    + SerializerTableCsv(Table, Path)
-    + SerializerTableCsV(table, String path)
-    + fromCsv() : void
-    + toCsv() : void
+interface SerializerTableCsv{
+    + fromCsv() : void <<default>>
+    + toCsv() : void <<default>>
 }
 
+interface SerializerTableXml{
+    + fromXml() : void <<default>>
+    + toXml() : void <<default>>
+}
+}
 
 class Connector {
     - String uri
@@ -52,6 +50,7 @@ class Fixture {
 
 class Table {
     - String name
+    - Path path
 
     + Table()
     + Table(String name)
@@ -66,7 +65,10 @@ class Table {
 Connector <|-- MySql
 Table "*" --* "1" Connector
 
+SerializerTableCsv <|.. Table
+SerializerTableXml <|.. Table
 SerializerTableFile  <|-- SerializerTableCsv
+SerializerTableFile  <|-- SerializerTableXml
 }
 
 package Contact {

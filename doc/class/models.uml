@@ -8,7 +8,7 @@ interface SerializerTableFile {
     + fromFile(Path) : String <<default>>
     + toFile(String path) : boolean <<default>>
     + fromFile(String path) : String <<default>>
-    + fromFileEach(Function<String, void>) : boolean <<default>>
+    + fromFileEach(Function<String, Boolean>) : boolean <<default>>
 }
 
 interface SerializerTableCsv{
@@ -27,7 +27,7 @@ interface SerializerTableSql{
 
 }
 
-class Connector {
+class Connector <<Abstract>> {
     - String host
     - String user
     - String password
@@ -39,7 +39,7 @@ class Connector {
     + connect() : Connector
     + execute(String query) : Connector
     + close(): void
-    + forEachTable(Function<Table, boolean>)
+    + forEachTable(Function<Table, Boolean>) : void
 }
 
 class MySql {
@@ -48,17 +48,16 @@ class MySql {
     + Mysql(String host, String user, String password, String port)
 }
 
-class Fixture {
-}
-
 class Query {
+    - Table table
 
-    + Query()
+    + Query(Table)
 
     + select(List<String> columns) : Query
     + insert(Map<String, String>) : Query
     + update(Map<String,String>) : Query
     + delete(Map<String, String>) : Query
+    + execute(Connector) : ResultSet
 }
 
 class Table {
@@ -66,14 +65,28 @@ class Table {
     + query() : Query
 }
 
+class Fixture {
+    - Path path
+    + boolean populate(Connector)
+}
+
 Connector <|-- MySql
 Table "*" --* "1" Connector
-Table -- Query
+Table --> Query : Prepare >
+Connector "1" <-- "1" Fixture : Populate <
 
 SerializerTableSql  <|.. Table
 SerializerTableCsv  <|.. Table
 SerializerTableFile  <|-- SerializerTableCsv
 SerializerTableFile  <|-- SerializerTableSql
+}
+
+package Models {
+    class Partenaires {
+
+    }
+
+    Table <|-- Partenaires
 }
 
 @enduml

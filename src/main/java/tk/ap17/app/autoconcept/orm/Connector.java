@@ -1,6 +1,9 @@
 package tk.ap17.app.autoconcept.orm;
 
 import java.sql.*;
+import java.util.logging.Logger;
+
+import tk.ap17.app.autoconcept.AutoconceptLogger;
 
 public class Connector {
 	private String host; // Uniform Resource Identifier
@@ -9,29 +12,30 @@ public class Connector {
 	private String port; // Port de connection
 	private Connection connection = null; // A définir
 	private static boolean driverLoaded = false; // Etat de chargement du driver
+	private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName()); // Indique
+	// un
+	// message
+	// suivant
+	// l'état
+	// de
+	// connexion
 
 	/**
 	 * Constructeurs
 	 */
 
-	public Connector() {
+	public Connector() throws Exception {
 		this("localhost");
 	}
 
-	public Connector(String host) {
+	public Connector(String host) throws Exception {
 		this(host, "", "");
 	}
 
-	public Connector(String host, String user, String password) {
-		try {
-			Connector.init();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		}
+	public Connector(String host, String user, String password)
+			throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+
+		Connector.init();
 
 		if (!driverLoaded) {
 			throw new IllegalStateException("Cannot instantiate if driver is not loaded. Please call "
@@ -49,7 +53,7 @@ public class Connector {
 
 	public void connect() throws SQLException {
 		// Connexion a la base de données
-		System.out.println("Connexion à la base de données");
+		logger.info("Connexion à la base de données");
 
 		String dBurl = "jdbc:mysql://" + host + "/autoconcept-app";
 		connection = DriverManager.getConnection(dBurl, user, password);

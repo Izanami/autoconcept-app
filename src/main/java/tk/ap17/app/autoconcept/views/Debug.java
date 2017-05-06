@@ -8,7 +8,7 @@ public class Debug {
 	Connector connector;
 	private Scanner scan = new Scanner(System.in);
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
 		Connector connector = new Connector();
 

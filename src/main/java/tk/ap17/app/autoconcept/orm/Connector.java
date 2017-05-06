@@ -3,6 +3,8 @@ package tk.ap17.app.autoconcept.orm;
 import java.sql.*;
 import java.util.function.Function;
 import java.util.logging.Logger;
+import java.util.List;
+import java.util.ArrayList;
 
 import tk.ap17.app.autoconcept.AutoconceptLogger;
 
@@ -15,6 +17,7 @@ public abstract class Connector {
 	private static boolean driverLoaded = false; // Etat de chargement du driver
 	// Indique un message suivant l'état de connexion
 	private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName());
+	private List<Table> tables = new ArrayList<>();
 
 	/**
 	 * Constructeurs
@@ -88,8 +91,10 @@ public abstract class Connector {
 		}
 	}
 
-	public void forEachTable(Function<String, Boolean> f) {
-
+	public void forEachTable(Function<Table, Boolean> f) {
+		for(Table table : tables){
+			f.apply(table);
+		}
 	}
 
 	/* Accesseurs à l'attribut host ******************************/

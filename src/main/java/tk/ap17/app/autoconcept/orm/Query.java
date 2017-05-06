@@ -6,123 +6,115 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class Query {
-    private String nameTable = "";
-    private Connector connector;
+	private Connector connector;
+	private Table table;
+	
+	
+	/**
+	 * 
+	 */
+	public Query(){
+		
+	}
 
-    /**
-     * {@inheritDoc}
-     *
-     * @see Object#Table()
-     */
-    public Query() {}
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @see Object#Table()
+	 */
+	public Query(Table table) {
+		
+	}
 
-    /**
-     *
-     *
-     * @param name
-     */
-    public Query(String name) {
-        setNameTable(name);
-    }
+	/**
+	 * Returns a Query.
+	 * 
+	 * @param colums
+	 * @throws NullPointerException
+	 */
+//	public ResultSet select(List<String> columns) throws NullPointerException, SQLException {
+//		StringBuffer query = new StringBuffer("SELECT ");
+//
+//		if (columns.size() <= 0) {
+//			throw new IllegalArgumentException("Columns can not be empty.");
+//		}
+//
+//		for (String column : columns) {
+//			query.append(column);
+//			query.append(" ,");
+//		}
+//
+//		query.setLength(query.length() - 2);
+//		query.append(" FROM ");
+//		query.append(getNameTable());
+//
+//		return connector.execute("");
+//	}
 
-    /**
-     * Returns a Query.
-     * @param colums
-     * @throws NullPointerException
-     */
-    public ResultSet select(List<String> columns) throws NullPointerException, SQLException {
-        StringBuffer query = new StringBuffer("SELECT ");
+	/**
+	 * Insérrer des champs
+	 *
+	 * @param value
+	 * @return
+	 */
+	public boolean insert(Map<String, String> value) {
 
-        if(columns.size() <= 0) {
-            throw new IllegalArgumentException("Columns can not be empty.");
-        }
+		return true;
+	}
 
-        for (String column : columns) {
-            query.append(column);
-            query.append(" ,");
-        }
+	/**
+	 * Modifier des champs
+	 */
+	public boolean update(Map<String, String> value) {
 
-        query.setLength(query.length() - 2);
-        query.append(" FROM ");
-        query.append(getNameTable());
+		return true;
+	}
 
-        return connector.execute("");
-    }
+	/**
+	 * Supprimer des champs
+	 */
+	public boolean delete(Map<String, String> value) {
 
-    /**
-     * Insérrer des champs
-     *
-     * @param value
-     * @return
-     */
-    public boolean insert(Map<String, String> value) {
+		return true;
+	}
 
-        return true;
-    }
+	// public Resulset execute(Connector()){
+	//
+	// return ;
+	// }
 
-    /**
-     * Modifier des champs
-     */
-    public boolean update(Map<String, String> value) {
+	/**
+	 * Récupérer une table
+	 */
+	public String getTable() {
 
-        return true;
-    }
+		return "";
+	}
 
-    /**
-     * Supprimer des champs
-     */
-    public boolean delete(Map<String, String> value) {
+	/**
+	 * Collection de tables unique
+	 *
+	 * @param name
+	 */
+	// public List setTable(String name) {
 
-        return true;
-    }
+	// return;
+	// }
 
-    /**
-     * Récupérer une table
-     */
-    public String getTable() {
+	/**
+	 * Récuperer une colonne
+	 */
+	// public List getColums() {
 
-        return "";
-    }
+	// return
+	// }
 
-    /**
-     * @return the nameTable
-     */
-    public String getNameTable() {
-        return nameTable;
-    }
+	/**
+	 * Collection de colonnes unique
+	 */
+	// public List setColums() {
 
-    /**
-     * @param nameTable the nameTable to set
-     */
-    public void setNameTable(String nameTable) {
-        this.nameTable = nameTable;
-    }
-
-    /**
-     * Collection de tables unique
-     *
-     * @param name
-     */
-    //public List setTable(String name) {
-
-        //return;
-    //}
-
-    /**
-     * Récuperer une colonne
-     */
-    //public List getColums() {
-
-        //return
-    //}
-
-    /**
-     * Collection de colonnes unique
-     */
-    //public List setColums() {
-
-        //return
-    //}
+	// return
+	// }
 }

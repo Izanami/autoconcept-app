@@ -55,10 +55,10 @@ class Table {
     + Table()
     + Table(String name)
 
-    + select(List<String> columns) : ResultSet
-    + insert(Map<String, String>) : ResultSet
-    + update(Map<String,String>) : ResultSet
-    + delete(Map<String, String>) : ResultSet
+    + select(List<String> columns) : Query
+    + insert(Map<String, String>) : Query
+    + update(Map<String,String>) : Query
+    + delete(Map<String, String>) : Query
 }
 
 

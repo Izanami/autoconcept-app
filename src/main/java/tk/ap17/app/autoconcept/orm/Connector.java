@@ -5,20 +5,15 @@ import java.util.logging.Logger;
 
 import tk.ap17.app.autoconcept.AutoconceptLogger;
 
-public class Connector {
+public abstract class Connector {
 	private String host; // Uniform Resource Identifier
 	private String user; // Identifiant utilisateur
 	private String password; // Mot de passe
 	private String port; // Port de connection
 	private Connection connection = null; // A définir
 	private static boolean driverLoaded = false; // Etat de chargement du driver
-	private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName()); // Indique
-	// un
-	// message
-	// suivant
-	// l'état
-	// de
-	// connexion
+	// Indique un message suivant l'état de connexion
+	private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName());
 
 	/**
 	 * Constructeurs
@@ -32,7 +27,11 @@ public class Connector {
 		this(host, "", "");
 	}
 
-	public Connector(String host, String user, String password)
+	public Connector(String host, String user, String password) throws Exception {
+		this(host, user, password, "3306");
+	}
+
+	public Connector(String host, String user, String password, String port)
 			throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
 		Connector.init();
@@ -45,6 +44,7 @@ public class Connector {
 		setHost(host);
 		setUser(user);
 		setPassword(password);
+		setPort(port);
 	}
 
 	/**
@@ -55,8 +55,8 @@ public class Connector {
 		// Connexion a la base de données
 		logger.info("Connexion à la base de données");
 
-		String dBurl = "jdbc:mysql://" + host + "/autoconcept-app";
-		connection = DriverManager.getConnection(dBurl, user, password);
+		String dBurl = "jdbc:mysql://" + getHost() + "/autoconcept-app";
+		connection = DriverManager.getConnection(dBurl, getUser(), getPassword());
 	}
 
 	public ResultSet execute(String query) throws SQLException {

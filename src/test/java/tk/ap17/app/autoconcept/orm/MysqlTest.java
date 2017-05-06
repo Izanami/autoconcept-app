@@ -3,7 +3,9 @@ package tk.ap17.app.autoconcept.orm;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,6 +15,14 @@ public class MysqlTest {
 	@Before
 	public void setUp() throws Exception {
 		mysql = new Mysql();
+		mysql.setUser("root");
+		mysql.setPassword("autoconcept");
+		mysql.connect();
+	}
+
+	@After
+	public void setDown() throws Exception {
+		mysql.close();
 	}
 
 	@Test
@@ -44,11 +54,11 @@ public class MysqlTest {
 	}
 
 	@Test
-	public void testConnect() throws SQLException {
-		mysql.setUser("root");
-		mysql.setPassword("autoconcept");
-		mysql.connect();
-		mysql.close();
+	public void testExecute() throws SQLException {
+		ResultSet result = mysql.execute("Select * from personne");
+		result.next();
+		assertEquals("Luther King", result.getString(1));
+
 	}
 
 }

@@ -67,7 +67,7 @@ public class Connector {
 
 	/**
 	 * A definir
-	 * 
+	 *
 	 * @return
 	 */
 
@@ -118,5 +118,4 @@ public class Connector {
 	void setPort(String newPort) {
 		port = newPort;
 	}
-
 }

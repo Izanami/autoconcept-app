@@ -2,26 +2,27 @@
 package Orm {
 
 package Serializable {
+
 interface SerializerTableFile {
-    + getSerilizePathFile() : Path
-    + toFile() : void <<default>>
-    + fromFile() : String <<default>>
-    + fromFileEach(Function<String, void>) : void <<default>>
+    + toFile(Path) : boolean <<default>>
+    + fromFile(Path) : String <<default>>
+    + toFile(String path) : boolean <<default>>
+    + fromFile(String path) : String <<default>>
+    + fromFileEach(Function<String, void>) : boolean <<default>>
 }
 
 interface SerializerTableCsv{
-    + fromCsv() : void <<default>>
-    + toCsv() : void <<default>>
-}
-
-interface SerializerTableXml{
-    + fromXml() : void <<default>>
-    + toXml() : void <<default>>
+    + fromCsv(Path) : boolean <<default>>
+    + toCsv(Path) : boolean <<default>>
+    + fromCsv(String path) : boolean <<default>>
+    + toCsv(String path) : boolean <<default>>
 }
 
 interface SerializerTableSql{
-    + fromSql() : void <<default>>
-    + toSql() : void <<default>>
+    + fromSql(Path) : boolean <<default>>
+    + toSql(Path) : boolean <<default>>
+    + fromSql(String path) : boolean <<default>>
+    + toSql(String path) : boolean <<default>>
 }
 
 }
@@ -48,11 +49,9 @@ class MySql {
 }
 
 class Fixture {
-    
 }
 
 class Query {
-    - Path path
 
     + Query()
 
@@ -62,34 +61,19 @@ class Query {
     + delete(Map<String, String>) : Query
 }
 
-class Serialize {
-    Serialize(Table)
-}
-
 class Table {
     - String nameTable
-    - serializeFilePath Path
-
     + query() : Query
 }
 
 Connector <|-- MySql
 Table "*" --* "1" Connector
 Table -- Query
-Table -- Serialize
 
-SerializerTableSql <|.. Serialize
-SerializerTableCsv <|.. Serialize
-SerializerTableXml <|.. Serialize
+SerializerTableSql  <|.. Table
+SerializerTableCsv  <|.. Table
 SerializerTableFile  <|-- SerializerTableCsv
-SerializerTableFile  <|-- SerializerTableXml
 SerializerTableFile  <|-- SerializerTableSql
-}
-
-package Contact {
-class Contact {
-
-}
 }
 
 @enduml

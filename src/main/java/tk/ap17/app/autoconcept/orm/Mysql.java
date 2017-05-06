@@ -12,8 +12,12 @@ public class Mysql extends Connector {
 		super(host);
 	}
 
-	public Mysql(String host, String user, String password)
-			throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+	public Mysql(String host, String user, String password) throws Exception {
 		super(host, user, password);
+	}
+
+	public Mysql(String host, String user, String password, String port)
+			throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+		super(host, user, password, port);
 	}
 }

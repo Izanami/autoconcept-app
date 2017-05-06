@@ -1,6 +1,7 @@
 package tk.ap17.app.autoconcept.orm;
 
 import java.sql.*;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 import tk.ap17.app.autoconcept.AutoconceptLogger;
@@ -60,7 +61,7 @@ public abstract class Connector {
 	}
 
 	public ResultSet execute(String query) throws SQLException {
-		System.out.println("creation et execution de la requête :" + query);
+		logger.info("creation et execution de la requête :" + query);
 		Statement stmt = connection.createStatement();
 		return stmt.executeQuery(query);
 	}
@@ -85,6 +86,10 @@ public abstract class Connector {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 			driverLoaded = true;
 		}
+	}
+
+	public void forEachTable(Function<String, Boolean> f) {
+
 	}
 
 	/* Accesseurs à l'attribut host ******************************/

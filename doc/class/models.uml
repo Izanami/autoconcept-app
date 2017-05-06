@@ -51,12 +51,26 @@ class MySql {
 class Query {
     - Table table
 
+    + Query()
     + Query(Table)
 
-    + select(List<String> columns) : Query
-    + insert(Map<String, String>) : Query
-    + update(Map<String,String>) : Query
-    + delete(Map<String, String>) : Query
+    + select(List<String> columns) : QuerySelect
+    + insert(Map<String, String>) : QueryInsert
+    + update(Map<String,String>) : QueryUpdate
+    + delete(Map<String, String>) : QueryDelete
+}
+
+class QueryWhere() {
+}
+
+class QuerySelect {
+    - Table table
+    - Integer count
+    - List String<String columns>
+
+    + QuerySelect()
+
+    + limit(Integer count) : QuerySelect
     + execute(Connector) : ResultSet
 }
 
@@ -74,6 +88,8 @@ Connector <|-- MySql
 Table "*" --* "1" Connector
 Table --> Query : Prepare >
 Connector "1" <-- "1" Fixture : Populate <
+
+QuerySelect <-- Query : Factory <
 
 SerializerTableSql  <|.. Table
 SerializerTableCsv  <|.. Table

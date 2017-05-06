@@ -1,4 +1,4 @@
-package tk.ap17.app.autoconcept.models;
+package tk.ap17.app.autoconcept.orm;
 
 import java.sql.*;
 
@@ -78,7 +78,7 @@ public class Connector {
 	public static void init() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 		if (!driverLoaded) {
 			// Chargement du pilote
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 			driverLoaded = true;
 		}
 	}
@@ -88,7 +88,7 @@ public class Connector {
 		return host;
 	}
 
-	void setHost(String newHost) {
+	public void setHost(String newHost) {
 		host = newHost;
 	}
 
@@ -97,7 +97,7 @@ public class Connector {
 		return user;
 	}
 
-	void setUser(String newUser) {
+	public void setUser(String newUser) {
 		user = newUser;
 	}
 
@@ -106,7 +106,7 @@ public class Connector {
 		return password;
 	}
 
-	void setPassword(String newPassword) {
+	public void setPassword(String newPassword) {
 		password = newPassword;
 	}
 
@@ -115,7 +115,7 @@ public class Connector {
 		return port;
 	}
 
-	void setPort(String newPort) {
+	public void setPort(String newPort) {
 		port = newPort;
 	}
 }

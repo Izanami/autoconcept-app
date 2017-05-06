@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.Test;
 
-import tk.ap17.app.autoconcept.models.Connector;
+import tk.ap17.app.autoconcept.orm.Connector;
 
 public class ConnectorTest {
 	private Connector connector;

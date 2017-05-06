@@ -3,7 +3,7 @@ package Orm {
 
 package Serializable {
 interface SerializerTableFile {
-    + getPath() : Path
+    + getSerilizePathFile() : Path
     + toFile() : void <<default>>
     + fromFile() : String <<default>>
     + fromFileEach(Function<String, void>) : void <<default>>
@@ -18,42 +18,43 @@ interface SerializerTableXml{
     + fromXml() : void <<default>>
     + toXml() : void <<default>>
 }
+
+interface SerializerTableSql{
+    + fromSql() : void <<default>>
+    + toSql() : void <<default>>
+}
+
 }
 
 class Connector {
-    - String uri
+    - String host
     - String user
     - String password
 
     + Connector()
-    + Connector(String uri)
-    + Connector(String uri, String user, String password)
-    + Connector(Path uri)
-    + Connector(Path uri, String user, String password)
+    + Connector(String host)
+    + Connector(String host, String user, String password, String port)
 
     + connect() : Connector
     + execute(String query) : Connector
     + close(): void
+    + forEachTable(Function<Table, boolean>)
 }
 
 class MySql {
     + Mysql()
-    + Mysql(String uri)
-    + Mysql(String uri, String user, String password)
-    + Mysql(Path uri)
-    + Mysql(Path uri, String user, String password)
+    + Mysql(String host)
+    + Mysql(String host, String user, String password, String port)
 }
 
 class Fixture {
     
 }
 
-class Table {
-    - String name
+class Query {
     - Path path
 
-    + Table()
-    + Table(String name)
+    + Query()
 
     + select(List<String> columns) : Query
     + insert(Map<String, String>) : Query
@@ -61,14 +62,28 @@ class Table {
     + delete(Map<String, String>) : Query
 }
 
+class Serialize {
+    Serialize(Table)
+}
+
+class Table {
+    - String nameTable
+    - serializeFilePath Path
+
+    + query() : Query
+}
 
 Connector <|-- MySql
 Table "*" --* "1" Connector
+Table -- Query
+Table -- Serialize
 
-SerializerTableCsv <|.. Table
-SerializerTableXml <|.. Table
+SerializerTableSql <|.. Serialize
+SerializerTableCsv <|.. Serialize
+SerializerTableXml <|.. Serialize
 SerializerTableFile  <|-- SerializerTableCsv
 SerializerTableFile  <|-- SerializerTableXml
+SerializerTableFile  <|-- SerializerTableSql
 }
 
 package Contact {

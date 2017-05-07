@@ -19,7 +19,6 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  *
  * @author Adrien Jeser : adrien@jeser.me
  * @author Kelian Bousquet
- * @see Connector
  * @see Table
  */
 public class Query {
@@ -49,8 +48,8 @@ public class Query {
     /**
      * Requete SELECT
      *
-     * @param columns
-     * @return
+     * @param columns Colonnes
+     * @return QuerySelect
      *
      */
     public QuerySelect select(List<String> columns) {
@@ -71,7 +70,7 @@ public class Query {
      *
      * @param columns Champs
      * @see Query
-     * @return
+     * @return QuerySelect
      *
      */
     public QuerySelect select(String columns) {

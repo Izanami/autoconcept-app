@@ -18,7 +18,7 @@ public class Table {
     /**
      *
      * @return Object pour manipuler les requetes sql.
-     * @seee Query
+     * @see Query
      */
     public Query query() {
         Query query = new Query(this);

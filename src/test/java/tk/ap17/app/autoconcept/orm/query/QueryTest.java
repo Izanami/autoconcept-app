@@ -2,10 +2,12 @@ package tk.ap17.app.autoconcept.orm.query;
 
 import static org.junit.Assert.*;
 
+import java.sql.JDBCType;
+
 import org.junit.Before;
 import org.junit.Test;
 
-
+import tk.ap17.app.autoconcept.exceptions.ExceptionOrm;
 import tk.ap17.app.autoconcept.orm.Table;
 
 public class QueryTest {
@@ -14,12 +16,15 @@ public class QueryTest {
     @Before
     public void setUp() throws Exception {
         Table table = new Table();
+        table.setColumn("nom", JDBCType.VARCHAR);
+        table.setColumn("prenom", JDBCType.VARCHAR);
+
         table.setNameTable("personne");
         query = new Query(table);
     }
 
     @Test
-    public void testSelect() {
-        assertEquals("SELECT nom, prenom FROM personne", query.select("nom,prenom").toString());
+    public void testSelect() throws ExceptionOrm {
+        assertEquals("SELECT nom, prenom FROM personne", query.select("nom,prenom").prepare());
     }
 }

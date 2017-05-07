@@ -4,6 +4,7 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import tk.ap17.app.autoconcept.exceptions.ExceptionOrm;
 import tk.ap17.app.autoconcept.orm.Connector;
 import tk.ap17.app.autoconcept.orm.Table;
 
@@ -76,7 +77,7 @@ public class QuerySelect {
     /**
      * Genere la requete Sql
      */
-    public String toString() {
+    public String prepare() throws ExceptionOrm {
         StringBuffer query = new StringBuffer();
         query.append("SELECT ");
 
@@ -85,6 +86,10 @@ public class QuerySelect {
         }
 
         for (String column : columns) {
+            if (getTable().getColumns().get(column) == null) {
+                throw new ExceptionOrm("Column " + column + " not in the " + getTable().getClass().getName() + " models (Table name : " + getTable().getNameTable() + ")");
+            }
+
             query.append(column);
             query.append(", ");
         }

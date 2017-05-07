@@ -1,7 +1,9 @@
 package tk.ap17.app.autoconcept.orm;
 
 import java.sql.JDBCType;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import tk.ap17.app.autoconcept.orm.query.Query;
@@ -16,7 +18,7 @@ import tk.ap17.app.autoconcept.orm.query.Query;
 public class Table {
     private String nameTable;
     private String primaryKeyName = "id";
-    private Map<String, JDBCType> columns = new HashMap<>();
+    private List<String> columns = new ArrayList<>();
 
     /**
      *
@@ -59,14 +61,14 @@ public class Table {
     /**
      * @return the columns
      */
-    public Map<String, JDBCType> getColumns() {
+    public List<String> getColumns() {
         return columns;
     }
 
     /**
      * @param columns the columns to set
      */
-    public void setColumns(Map<String, JDBCType> columns) {
+    public void setColumns(List<String> columns) {
         this.columns = columns;
     }
 
@@ -74,8 +76,8 @@ public class Table {
      * Definie une colonne
      * @param columns Colonne
      */
-    public void setColumn(String name, JDBCType jdbctype) {
-        this.columns.put(name, jdbctype);
+    public void addColumn(String name) {
+        columns.add(name);
     }
 
     /**

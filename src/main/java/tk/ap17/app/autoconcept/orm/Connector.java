@@ -296,12 +296,11 @@ public abstract class Connector {
     protected void setSgdb(String sgdb) {
         this.sgdb = sgdb;
     }
-    
+
     /**
      * @return the connection
      */
-    
     public Connection getConnection() {
-    	return connection;
+    	return this.connection;
     }
 }

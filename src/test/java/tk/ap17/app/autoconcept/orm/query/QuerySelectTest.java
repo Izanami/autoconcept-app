@@ -39,7 +39,7 @@ public class QuerySelectTest {
     }
 
     @Test
-    public void testToString() throws ExceptionOrm {
+    public void testPrepare() throws ExceptionOrm {
         assertEquals("SELECT nom, prenom FROM personne", select.prepare());
         assertEquals("SELECT nom, prenom FROM personne LIMIT 2", select.limit(2).prepare());
         assertEquals("SELECT nom, prenom FROM personne LIMIT 2 GROUP BY nom", select.groupBy("nom").prepare());

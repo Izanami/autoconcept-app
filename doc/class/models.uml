@@ -1,27 +1,21 @@
 @startuml
+
 package Orm {
 
 package Serializable {
 
-interface SerializerTableFile {
+interface DeserializeTableFile {
     + toFile(Path) : boolean <<default>>
-    + fromFile(Path) : String <<default>>
     + toFile(String path) : boolean <<default>>
-    + fromFile(String path) : String <<default>>
-    + fromFileEach(Function<String, Boolean>) : boolean <<default>>
 }
 
-interface SerializerTableCsv{
-    + fromCsv(Path) : boolean <<default>>
+interface DeserializeTableCsv{
     + toCsv(Path) : boolean <<default>>
-    + fromCsv(String path) : boolean <<default>>
     + toCsv(String path) : boolean <<default>>
 }
 
-interface SerializerTableSql{
-    + fromSql(Path) : boolean <<default>>
+interface DeserializeTableSql{
     + toSql(Path) : boolean <<default>>
-    + fromSql(String path) : boolean <<default>>
     + toSql(String path) : boolean <<default>>
 }
 
@@ -48,6 +42,7 @@ class MySql {
     + Mysql(String host, String user, String password, String port)
 }
 
+package Query {
 class Query {
     - Table table
 
@@ -55,28 +50,55 @@ class Query {
     + Query(Table)
 
     + select(List<String> columns) : QuerySelect
+    + select(String columns) : QuerySelect
     + insert(Map<String, String>) : QueryInsert
     + update(Map<String,String>) : QueryUpdate
     + delete(Map<String, String>) : QueryDelete
 }
 
-class QueryWhere() {
+
+interface QueryBelongs {
+     + getTable() : Table
+     + setBelongs(Row) : void
+     + getBelongs() : Row
+     + belongsString() : String <<default>>
+     + belongs(Row) <<default>>
+}
+
+interface QueryWhere {
+     + getTable() : Table
+     + whereString() : String <<default>>
 }
 
 class QuerySelect {
     - Table table
     - Integer count
     - List String<String columns>
+    - Interger cout
+    - String group_by
+    - boolean distinct
 
     + QuerySelect()
 
+    + prepare() : String
+
     + limit(Integer count) : QuerySelect
+    + groupBy(String str) : QuerySelect
+    + distinct() : QuerySelect
     + execute(Connector) : ResultSet
+}
+
 }
 
 class Table {
     - String nameTable
+    - String primaryKeyName
+    - Map<String, JDBCType> columns
     + query() : Query
+}
+
+class Row {
+    - String primaryKey
 }
 
 class Fixture {
@@ -90,11 +112,13 @@ Table --> Query : Prepare >
 Connector "1" <-- "1" Fixture : Populate <
 
 QuerySelect <-- Query : Factory <
+QuerySelect ..|> QueryWhere
+QuerySelect ..|> QueryBelongs
 
-SerializerTableSql  <|.. Table
-SerializerTableCsv  <|.. Table
-SerializerTableFile  <|-- SerializerTableCsv
-SerializerTableFile  <|-- SerializerTableSql
+DeserializeTableSql  <|.. QuerySelect
+DeserializeTableCsv  <|.. QuerySelect
+DeserializeTableFile  <|-- DeserializeTableCsv
+DeserializeTableFile  <|-- DeserializeTableSql
 }
 
 package Models {
@@ -102,7 +126,21 @@ package Models {
 
     }
 
+    class Partenaire {
+        
+    }
+
     Table <|-- Partenaires
+    Row <|-- Partenaire
+    Partenaires "1" --> "*" Partenaire : For each row >
+}
+
+package exceptions {
+    class ExceptionOrm {
+
+    }
+
+    ExceptionOrm --|> java.lang.Exception
 }
 
 @enduml

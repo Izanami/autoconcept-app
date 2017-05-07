@@ -13,7 +13,10 @@ public class Mysql extends Connector {
     /**
      * Contructeur par defaut
      *
-     * @see Connector#Mysql()
+     * @see Connector#Connector()
+     * @throws ClassNotFoundException Impossible de charger le driver.
+     * @throws IllegalAccessException Impossible de charger le driver.
+     * @throws InstantiationException Impossible de charger le driver.
      */
     public Mysql() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         super();
@@ -23,7 +26,10 @@ public class Mysql extends Connector {
     /**
      * {@inheritDoc}
      *
-     * @see Connector#Mysql(String)
+     * @throws ClassNotFoundException Impossible de charger le driver.
+     * @throws IllegalAccessException Impossible de charger le driver.
+     * @throws InstantiationException Impossible de charger le driver.
+     * @see Connector#Connector(String)
      */
     public Mysql(String host) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         super(host);
@@ -33,7 +39,10 @@ public class Mysql extends Connector {
     /**
      * {@inheritDoc}
      *
-     * @see Connector#Mysql(String,String,String)
+     * @see Connector#Connector(String,String,String)
+     * @throws ClassNotFoundException Impossible de charger le driver.
+     * @throws IllegalAccessException Impossible de charger le driver.
+     * @throws InstantiationException Impossible de charger le driver.
      */
     public Mysql(String host, String user, String password) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         super(host, user, password);
@@ -43,7 +52,10 @@ public class Mysql extends Connector {
     /**
      * {@inheritDoc}
      *
-     * @see Connector#Mysql(String,String,String,String)
+     * @see Connector#Connector(String,String,String,String)
+     * @throws ClassNotFoundException Impossible de charger le driver.
+     * @throws IllegalAccessException Impossible de charger le driver.
+     * @throws InstantiationException Impossible de charger le driver.
      */
     public Mysql(String host, String user, String password, String port)
             throws ClassNotFoundException, IllegalAccessException, InstantiationException {

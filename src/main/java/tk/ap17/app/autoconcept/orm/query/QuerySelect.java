@@ -15,7 +15,9 @@ import tk.ap17.app.autoconcept.orm.Table;
 public class QuerySelect {
     private Table table;
     private Integer count;
+    private String group_by;
     private List<String> columns;
+    private boolean distrinct = false;
 
     /**
      * Constructeur.
@@ -54,11 +56,34 @@ public class QuerySelect {
     }
 
     /**
+     * Groupe le resulta par un/des champ(s)
+     * @return object QuerySelect
+     */
+    public QuerySelect groupBy(String str) {
+        this.setGroupBy(str);
+        return this;
+    }
+
+    /**
+     * Supprimer les lignes en doublon
+     * @return object QuerySelect
+     */
+    public QuerySelect distinct() {
+        this.setDistrinct(true);
+        return this;
+    }
+
+    /**
      * Genere la requete Sql
      */
     public String toString() {
         StringBuffer query = new StringBuffer();
         query.append("SELECT ");
+
+        if (isDistrinct()) {
+            query.append("DISTINCT ");
+        }
+
         for (String column : columns) {
             query.append(column);
             query.append(", ");
@@ -66,9 +91,15 @@ public class QuerySelect {
         query.setLength(query.length() - 2);
         query.append(" FROM ");
         query.append(table.getNameTable());
+
         if (count != null) {
             query.append(" LIMIT ");
             query.append(Integer.toString(count));
+        }
+
+        if (getGroupBy() != null) {
+            query.append(" GROUP BY ");
+            query.append(getGroupBy());
         }
 
         return query.toString();
@@ -114,6 +145,21 @@ public class QuerySelect {
     }
 
     /**
+     * @return the groupBy
+     */
+    public String getGroupBy() {
+        return group_by;
+    }
+
+    /**
+     *
+     * @param groupBy the groupBy to set
+     */
+    public void setGroupBy(String groupBy) {
+        this.group_by = groupBy;
+    }
+
+    /**
      * @return the columns
      */
     public List<String> getColumns() {
@@ -125,5 +171,19 @@ public class QuerySelect {
      */
     public void setColumns(List<String> columns) {
         this.columns = columns;
+    }
+
+    /**
+     * @return the distrinct
+     */
+    public boolean isDistrinct() {
+        return distrinct;
+    }
+
+    /**
+     * @param distrinct the distrinct to set
+     */
+    public void setDistrinct(boolean distrinct) {
+        this.distrinct = distrinct;
     }
 }

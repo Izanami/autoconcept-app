@@ -37,5 +37,7 @@ public class QuerySelectTest {
     public void testToString() {
         assertEquals("SELECT nom, prenom FROM personne", select.toString());
         assertEquals("SELECT nom, prenom FROM personne LIMIT 2", select.limit(2).toString());
+        assertEquals("SELECT nom, prenom FROM personne LIMIT 2 GROUP BY nom", select.groupBy("nom").toString());
+        assertEquals("SELECT DISTINCT nom, prenom FROM personne LIMIT 2 GROUP BY nom", select.distinct().toString());
     }
 }

@@ -19,8 +19,8 @@ public class TableTest {
     @Before
     public void setUp() {
         Table table = new Table();
-        table.setColumn("nom", JDBCType.VARCHAR);
-        table.setColumn("prenom", JDBCType.VARCHAR);
+        table.addColumn("nom");
+        table.addColumn("prenom");
 
         query = new Query(table);
 

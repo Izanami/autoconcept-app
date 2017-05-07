@@ -16,8 +16,8 @@ public class QueryTest {
     @Before
     public void setUp() throws Exception {
         Table table = new Table();
-        table.setColumn("nom", JDBCType.VARCHAR);
-        table.setColumn("prenom", JDBCType.VARCHAR);
+        table.addColumn("nom");
+        table.addColumn("prenom");
 
         table.setNameTable("personne");
         query = new Query(table);

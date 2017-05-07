@@ -34,7 +34,7 @@ import tk.ap17.app.autoconcept.AutoconceptLogger;
  * Partenaire partenaire = new Partenaire();
  * partenaire.query().select("*").execute(connector);
  *
- * partenaire.close();
+ * connector.close();
  * }
  * </pre>
  *
@@ -83,7 +83,7 @@ public abstract class Connector {
     /**
      * Vrai, si le driver est charge
      */
-    private static boolean driverLoaded = false;
+    protected static boolean driverLoaded = false;
 
     /**
      * Liste des tables
@@ -135,10 +135,6 @@ public abstract class Connector {
         this(host, user, password, "3306");
     }
 
-    private void init() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        throw new RunTimeException();
-    }
-
     /**
      * Contructeur.
      *
@@ -153,13 +149,6 @@ public abstract class Connector {
      */
     public Connector(String host, String user, String password, String port)
             throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-
-        init();
-
-        if (!driverLoaded) {
-            throw new IllegalStateException("Driver not loaded");
-        }
-
         setHost(host);
         setUser(user);
         setPassword(password);
@@ -293,7 +282,6 @@ public abstract class Connector {
     public void setPort(String newPort) {
         port = newPort;
     }
-
 
     /**
      * @return the sgdb

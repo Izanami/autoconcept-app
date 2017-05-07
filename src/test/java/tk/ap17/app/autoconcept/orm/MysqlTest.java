@@ -10,57 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MysqlTest {
-<<<<<<< HEAD
-	private Mysql mysql;
-
-	@Before
-	public void setUp() throws Exception {
-		mysql = Mysql.InstanceForTest();
-		mysql.connect();
-	}
-
-	@After
-	public void setDown() throws Exception {
-		mysql.close();
-	}
-
-	@Test
-	public void testMysql() throws Exception {
-		new Mysql();
-	}
-
-	@Test
-	public void testMysqlString() throws Exception {
-		Mysql connector = new Mysql("localhost");
-		assertEquals("localhost", connector.getHost());
-	}
-
-	@Test
-	public void testMysqlStringStringString() throws Exception {
-		Mysql connector = new Mysql("localhost", "root", "autoconcept");
-		assertEquals("localhost", connector.getHost());
-		assertEquals("root", connector.getUser());
-		assertEquals("autoconcept", connector.getPassword());
-	}
-
-	@Test
-	public void testMysqlStringStringStringString() throws Exception {
-		Mysql connector = new Mysql("localhost", "root", "autoconcept", "3306");
-		assertEquals("localhost", connector.getHost());
-		assertEquals("root", connector.getUser());
-		assertEquals("autoconcept", connector.getPassword());
-		assertEquals("3306", connector.getPort());
-	}
-
-	@Test
-	public void testExecute() throws SQLException {
-		ResultSet result = mysql.execute("Select * from personne");
-		result.next();
-		assertEquals("Luther King", result.getString(1));
-
-	}
-
-=======
     private Mysql mysql;
 
     @Before
@@ -68,12 +17,10 @@ public class MysqlTest {
         mysql = new Mysql();
         mysql.setUser("root");
         mysql.setPassword("autoconcept");
-        mysql.connect();
     }
 
     @After
     public void setDown() throws Exception {
-        mysql.close();
     }
 
     @Test
@@ -104,11 +51,39 @@ public class MysqlTest {
         assertEquals("3306", connector.getPort());
     }
 
-    @Test
-    public void testExecute() throws SQLException {
-        ResultSet result = mysql.execute("Select * from personne");
-        result.next();
-        assertEquals("Luther King", result.getString(1));
-    }
->>>>>>> review
+    /**
+     *
+     * Test l'execution.
+     *
+     * <br>
+     * Parametre :
+     *  <ul>
+     *      <li>Adressse : localhost</li>
+     *      <li>Utilisateur :  root</li>
+     *      <li>Mot de passe : autoconcept</li>
+     *  </ul>
+     *
+     *  Préparer le serveur :
+     *  <br>
+     * CREATE DATABASE IF NOT EXISTS autoconcept-app;
+     *
+     * CREATE TABLE `personne` IF NOT EXISTS (
+     * `nom` text NOT NULL
+     * );
+     *
+     * INSERT INTO `personne` (`nom`) VALUES
+     * ('Luther King');
+     *
+     * @throws SQLException Echec de l'execution de la requete
+     */
+    //@Test
+    //public void testExecute() throws SQLException {
+        //mysql.connect();
+
+        //ResultSet result = mysql.execute("Select * from personne");
+        //result.next();
+        //assertEquals("Luther King", result.getString("nom"));
+
+        //mysql.close();
+    //}
 }

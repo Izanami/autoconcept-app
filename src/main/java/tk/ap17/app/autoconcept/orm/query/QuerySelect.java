@@ -15,7 +15,7 @@ public class QuerySelect {
 	public QuerySelect() {
 
 	}
-	
+
 	public QuerySelect(Table table, List<String> columns){
 		setTable(table);
 		setColumns(columns);
@@ -45,7 +45,6 @@ public class QuerySelect {
 	}
 
 	public ResultSet execute(Connector connector) throws SQLException {
-
 		return connector.execute(this.toString());
 	}
 

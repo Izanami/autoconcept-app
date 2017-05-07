@@ -20,4 +20,8 @@ public class Mysql extends Connector {
 			throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 		super(host, user, password, port);
 	}
+	
+	public static Mysql InstanceForTest() throws Exception{
+		return new Mysql("localhost","root","autoconcept");
+	}
 }

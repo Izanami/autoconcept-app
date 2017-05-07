@@ -14,9 +14,7 @@ public class MysqlTest {
 
 	@Before
 	public void setUp() throws Exception {
-		mysql = new Mysql();
-		mysql.setUser("root");
-		mysql.setPassword("autoconcept");
+		mysql = Mysql.InstanceForTest();
 		mysql.connect();
 	}
 

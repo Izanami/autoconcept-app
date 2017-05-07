@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tk.ap17.app.autoconcept.orm.query.Query;
+import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 public class TableTest {
     private Query query;
@@ -23,15 +24,8 @@ public class TableTest {
 
     @Test
     public void testQuery() {
-        List<String> columns = new ArrayList<>();
-
-        columns.add("nom");
-        columns.add("prenom");
-        // QuerySelect querySelect = query.select(columns);
-
-        // assertEquals("personne", query.getTable().getNameTable());
-        // assertEquals("nom", querySelect.getColumns().get(0));
-
+         QuerySelect querySelect = query.select("nom,prenom");
+         assertEquals("SELECT nom, prenom FROM personne", querySelect.toString());
     }
 
 }

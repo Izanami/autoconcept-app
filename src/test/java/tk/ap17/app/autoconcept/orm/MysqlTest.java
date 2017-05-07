@@ -10,55 +10,53 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MysqlTest {
-	private Mysql mysql;
+    private Mysql mysql;
 
-	@Before
-	public void setUp() throws Exception {
-		mysql = new Mysql();
-		mysql.setUser("root");
-		mysql.setPassword("autoconcept");
-		mysql.connect();
-	}
+    @Before
+    public void setUp() throws Exception {
+        mysql = new Mysql();
+        mysql.setUser("root");
+        mysql.setPassword("autoconcept");
+        mysql.connect();
+    }
 
-	@After
-	public void setDown() throws Exception {
-		mysql.close();
-	}
+    @After
+    public void setDown() throws Exception {
+        mysql.close();
+    }
 
-	@Test
-	public void testMysql() throws Exception {
-		new Mysql();
-	}
+    @Test
+    public void testMysql() throws Exception {
+        new Mysql();
+    }
 
-	@Test
-	public void testMysqlString() throws Exception {
-		Mysql connector = new Mysql("localhost");
-		assertEquals("localhost", connector.getHost());
-	}
+    @Test
+    public void testMysqlString() throws Exception {
+        Mysql connector = new Mysql("localhost");
+        assertEquals("localhost", connector.getHost());
+    }
 
-	@Test
-	public void testMysqlStringStringString() throws Exception {
-		Mysql connector = new Mysql("localhost", "root", "autoconcept");
-		assertEquals("localhost", connector.getHost());
-		assertEquals("root", connector.getUser());
-		assertEquals("autoconcept", connector.getPassword());
-	}
+    @Test
+    public void testMysqlStringStringString() throws Exception {
+        Mysql connector = new Mysql("localhost", "root", "autoconcept");
+        assertEquals("localhost", connector.getHost());
+        assertEquals("root", connector.getUser());
+        assertEquals("autoconcept", connector.getPassword());
+    }
 
-	@Test
-	public void testMysqlStringStringStringString() throws Exception {
-		Mysql connector = new Mysql("localhost", "root", "autoconcept", "3306");
-		assertEquals("localhost", connector.getHost());
-		assertEquals("root", connector.getUser());
-		assertEquals("autoconcept", connector.getPassword());
-		assertEquals("3306", connector.getPort());
-	}
+    @Test
+    public void testMysqlStringStringStringString() throws Exception {
+        Mysql connector = new Mysql("localhost", "root", "autoconcept", "3306");
+        assertEquals("localhost", connector.getHost());
+        assertEquals("root", connector.getUser());
+        assertEquals("autoconcept", connector.getPassword());
+        assertEquals("3306", connector.getPort());
+    }
 
-	@Test
-	public void testExecute() throws SQLException {
-		ResultSet result = mysql.execute("Select * from personne");
-		result.next();
-		assertEquals("Luther King", result.getString(1));
-
-	}
-
+    @Test
+    public void testExecute() throws SQLException {
+        ResultSet result = mysql.execute("Select * from personne");
+        result.next();
+        assertEquals("Luther King", result.getString(1));
+    }
 }

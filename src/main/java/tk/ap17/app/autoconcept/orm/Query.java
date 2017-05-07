@@ -7,114 +7,121 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Query {
-	private Connector connector;
-	private Table table;
-	
-	
-	/**
-	 * 
-	 */
-	public Query(){
-		
-	}
+    private Connector connector;
+    private Table table;
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @see Object#Table()
-	 */
-	public Query(Table table) {
-		
-	}
 
-	/**
-	 * Returns a Query.
-	 * 
-	 * @param colums
-	 * @throws NullPointerException
-	 */
-//	public ResultSet select(List<String> columns) throws NullPointerException, SQLException {
-//		StringBuffer query = new StringBuffer("SELECT ");
+    /**
+     *
+     */
+    public Query(){
+
+    }
+
+    /**
+     * Contructeur
+     */
+    public Query(Table table) {
+
+    }
+
+    /**
+     * Returns a Query.
+     *
+     * @param colums
+     * @throws NullPointerException
+     */
+//  public ResultSet select(List<String> columns) throws NullPointerException, SQLException {
+//      StringBuffer query = new StringBuffer("SELECT ");
 //
-//		if (columns.size() <= 0) {
-//			throw new IllegalArgumentException("Columns can not be empty.");
-//		}
+//      if (columns.size() <= 0) {
+//          throw new IllegalArgumentException("Columns can not be empty.");
+//      }
 //
-//		for (String column : columns) {
-//			query.append(column);
-//			query.append(" ,");
-//		}
+//      for (String column : columns) {
+//          query.append(column);
+//          query.append(" ,");
+//      }
 //
-//		query.setLength(query.length() - 2);
-//		query.append(" FROM ");
-//		query.append(getNameTable());
+//      query.setLength(query.length() - 2);
+//      query.append(" FROM ");
+//      query.append(getNameTable());
 //
-//		return connector.execute("");
-//	}
+//      return connector.execute("");
+//  }
 
-	/**
-	 * Insérrer des champs
-	 *
-	 * @param value
-	 * @return
-	 */
-	public boolean insert(Map<String, String> value) {
+    /**
+     * Insérrer des champs
+     *
+     * @param value value
+     * @return true
+     */
+    public boolean insert(Map<String, String> value) {
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Modifier des champs
-	 */
-	public boolean update(Map<String, String> value) {
+    /**
+     * Modifier des champs
+     *
+     * @param value value
+     * @return true
+     */
+    public boolean update(Map<String, String> value) {
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Supprimer des champs
-	 */
-	public boolean delete(Map<String, String> value) {
+    /**
+     * Supprimer des champs
+     *
+     * @param value value
+     * @return true
+     */
+    public boolean delete(Map<String, String> value) {
 
-		return true;
-	}
+        return true;
+    }
 
-	// public Resulset execute(Connector()){
-	//
-	// return ;
-	// }
+    // public Resulset execute(Connector()){
+    //
+    // return ;
+    // }
 
-	/**
-	 * Récupérer une table
-	 */
-	public String getTable() {
+    /**
+     * Récupérer une table
+     *
+     * @return Table
+     *
+     */
+    public String getTable() {
 
-		return "";
-	}
+        return "";
+    }
 
-	/**
-	 * Collection de tables unique
-	 *
-	 * @param name
-	 */
-	// public List setTable(String name) {
+    /**
+     * Collection de tables unique
+     *
+     * @param name
+     */
+    // public List setTable(String name) {
 
-	// return;
-	// }
+    // return;
+    // }
 
-	/**
-	 * Récuperer une colonne
-	 */
-	// public List getColums() {
+    /**
+     * Récuperer une colonne
+     */
+    // public List getColums() {
 
-	// return
-	// }
+    // return
+    // }
 
-	/**
-	 * Collection de colonnes unique
-	 */
-	// public List setColums() {
+    /**
+     * Collection de colonnes unique
+     */
+    // public List setColums() {
 
-	// return
-	// }
+    // return
+    // }
 }

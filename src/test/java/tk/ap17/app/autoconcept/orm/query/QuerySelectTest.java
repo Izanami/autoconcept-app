@@ -3,7 +3,6 @@ package tk.ap17.app.autoconcept.orm.query;
 import static org.junit.Assert.*;
 
 import java.util.List;
-import java.sql.JDBCType;
 import java.util.ArrayList;
 
 import org.junit.Before;
@@ -18,8 +17,8 @@ public class QuerySelectTest {
     @Before
     public void setUp() throws Exception {
         Table table = new Table();
-        table.setColumn("nom", JDBCType.VARCHAR);
-        table.setColumn("prenom", JDBCType.VARCHAR);
+        table.addColumn("nom");
+        table.addColumn("prenom");
 
         select = new QuerySelect();
         List<String> columns = new ArrayList<>();

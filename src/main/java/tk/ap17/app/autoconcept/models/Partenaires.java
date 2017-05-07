@@ -1,25 +1,23 @@
 package tk.ap17.app.autoconcept.models;
 
-import java.sql.JDBCType;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import tk.ap17.app.autoconcept.orm.Table;
 
 public class Partenaires extends Table {
 
-	public Partenaires() {
-		Map<String,JDBCType> map = new HashMap<>();
-		
-		map.put("nom", JDBCType.VARCHAR);
-		map.put("prenom", JDBCType.VARCHAR);
-		map.put("sexe", JDBCType.TINYINT);
-		map.put("dateNaiss", JDBCType.DATE);
-		map.put("courriel", JDBCType.VARCHAR);
-		map.put("telephone", JDBCType.VARCHAR);
-		
-		
-		this.setNameTable("Contact"); 
-		this.setColumns(map);
-	}
+    public Partenaires() {
+        List<String> map = new ArrayList<>();
+
+        map.add("nom");
+        map.add("prenom");
+        map.add("sexe");
+        map.add("dateNaiss");
+        map.add("courriel");
+        map.add("telephone");
+
+        this.setNameTable("Contact");
+        this.setColumns(map);
+    }
 }

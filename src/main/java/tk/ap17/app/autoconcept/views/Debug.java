@@ -10,22 +10,22 @@ public class Debug {
 
 	public static void main(String[] args) throws Exception {
 
-		Connector connector = new Connector();
+		//Connector connector = new Connector();
 
-		connector.setHost("LocalHost");
-		connector.setUser("Paf");
-		connector.setPassword("edfg");
-		connector.setPort("415.258.254");
+		//connector.setHost("LocalHost");
+		//connector.setUser("Paf");
+		//connector.setPassword("edfg");
+		//connector.setPort("415.258.254");
 
-		String con = "Host";
-		String con1 = "User";
-		String con2 = "Password";
-		String con3 = "Port";
+		//String con = "Host";
+		//String con1 = "User";
+		//String con2 = "Password";
+		//String con3 = "Port";
 
-		display(con, connector.getHost());
-		display(con1, connector.getUser());
-		display(con2, connector.getPassword());
-		display(con3, connector.getPort());
+		//display(con, connector.getHost());
+		//display(con1, connector.getUser());
+		//display(con2, connector.getPassword());
+		//display(con3, connector.getPort());
 
 	}
 

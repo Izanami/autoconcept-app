@@ -61,13 +61,14 @@ interface QueryBelongs {
      + getTable() : Table
      + setBelongs(Row) : void
      + getBelongs() : Row
-     + belongsString() : String <<default>>
+     + belongsPrepare() : PrepareStatement <<default>>
      + belongs(Row) <<default>>
 }
 
 interface QueryWhere {
      + getTable() : Table
-     + whereString() : String <<default>>
+     + getWhere(): String
+     + wherePrepare(PrepareStatement) : PrepareStatement <<default>>
 }
 
 class QuerySelect {
@@ -77,14 +78,16 @@ class QuerySelect {
     - Interger cout
     - String group_by
     - boolean distinct
+    - List<String> field
 
     + QuerySelect()
 
-    + prepare() : String
+    + prepare(Connector) : PrepareStatement
 
     + limit(Integer count) : QuerySelect
     + groupBy(String str) : QuerySelect
     + distinct() : QuerySelect
+    + where(String str, String... field) : QuerySelect
     + execute(Connector) : ResultSet
 }
 

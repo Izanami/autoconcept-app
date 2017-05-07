@@ -15,7 +15,7 @@ import tk.ap17.app.autoconcept.orm.query.Query;
  */
 public class Table {
     private String nameTable;
-    private String primaryKeyName;
+    private String primaryKeyName = "id";
     private Map<String, JDBCType> columns = new HashMap<>();
 
     /**

@@ -22,8 +22,8 @@ import tk.ap17.app.autoconcept.orm.Table;
  * @author Kelian Bousquet
  * @author Adrien Jeser : adrien@jeser.me
  */
-public class QuerySelect<T extends Table> implements QueryWhere {
-    private T table;
+public class QuerySelect<T extends Table<T>> implements QueryWhere {
+    private Table<T> table;
     private Integer count;
     private String group_by;
     private List<String> columns;
@@ -188,7 +188,7 @@ public class QuerySelect<T extends Table> implements QueryWhere {
      *             Requete refuser par le serveur.
      * @throws ExceptionOrm
      */
-    public T execute(Connector connector) throws SQLException, ExceptionOrm {
+    public Table<T> execute(Connector connector) throws SQLException, ExceptionOrm {
         ResultSet result_set = this.compile(connector).executeQuery();
         result_set.next();
 
@@ -199,7 +199,7 @@ public class QuerySelect<T extends Table> implements QueryWhere {
     /**
      * @return the table
      */
-    public Table getTable() {
+    public Table<T> getTable() {
         return table;
     }
 
@@ -207,7 +207,7 @@ public class QuerySelect<T extends Table> implements QueryWhere {
      * @param table
      *            the table to set
      */
-    public void setTable(T table) {
+    public void setTable(Table<T> table) {
         this.table = table;
     }
 

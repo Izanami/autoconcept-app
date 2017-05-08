@@ -1,15 +1,12 @@
 package tk.ap17.app.autoconcept.orm;
 
-import java.sql.JDBCType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tk.ap17.app.autoconcept.orm.query.Query;
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**
@@ -19,21 +16,11 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * @see Connector
  * @see Query
  */
-public class Table {
+public class Table<T extends Table<T>> {
     private String nameTable;
     private String primaryKeyName = "id";
     private Map<String, Object> columns = new HashMap<>();
     private ResultSet resultSet;
-
-    /**
-     *
-     * @return Object pour manipuler les requetes sql.
-     * @see Query
-     */
-    public Query query() {
-        Query query = new Query(this);
-        return query;
-    }
 
     /**
      * Requete SELECT
@@ -42,8 +29,8 @@ public class Table {
      * @return QuerySelect
      *
      */
-    public QuerySelect select(List<String> columns) {
-        QuerySelect querySelect = new QuerySelect();
+    public QuerySelect<T> select(List<String> columns) {
+        QuerySelect<T> querySelect = new QuerySelect<T>();
         querySelect.setTable(this);
         querySelect.setColumns(columns);
         return querySelect;
@@ -63,7 +50,7 @@ public class Table {
      * @return QuerySelect
      *
      */
-    public QuerySelect select(String columns) {
+    public QuerySelect<T> select(String columns) {
         String[] columns_array = columns.split(",");
         return this.select(Arrays.asList(columns_array));
     }

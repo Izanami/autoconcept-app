@@ -13,16 +13,20 @@ import tk.ap17.app.autoconcept.models.Contacts;
 
 public class MysqlTest {
     private Mysql mysql;
+    private Contacts contacts;
 
     @Before
     public void setUp() throws Exception {
         mysql = new Mysql();
         mysql.setUser("root");
         mysql.setPassword("autoconcept");
+        mysql.connect();
+        contacts = new Contacts();
     }
 
     @After
     public void setDown() throws Exception {
+        mysql.close();
     }
 
     @Test
@@ -61,26 +65,14 @@ public class MysqlTest {
      */
     @Test
     public void testExecute() throws SQLException {
-        mysql.connect();
-
         ResultSet result = mysql.execute("Select * from Contact");
         result.next();
         assertEquals("Luther King", result.getString("nom"));
-
-        mysql.close();
     }
 
-    /**
-     *
-     */
     @Test
-    public void testQuery() throws Exception {
-        mysql.connect();
-
-        Contacts contacts = new Contacts();
+    public void testQuerySelect() throws Exception {
         contacts.select("*").execute(mysql);
         assertEquals("Luther King", contacts.getField("nom"));
-
-        mysql.close();
     }
 }

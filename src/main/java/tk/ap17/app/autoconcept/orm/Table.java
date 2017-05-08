@@ -4,11 +4,13 @@ import java.sql.JDBCType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import tk.ap17.app.autoconcept.orm.query.Query;
+import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**
  * Representation d'une table sql.
@@ -31,6 +33,39 @@ public class Table {
     public Query query() {
         Query query = new Query(this);
         return query;
+    }
+
+    /**
+     * Requete SELECT
+     *
+     * @param columns Colonnes
+     * @return QuerySelect
+     *
+     */
+    public QuerySelect select(List<String> columns) {
+        QuerySelect querySelect = new QuerySelect();
+        querySelect.setTable(this);
+        querySelect.setColumns(columns);
+        return querySelect;
+    }
+
+    /**
+     * Requete SELECT
+     *
+     * Example :
+     * <pre>{@code
+     *  query.select("nom, prenom");
+     * }
+     * </pre>
+     *
+     * @param columns Champs
+     * @see Query
+     * @return QuerySelect
+     *
+     */
+    public QuerySelect select(String columns) {
+        String[] columns_array = columns.split(",");
+        return this.select(Arrays.asList(columns_array));
     }
 
     /**

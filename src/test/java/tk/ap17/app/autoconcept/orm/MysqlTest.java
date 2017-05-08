@@ -78,7 +78,7 @@ public class MysqlTest {
         mysql.connect();
 
         Contacts contacts = new Contacts();
-        contacts.query().select("*").execute(mysql);
+        contacts.select("*").execute(mysql);
         assertEquals("Luther King", contacts.getField("nom"));
 
         mysql.close();

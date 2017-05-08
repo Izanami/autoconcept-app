@@ -25,14 +25,14 @@ public class PartenaireTest {
 
     @Test
     public void testExecute() throws Exception {
-        mysql.connect();
+        //mysql.connect();
 
-        Partenaires partenaires = new Partenaires();
-        ResultSet result = partenaires.query().select("nom").execute(mysql);
-        result.next();
-        Partenaire partenaire = new Partenaire(mysql, result);
-        partenaire.belongs();
+        //Partenaires partenaires = new Partenaires();
+        //ResultSet result = partenaires.query().select("nom").execute(mysql);
+        //result.next();
+        //Partenaire partenaire = new Partenaire(mysql, result);
+        //partenaire.belongs();
 
-        mysql.close();
+        //mysql.close();
     }
 }

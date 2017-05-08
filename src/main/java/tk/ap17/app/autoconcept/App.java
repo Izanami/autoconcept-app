@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -23,7 +23,7 @@ import javafx.scene.control.TextArea;
  */
 public class App extends Application {
     private Stage primaryStage;
-    private VBox rootLayout;
+    private BorderPane rootLayout;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -37,10 +37,10 @@ public class App extends Application {
 
     public void showAuth() throws IOException {
         try {
-            ResourceBundle rb = ResourceBundle.getBundle("me.jeser.autoconcept.auth");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("auth.fxml"), rb);
+            //ResourceBundle rb = ResourceBundle.getBundle("tk.ap17.app.autoconcept");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("rootLayout.fxml"));
 
-            rootLayout = (VBox) loader.load();
+            rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);

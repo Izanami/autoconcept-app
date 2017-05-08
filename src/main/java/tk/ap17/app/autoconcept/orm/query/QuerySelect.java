@@ -15,9 +15,12 @@ import tk.ap17.app.autoconcept.orm.Table;
  * Effectue les requetes SELECT
  *
  * <pre>{@code
- *  Partenaire partenaire = new Partenaire();
- *  partenaire.query().select().limit(10).where("nom = ?", "Adrien").execute(connector);
+ *  Partenaires partenaires = new Partenaires(connector);
+ *  partenaire.select("thud").limit(10).where("nom = ?", "Adrien").execute();
+ *
+ *  System.out.println(partenaire.getField("thud"));
  * }
+ * </pre>
  *
  * @author Kelian Bousquet
  * @author Adrien Jeser : adrien@jeser.me
@@ -152,9 +155,11 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
     public PreparedStatement compile(Connector connector) throws ExceptionOrm, SQLException {
         PreparedStatement prepareStatement = connector.getConnection().prepareStatement(prepare().toString());
 
+        logger.info("BEFORE WHERE : " + prepareStatement.toString());
         if(getWhereFields() != null) {
             prepareStatement = wherePrepare(prepareStatement, getWhereFields());
         }
+        logger.info("AFTER WHERE : " + prepareStatement.toString());
 
         return prepareStatement;
     }
@@ -292,5 +297,12 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      */
     public void setWhereFields(Object[] whereFields) {
         this.whereFields = whereFields;
+    }
+
+    /**
+     * @return the logger
+     */
+    public static Logger getLogger() {
+        return logger;
     }
 }

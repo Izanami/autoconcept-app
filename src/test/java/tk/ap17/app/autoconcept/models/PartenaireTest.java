@@ -2,10 +2,8 @@ package tk.ap17.app.autoconcept.models;
 
 import static org.junit.Assert.*;
 
-import java.sql.SQLException;
 import java.sql.ResultSet;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,14 +23,15 @@ public class PartenaireTest {
 
     @Test
     public void testExecute() throws Exception {
-        //mysql.connect();
+        mysql.connect();
 
-        //Partenaires partenaires = new Partenaires();
-        //ResultSet result = partenaires.query().select("nom").execute(mysql);
-        //result.next();
-        //Partenaire partenaire = new Partenaire(mysql, result);
-        //partenaire.belongs();
+        Partenaires partenaires = new Partenaires();
+        ResultSet result = partenaires.query().select("*").execute(mysql);
+        result.next();
 
-        //mysql.close();
+        Partenaire partenaire = new Partenaire(mysql, result);
+        assertEquals("Jeser", partenaire.contact().getName());
+
+        mysql.close();
     }
 }

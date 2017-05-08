@@ -12,9 +12,6 @@ public class Row {
     private Table table;
     private Connector connector;
 
-    public Row() {
-    }
-
     public Row(Connector connector, Table table, ResultSet resultset) throws SQLException {
         setResultset(resultset);
         setConnector(connector);

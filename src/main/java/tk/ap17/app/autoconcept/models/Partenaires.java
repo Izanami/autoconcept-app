@@ -9,14 +9,7 @@ public class Partenaires extends Table {
     public Partenaires() {
         List<String> map = new ArrayList<>();
 
-        map.add("nom");
-        map.add("prenom");
-        map.add("sexe");
-        map.add("dateNaiss");
-        map.add("courriel");
-        map.add("telephone");
-
-        this.setNameTable("personne");
+        this.setNameTable("Partenaire");
         this.setColumns(map);
     }
 }

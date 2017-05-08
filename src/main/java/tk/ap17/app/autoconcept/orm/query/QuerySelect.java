@@ -1,10 +1,12 @@
 package tk.ap17.app.autoconcept.orm.query;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import tk.ap17.app.autoconcept.AutoconceptLogger;
 import tk.ap17.app.autoconcept.exceptions.ExceptionOrm;
 import tk.ap17.app.autoconcept.orm.Connector;
 import tk.ap17.app.autoconcept.orm.Table;
@@ -28,6 +30,7 @@ public class QuerySelect implements QueryWhere {
     private boolean distrinct = false;
     private String whereStr;
     private Object[] whereFields;
+    private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName());
 
     /**
      * Constructeur.
@@ -94,7 +97,6 @@ public class QuerySelect implements QueryWhere {
      *             impossible de compiler le Sql
      */
     public String prepare() throws ExceptionOrm {
-
         StringBuffer query = new StringBuffer();
         query.append("SELECT ");
 
@@ -102,16 +104,21 @@ public class QuerySelect implements QueryWhere {
             query.append("DISTINCT ");
         }
 
-        for (String column : columns) {
-            if (!getTable().getColumns().contains(column)) {
-                throw new ExceptionOrm("Column " + column + " not in the " + getTable().getClass().getName()
-                        + " models (Table name : " + getTable().getNameTable() + ")");
-            }
+        if (getColumns().contains("*")) {
+            query.append("*");
+        } else {
+            for (String column : columns) {
+                if (!getTable().getColumns().contains(column)) {
+                    throw new ExceptionOrm("Column " + column + " not in the " + getTable().getClass().getName()
+                            + " models (Table name : " + getTable().getNameTable() + ")");
+                }
 
-            query.append(column);
-            query.append(", ");
-        }
+                query.append(column);
+                query.append(", ");
+            }
         query.setLength(query.length() - 2);
+        }
+
         query.append(" FROM ");
         query.append(table.getNameTable());
 
@@ -129,6 +136,9 @@ public class QuerySelect implements QueryWhere {
             query.append(" GROUP BY ");
             query.append(getGroupBy());
         }
+
+
+        logger.info("PREPARE : " + query.toString());
 
         return query.toString();
     }

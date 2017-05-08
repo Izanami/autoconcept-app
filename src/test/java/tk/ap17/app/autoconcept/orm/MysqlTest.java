@@ -21,7 +21,7 @@ public class MysqlTest {
         mysql.setUser("root");
         mysql.setPassword("autoconcept");
         mysql.connect();
-        contacts = new Contacts();
+        contacts = new Contacts(mysql);
     }
 
     @After

@@ -17,19 +17,25 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  *  class Qux extends Table<Qux> {
  *      public Qux() {
  *          addColumn("fred");
- *      }
+ *  }
+ *
  *  }
  * }
  * </pre>
  * @author Kelian Bousquet
  * @see Connector
- * @see Query
+ * @see QuerySelect
  */
-public class Table<T extends Table<T>> {
+public abstract class Table<T extends Table<T>> {
     private String nameTable;
     private String primaryKeyName = "id";
     private Map<String, Object> columns = new HashMap<>();
     private ResultSet resultSet;
+    private Connector connector;
+
+    public Table(Connector connector) {
+        setConnector(connector);
+    }
 
     /**
      * Requete SELECT
@@ -63,6 +69,22 @@ public class Table<T extends Table<T>> {
     public QuerySelect<T> select(String columns) {
         String[] columns_array = columns.split(",");
         return this.select(Arrays.asList(columns_array));
+    }
+
+    /**
+     * Definie une colonne
+     * @param columns Colonne
+     */
+    public void addColumn(String name) {
+        columns.put(name, null);
+    }
+
+    /**
+     * Supprime une colonne
+     * @param columns Colonne
+     */
+    public void removeColumn(String name) {
+        this.columns.remove(name);
     }
 
     /**
@@ -139,18 +161,16 @@ public class Table<T extends Table<T>> {
     }
 
     /**
-     * Definie une colonne
-     * @param columns Colonne
+     * @return the connector
      */
-    public void addColumn(String name) {
-        columns.put(name, null);
+    public Connector getConnector() {
+        return connector;
     }
 
     /**
-     * Supprime une colonne
-     * @param columns Colonne
+     * @param connector the connector to set
      */
-    public void removeColumn(String name) {
-        this.columns.remove(name);
+    public void setConnector(Connector connector) {
+        this.connector = connector;
     }
 }

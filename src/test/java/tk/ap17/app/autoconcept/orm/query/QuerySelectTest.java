@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tk.ap17.app.autoconcept.exceptions.ExceptionOrm;
+import tk.ap17.app.autoconcept.models.Contacts;
 import tk.ap17.app.autoconcept.orm.Table;
 
 public class QuerySelectTest {
@@ -16,7 +17,7 @@ public class QuerySelectTest {
 
     @Before
     public void setUp() throws Exception {
-        Table table = new Table();
+        Contacts table = new Contacts(null);
         table.addColumn("nom");
         table.addColumn("prenom");
 

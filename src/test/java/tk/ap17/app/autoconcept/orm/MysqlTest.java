@@ -76,14 +76,14 @@ public class MysqlTest {
      *
      * @throws SQLException Echec de l'execution de la requete
      */
-    //@Test
-    //public void testExecute() throws SQLException {
-        //mysql.connect();
+    @Test
+    public void testExecute() throws SQLException {
+        mysql.connect();
 
-        //ResultSet result = mysql.execute("Select * from personne");
-        //result.next();
-        //assertEquals("Luther King", result.getString("nom"));
+        ResultSet result = mysql.execute("Select * from Contact");
+        result.next();
+        assertEquals("Luther King", result.getString("nom"));
 
-        //mysql.close();
-    //}
+        mysql.close();
+    }
 }

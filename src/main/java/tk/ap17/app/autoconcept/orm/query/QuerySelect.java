@@ -22,8 +22,8 @@ import tk.ap17.app.autoconcept.orm.Table;
  * @author Kelian Bousquet
  * @author Adrien Jeser : adrien@jeser.me
  */
-public class QuerySelect implements QueryWhere {
-    private Table table;
+public class QuerySelect<T extends Table> implements QueryWhere {
+    private T table;
     private Integer count;
     private String group_by;
     private List<String> columns;
@@ -54,7 +54,7 @@ public class QuerySelect implements QueryWhere {
      *            Colonne
      * @see Table
      */
-    public QuerySelect(Table table, List<String> columns) {
+    public QuerySelect(T table, List<String> columns) {
         setTable(table);
         setColumns(columns);
     }
@@ -65,7 +65,7 @@ public class QuerySelect implements QueryWhere {
      * @param count
      * @return QuerySelect
      */
-    public QuerySelect limit(Integer count) {
+    public QuerySelect<T> limit(Integer count) {
         this.setCount(count);
         return this;
     }
@@ -75,7 +75,7 @@ public class QuerySelect implements QueryWhere {
      *
      * @return object QuerySelect
      */
-    public QuerySelect groupBy(String str) {
+    public QuerySelect<T> groupBy(String str) {
         this.setGroupBy(str);
         return this;
     }
@@ -85,7 +85,7 @@ public class QuerySelect implements QueryWhere {
      *
      * @return object QuerySelect
      */
-    public QuerySelect distinct() {
+    public QuerySelect<T> distinct() {
         this.setDistrinct(true);
         return this;
     }
@@ -108,7 +108,7 @@ public class QuerySelect implements QueryWhere {
             query.append("*");
         } else {
             for (String column : columns) {
-                if (!getTable().getColumns().contains(column)) {
+                if (!getTable().getColumns().containsKey(column)) {
                     throw new ExceptionOrm("Column " + column + " not in the " + getTable().getClass().getName()
                             + " models (Table name : " + getTable().getNameTable() + ")");
                 }
@@ -172,7 +172,7 @@ public class QuerySelect implements QueryWhere {
      * @param fields Champs a injecter
      * @return
      */
-    public QuerySelect where(String sql, Object... fields) {
+    public QuerySelect<T> where(String sql, Object... fields) {
         setWhereStr(sql);
         setWhereFields(fields);
         return this;
@@ -188,8 +188,12 @@ public class QuerySelect implements QueryWhere {
      *             Requete refuser par le serveur.
      * @throws ExceptionOrm
      */
-    public ResultSet execute(Connector connector) throws SQLException, ExceptionOrm {
-        return this.compile(connector).executeQuery();
+    public T execute(Connector connector) throws SQLException, ExceptionOrm {
+        ResultSet result_set = this.compile(connector).executeQuery();
+        result_set.next();
+
+        this.table.setResultSet(result_set);
+        return this.table;
     }
 
     /**
@@ -203,7 +207,7 @@ public class QuerySelect implements QueryWhere {
      * @param table
      *            the table to set
      */
-    public void setTable(Table table) {
+    public void setTable(T table) {
         this.table = table;
     }
 

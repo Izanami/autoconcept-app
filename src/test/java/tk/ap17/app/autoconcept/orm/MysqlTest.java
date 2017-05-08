@@ -9,6 +9,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import tk.ap17.app.autoconcept.models.Contacts;
+
 public class MysqlTest {
     private Mysql mysql;
 
@@ -55,25 +57,6 @@ public class MysqlTest {
      *
      * Test l'execution.
      *
-     * <br>
-     * Parametre :
-     *  <ul>
-     *      <li>Adressse : localhost</li>
-     *      <li>Utilisateur :  root</li>
-     *      <li>Mot de passe : autoconcept</li>
-     *  </ul>
-     *
-     *  Préparer le serveur :
-     *  <br>
-     * CREATE DATABASE IF NOT EXISTS autoconcept-app;
-     *
-     * CREATE TABLE `personne` IF NOT EXISTS (
-     * `nom` text NOT NULL
-     * );
-     *
-     * INSERT INTO `personne` (`nom`) VALUES
-     * ('Luther King');
-     *
      * @throws SQLException Echec de l'execution de la requete
      */
     @Test
@@ -83,6 +66,20 @@ public class MysqlTest {
         ResultSet result = mysql.execute("Select * from Contact");
         result.next();
         assertEquals("Luther King", result.getString("nom"));
+
+        mysql.close();
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void testQuery() throws Exception {
+        mysql.connect();
+
+        Contacts contacts = new Contacts();
+        contacts.query().select("*").execute(mysql);
+        assertEquals("Luther King", contacts.getField("nom"));
 
         mysql.close();
     }

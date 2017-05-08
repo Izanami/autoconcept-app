@@ -1,6 +1,8 @@
 package tk.ap17.app.autoconcept.orm;
 
 import java.sql.JDBCType;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +20,8 @@ import tk.ap17.app.autoconcept.orm.query.Query;
 public class Table {
     private String nameTable;
     private String primaryKeyName = "id";
-    private List<String> columns = new ArrayList<>();
+    private Map<String, Object> columns = new HashMap<>();
+    private ResultSet resultSet;
 
     /**
      *
@@ -28,6 +31,23 @@ public class Table {
     public Query query() {
         Query query = new Query(this);
         return query;
+    }
+
+    /**
+     * @param columns Colonne
+     */
+    public void addField(String name, Object value) {
+        getColumns().put(name, value);
+    }
+
+    /**
+     * @param columns Colonne
+     */
+    public Object getField(String name) throws SQLException {
+        if(getColumns().get(name) == null) {
+            addField(name, this.getResultSet().getObject(name));
+        }
+        return getColumns().get(name);
     }
 
     /**
@@ -61,15 +81,29 @@ public class Table {
     /**
      * @return the columns
      */
-    public List<String> getColumns() {
+    public Map<String, Object> getColumns() {
         return columns;
     }
 
     /**
      * @param columns the columns to set
      */
-    public void setColumns(List<String> columns) {
+    public void setColumns(Map<String, Object> columns) {
         this.columns = columns;
+    }
+
+    /**
+     * @return the resultSet
+     */
+    public ResultSet getResultSet() {
+        return resultSet;
+    }
+
+    /**
+     * @param resultSet the resultSet to set
+     */
+    public void setResultSet(ResultSet resultSet) {
+        this.resultSet = resultSet;
     }
 
     /**
@@ -77,7 +111,7 @@ public class Table {
      * @param columns Colonne
      */
     public void addColumn(String name) {
-        columns.add(name);
+        columns.put(name, null);
     }
 
     /**

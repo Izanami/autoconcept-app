@@ -47,22 +47,6 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
     }
 
     /**
-     * Constructeur.
-     *
-     * Pour construire, prefere l'emploi de Table.query().select();
-     *
-     * @param table
-     *            Table
-     * @param columns
-     *            Colonne
-     * @see Table
-     */
-    public QuerySelect(T table, List<String> columns) {
-        setTable(table);
-        setColumns(columns);
-    }
-
-    /**
      * Limite le nombre de resulta
      *
      * @param count

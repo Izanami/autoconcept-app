@@ -45,4 +45,9 @@ public class QuerySelectTest {
         assertEquals("SELECT nom, prenom FROM personne LIMIT 2 GROUP BY nom", select.groupBy("nom").prepare());
         assertEquals("SELECT DISTINCT nom, prenom FROM personne LIMIT 2 GROUP BY nom", select.distinct().prepare());
     }
+
+    @Test
+    public void testWhere() throws ExceptionOrm {
+        select.where("qux = ?", 42);
+    }
 }

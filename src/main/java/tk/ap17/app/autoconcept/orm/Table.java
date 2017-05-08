@@ -12,6 +12,15 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 /**
  * Representation d'une table sql.
  *
+ * Example de models :
+ * <pre>{@code
+ *  class Qux extends Table<Qux> {
+ *      public Qux() {
+ *          addColumn("fred");
+ *      }
+ *  }
+ * }
+ * </pre>
  * @author Kelian Bousquet
  * @see Connector
  * @see Query
@@ -41,7 +50,8 @@ public class Table<T extends Table<T>> {
      *
      * Example :
      * <pre>{@code
-     *  query.select("nom, prenom");
+     * Contacts contacts =  new Contacts();
+     * contacts.select("nom, prenom");
      * }
      * </pre>
      *
@@ -58,7 +68,7 @@ public class Table<T extends Table<T>> {
     /**
      * @param columns Colonne
      */
-    public void addField(String name, Object value) {
+    private void addField(String name, Object value) {
         getColumns().put(name, value);
     }
 
@@ -66,7 +76,7 @@ public class Table<T extends Table<T>> {
      * @param columns Colonne
      */
     public Object getField(String name) throws SQLException {
-        if(getColumns().get(name) == null) {
+        if(getColumns().get(name) == null) { // Fly-weigth
             addField(name, this.getResultSet().getObject(name));
         }
         return getColumns().get(name);

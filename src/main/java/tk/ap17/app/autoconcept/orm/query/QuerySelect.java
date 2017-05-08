@@ -142,7 +142,9 @@ public class QuerySelect implements QueryWhere {
     public PreparedStatement compile(Connector connector) throws ExceptionOrm, SQLException {
         PreparedStatement prepareStatement = connector.getConnection().prepareStatement(prepare().toString());
 
-        prepareStatement = wherePrepare(prepareStatement, getWhereFields());
+        if(getWhereFields() != null) {
+            prepareStatement = wherePrepare(prepareStatement, getWhereFields());
+        }
 
         return prepareStatement;
     }

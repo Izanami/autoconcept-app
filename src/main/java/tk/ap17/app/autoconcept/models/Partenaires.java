@@ -16,7 +16,7 @@ public class Partenaires extends Table {
         map.add("courriel");
         map.add("telephone");
 
-        this.setNameTable("Contact");
+        this.setNameTable("personne");
         this.setColumns(map);
     }
 }

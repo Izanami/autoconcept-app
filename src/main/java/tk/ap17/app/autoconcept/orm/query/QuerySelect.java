@@ -33,6 +33,7 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
     private boolean distrinct = false;
     private String whereStr;
     private Object[] whereFields;
+    private Connector connector;
     private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName());
 
     /**
@@ -281,6 +282,20 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      */
     public void setWhereFields(Object[] whereFields) {
         this.whereFields = whereFields;
+    }
+
+    /**
+     * @return the connector
+     */
+    public Connector getConnector() {
+        return connector;
+    }
+
+    /**
+     * @param connector the connector to set
+     */
+    public void setConnector(Connector connector) {
+        this.connector = connector;
     }
 
     /**

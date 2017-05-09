@@ -1,74 +1,71 @@
 package tk.ap17.app.autoconcept.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Button;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
+import java.io.IOException;
+import java.sql.SQLException;
+import tk.ap17.app.autoconcept.orm.Mysql;
 
-public class AuthController {
-    @FXML
-    private TextField user;
 
-    @FXML
-    private TextField password;
+public class AuthController extends Controller {
+	private Stage primaryStage;
 
-    @FXML
-    private Button connect_btn;
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
 
-    /**
-     * Initiazlize the auth controllers.
-     */
-    @FXML private void initialize() {
-        //Auth auth = new Auth("http://localhost:3000/", "", "");
-        //url.getItems().addAll(auth);
-        //url.setValue(auth);
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
 
-        //auth = new Auth("http://autoconcept.jeser.me/", "", "");
-        //url.getItems().addAll(auth);
+	@FXML
+	private Label msgErreur;
 
-        //url.setConverter(new StringConverter<Auth>(){
-            //@Override
-            //public String toString(Auth auth) {
-                //return auth == null ? null : auth.getUrl();
-            //}
+	@FXML
+	private TextField user;
 
-            //@Override
-            //public Auth fromString(String string) {
-                //return new Auth(string, "", "");
-            //}
-        //});
+	@FXML
+	private PasswordField password;
 
-        //url.setCellFactory(new Callback<ListView<Auth>, ListCell<Auth>>() {
-            //@Override public ListCell<Auth> call(ListView<Auth> p) {
-                //return new ListCell<Auth>() {
-                    //@Override protected void updateItem(Auth item, boolean empty) {
-                        //super.updateItem(item, empty);
-                        //if(item != null) {
-                            //setText(item.getUrl());
-                        //}
-                    //}
-                //};
-            //};
-        //});
-    }
+	@FXML
+	private Button connect_btn;
 
-    @FXML protected void connect(ActionEvent event) {
-        showFailedConnect();
-    }
+	/**
+	 * Initiazlize the auth controllers.
+	 */
 
-    private void showFailedConnect() {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Failed connect");
-        alert.setHeaderText("Failed to the server.");
-        alert.setContentText("Please, verify the url !");
+	public void initialize() {
+	}
 
-        alert.showAndWait();
-    }
+	@FXML
+	protected void connect(ActionEvent event)
+			throws ClassNotFoundException, IllegalAccessException, InstantiationException, IOException {
+
+		Mysql mysql = new Mysql("localhost", user.getText(), password.getText());
+		try {
+			connect_btn.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+			mysql.connect();
+			getApp().setConnector(mysql);
+			this.getApp().showAccueil();
+		} catch (SQLException e) {
+			showFailedConnect();
+			password.setText("");
+			connect_btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
+		}
+	}
+
+	private void showFailedConnect() {
+		msgErreur.setVisible(true);
+	}
+
+	public void hideErrMsg(KeyEvent event) {
+		msgErreur.setVisible(false);
+	}
 }

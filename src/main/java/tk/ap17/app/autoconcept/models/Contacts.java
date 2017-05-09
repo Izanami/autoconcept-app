@@ -20,6 +20,6 @@ public class Contacts extends Table {
 		
 		
 		this.setNameTable("Contact"); 
-		this.setColumns(map);
+//		this.setColumns(map);
 	}
 }

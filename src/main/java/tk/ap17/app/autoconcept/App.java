@@ -1,91 +1,180 @@
 package tk.ap17.app.autoconcept;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 import java.io.StringWriter;
 import java.io.PrintWriter;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import tk.ap17.app.autoconcept.controllers.AccueilController;
+import tk.ap17.app.autoconcept.controllers.AuthController;
+import tk.ap17.app.autoconcept.controllers.ContactController;
+import tk.ap17.app.autoconcept.orm.Connector;
 
 /**
  * Autoconcept
  *
  */
 public class App extends Application {
-    private Stage primaryStage;
-    private BorderPane rootLayout;
+	private Stage primaryStage;
+	private BorderPane rootLayout;
+	private Connector connector;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        this.primaryStage = primaryStage;
-        showAuth();
-    }
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
+		this.primaryStage.setTitle("Autoconcept-App");
 
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
+		initRootLayout();
+		showAuthentification();
+		// showAccueilAppli();
+		// showModuleContact();
+	}
 
-    public void showAuth() throws IOException {
-        try {
-            //ResourceBundle rb = ResourceBundle.getBundle("tk.ap17.app.autoconcept");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("rootLayout.fxml"));
+	public static void main(String[] args) {
+		launch(args);
+	}
 
-            rootLayout = (BorderPane) loader.load();
+	/**
+	 * Initializes the root layout.
+	 */
+	public void initRootLayout() {
+		try {
+			// Load root layout from fxml file.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(App.class.getResource("RootLayout.fxml"));
+			rootLayout = (BorderPane) loader.load();
 
-            // Show the scene containing the root layout.
-            Scene scene = new Scene(rootLayout);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch(Exception e){
-            exceptionDialog(e, "An exception was throw.");
-        }
-    }
+			// Show the scene containing the root layout.
+			Scene scene = new Scene(rootLayout);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    /**
-     * Show a expection dialoag
-     *
-     **/
-    private void exceptionDialog(Exception exception, String message) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Exception Dialog");
-        alert.setHeaderText("Look, an Exception Dialog");
-        alert.setContentText(message);
+	public void showAuthentification() throws IOException {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/Authentification.fxml"));
 
-        // Create expandable Exception.
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        exception.printStackTrace(pw);
-        String exceptionText = sw.toString();
+			VBox Authentification = (VBox) loader.load();
 
-        Label label = new Label("The exception stacktrace was:");
+			// Show the scene containing the root layout.
+			Scene scene = new Scene(Authentification);
+			primaryStage.setScene(scene);
+			primaryStage.show();
 
-        TextArea textArea = new TextArea(exceptionText);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
+			AuthController controller = loader.getController();
+			controller.setApp(this);
 
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
+			// primaryStage.close();
+		} catch (Exception e) {
+			exceptionDialog(e, "An exception was throw.");
+		}
+	}
 
-        GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
+	public void showAccueil() throws IOException {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/AccueilAppli.fxml"));
 
-        // Set expandable Exception into the dialog pane.
-        alert.getDialogPane().setExpandableContent(expContent);
+			VBox Accueil = (VBox) loader.load();
 
-        alert.showAndWait();
-    }
+			// Show the scene containing the root layout.
+			Scene scene = new Scene(Accueil);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+
+			AccueilController controller = loader.getController();
+			controller.setApp(this);
+			controller.username();
+
+			// primaryStage.close();
+		} catch (Exception e) {
+			exceptionDialog(e, "An exception was throw.");
+		}
+	}
+
+	public void showContact() {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/ModuleContact.fxml"));
+
+			VBox Contact = (VBox) loader.load();
+
+			// Show the scene containing the root layout.
+			Scene scene = new Scene(Contact);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+
+			ContactController controller = loader.getController();
+			controller.setApp(this);
+
+			// primaryStage.close();
+		} catch (Exception e) {
+			exceptionDialog(e, "An exception was throw.");
+		}
+	}
+
+	/**
+	 * Show a expection dialoag
+	 *
+	 **/
+	private void exceptionDialog(Exception exception, String message) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Exception Dialog");
+		alert.setHeaderText("Look, an Exception Dialog");
+		alert.setContentText(message);
+
+		// Create expandable Exception.
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		exception.printStackTrace(pw);
+		String exceptionText = sw.toString();
+
+		Label label = new Label("The exception stacktrace was:");
+
+		TextArea textArea = new TextArea(exceptionText);
+		textArea.setEditable(false);
+		textArea.setWrapText(true);
+
+		textArea.setMaxWidth(Double.MAX_VALUE);
+		textArea.setMaxHeight(Double.MAX_VALUE);
+		GridPane.setVgrow(textArea, Priority.ALWAYS);
+		GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+		GridPane expContent = new GridPane();
+		expContent.setMaxWidth(Double.MAX_VALUE);
+		expContent.add(label, 0, 0);
+		expContent.add(textArea, 0, 1);
+
+		// Set expandable Exception into the dialog pane.
+		alert.getDialogPane().setExpandableContent(expContent);
+
+		alert.showAndWait();
+	}
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
+
+	public Connector getConnector() {
+		return connector;
+	}
+
+	public void setConnector(Connector connector) {
+		this.connector = connector;
+	}
 }

@@ -2,8 +2,13 @@ package tk.ap17.app.autoconcept;
 
 import java.io.IOException;
 import java.io.StringWriter;
+
+
+
 import java.io.PrintWriter;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -18,6 +23,7 @@ import javafx.scene.control.TextArea;
 import tk.ap17.app.autoconcept.controllers.AccueilController;
 import tk.ap17.app.autoconcept.controllers.AuthController;
 import tk.ap17.app.autoconcept.controllers.ContactController;
+import tk.ap17.app.autoconcept.models.Contacts;
 import tk.ap17.app.autoconcept.orm.Connector;
 
 /**
@@ -28,12 +34,13 @@ public class App extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private Connector connector;
+	private ObservableList<Contacts> contact = FXCollections.observableArrayList();
+
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Autoconcept-App");
-
 		initRootLayout();
 		showAuthentification();
 	}
@@ -41,7 +48,18 @@ public class App extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+		
+	public App() {
+		contact.add(new Contacts(connector, "bousquet", "kelian", "25/09/1994"));
+		contact.add(new Contacts(connector, "jeser", "adrien", "06/10/1989"));
+		contact.add(new Contacts(connector, "devaux", "mathias", "??/??/????"));
+		contact.add(new Contacts(connector, "vistot", "michael", "??/??/????"));
+	}
+	
+	public ObservableList<Contacts> getContact() {
+        return contact;
+    }
+	
 	/**
 	 * Initializes the root layout.
 	 */
@@ -95,6 +113,7 @@ public class App extends Application {
 			AccueilController controller = loader.getController();
 			controller.setApp(this);
 			controller.username();
+			controller.initialize();
 
 			// primaryStage.close();
 		} catch (Exception e) {
@@ -117,12 +136,13 @@ public class App extends Application {
 			controller.setApp(this);
 			controller.choixCategorie();
 
-			// primaryStage.close();
+
 		} catch (Exception e) {
 			exceptionDialog(e, "An exception was throw.");
 		}
 	}
 
+	
 	/**
 	 * Show a expection dialoag
 	 *

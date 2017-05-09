@@ -12,7 +12,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
+<<<<<<< HEAD
+=======
 import tk.ap17.app.autoconcept.orm.deserialize.modelToFile;
+>>>>>>> master
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**

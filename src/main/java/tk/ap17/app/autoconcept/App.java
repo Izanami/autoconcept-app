@@ -36,8 +36,6 @@ public class App extends Application {
 
 		initRootLayout();
 		showAuthentification();
-		// showAccueilAppli();
-		// showModuleContact();
 	}
 
 	public static void main(String[] args) {

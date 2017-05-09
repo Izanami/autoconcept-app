@@ -94,4 +94,12 @@ public class MysqlTest {
         contacts.select("*").where("nom = ?", "Luther King").execute();
         assertTrue(contacts.getId() == 1);
     }
+
+    @Test
+    public void testNext() throws Exception {
+        contacts.select("*").execute();
+        assertEquals("Luther King", contacts.getField("nom"));
+        contacts.next();
+        assertEquals("Cartman", contacts.getField("nom"));
+    }
 }

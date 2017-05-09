@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import tk.ap17.app.autoconcept.orm.query.QueryBelongs;
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**
@@ -33,6 +33,7 @@ public abstract class Table<T extends Table<T>> {
     private Map<String, Object> columns = new HashMap<>();
     private ResultSet resultSet;
     private Connector connector;
+    private static Logger logger = Logger.getLogger(ORMLogger.class.getName());
 
     public Table(Connector connector) {
         setConnector(connector);
@@ -78,6 +79,7 @@ public abstract class Table<T extends Table<T>> {
     }
 
     public ResultSet execute(String sql) throws SQLException {
+        logger.info("EXECUTE " + sql);
         ResultSet result = prepare(sql).executeQuery();
         return result;
     }
@@ -136,8 +138,10 @@ public abstract class Table<T extends Table<T>> {
     public Object getField(String name) {
         if(getColumns().get(name) == null) { // Fly-weigth
             try {
+                logger.info("Inject field '" + name + "'");
                 addField(name, this.getResultSet().getObject(name));
             } catch(SQLException e){
+                logger.warning("Can't inject field '" + name + "''" + e.getMessage());
                 return null;
             }
         }
@@ -149,6 +153,7 @@ public abstract class Table<T extends Table<T>> {
             Object field = getTable().getField(name);
             return type.cast(field);
         } catch(ClassCastException e) {
+            logger.warning("Can't cast field '" + name + "''" + e.getMessage());
             return null;
         }
     }

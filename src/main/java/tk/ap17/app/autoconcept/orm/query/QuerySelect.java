@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tk.ap17.app.autoconcept.AutoconceptLogger;
 import tk.ap17.app.autoconcept.exceptions.ExceptionOrm;
 import tk.ap17.app.autoconcept.orm.Connector;
+import tk.ap17.app.autoconcept.orm.ORMLogger;
 import tk.ap17.app.autoconcept.orm.Table;
 
 /**
@@ -33,7 +33,7 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
     private boolean distrinct = false;
     private String whereStr;
     private Object[] whereFields;
-    private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName());
+    private static Logger logger = Logger.getLogger(ORMLogger.class.getName());
 
     /**
      * Constructeur.

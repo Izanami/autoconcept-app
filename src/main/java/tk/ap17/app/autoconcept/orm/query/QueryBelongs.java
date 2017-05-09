@@ -10,12 +10,6 @@ import tk.ap17.app.autoconcept.orm.Table;
 public interface QueryBelongs<T extends Table<T>, S extends Table<S>> {
     public Table<T> getTable();
     public Object getField(String name);
-    public default String getId() {
-        Table<T> table = getTable();
-        String pkn = table.getPrimaryKeyName();
-        String primary_key = (String) getField(pkn);
-        return primary_key;
-    }
 
     public default S belongs(S table_join) throws SQLException {
         Connection connection = getTable().getConnector().getConnection();

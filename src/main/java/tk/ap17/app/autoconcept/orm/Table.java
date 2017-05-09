@@ -94,6 +94,18 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
+     *
+     *
+     * @return
+     */
+    public Integer getId() {
+        Table<T> table = getTable();
+        String pkn = table.getPrimaryKeyName();
+        Integer primary_key = (Integer) getField(pkn);
+        return primary_key;
+    }
+
+    /**
      * @param columns Colonne
      */
     public Object getField(String name) {

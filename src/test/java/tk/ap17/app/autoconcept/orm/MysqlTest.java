@@ -81,4 +81,11 @@ public class MysqlTest {
         partenaires.select("*").execute(mysql);
         assertEquals("Luther King", partenaires.contact().getField("nom"));
     }
+
+    @Test
+    public void testGetId() throws Exception {
+        Partenaires partenaires = new Partenaires(mysql);
+        partenaires.select("*").execute(mysql);
+        assertTrue(partenaires.contact().getId() == 1);
+    }
 }

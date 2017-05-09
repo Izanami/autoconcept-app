@@ -71,6 +71,19 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
+     * Returns the FOREIGN KEY
+     *
+	 * @return object
+     **/
+    public String foreignKey() {
+        String fk = getNameTable().toLowerCase();
+        fk += "_";
+        fk += getPrimaryKeyName();
+
+        return fk;
+    }
+
+    /**
      * Definie une colonne
      * @param columns Colonne
      */

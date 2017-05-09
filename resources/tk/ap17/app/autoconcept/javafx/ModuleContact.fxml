@@ -56,8 +56,8 @@
       </AnchorPane>
       <AnchorPane prefHeight="28.0" prefWidth="1008.0">
          <children>
-            <TextField fx:id="whereNomTextField" prefHeight="26.0" prefWidth="75.0" promptText="Nom" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="20.0" />
-            <TextField fx:id="wherePrenomTextField" prefHeight="26.0" prefWidth="80.0" promptText="Prénom" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="20.0" />
+            <TextField fx:id="whereNomTextField" layoutX="39.0" prefHeight="26.0" prefWidth="129.0" promptText="Nom" AnchorPane.leftAnchor="39.0" AnchorPane.topAnchor="20.0" />
+            <TextField fx:id="wherePrenomTextField" layoutX="204.0" prefHeight="26.0" prefWidth="116.0" promptText="Prénom" AnchorPane.leftAnchor="204.0" AnchorPane.topAnchor="20.0" />
             <TextField fx:id="whereDdnTextField" prefHeight="26.0" prefWidth="145.0" promptText="Date de naissance" AnchorPane.leftAnchor="360.0" AnchorPane.topAnchor="20.0" />
          </children>
       </AnchorPane>

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -16,13 +17,18 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * Representation d'une table sql.
  *
  * Example de models :
- * <pre>{@code
+ *
+ * <pre>
+ * {
+ *  &#64;code
  *  class Qux extends Table<Qux> {
  *      public Qux() {
  *          addColumn("fred");
+ *      }
  *  }
  * }
  * </pre>
+ *
  * @author Kelian Bousquet
  * @see Connector
  * @see QuerySelect
@@ -33,8 +39,9 @@ public abstract class Table<T extends Table<T>> {
     private Map<String, Object> columns = new HashMap<>();
     private ResultSet resultSet;
     private Connector connector;
-    private static Logger logger = Logger.getLogger(ORMLogger.class.getName());
     private Boolean isSave = false;
+    private List<String> loadedField = new ArrayList<>();
+    private static Logger logger = Logger.getLogger(ORMLogger.class.getName());
 
     public Table(Connector connector) {
         setConnector(connector);
@@ -43,7 +50,8 @@ public abstract class Table<T extends Table<T>> {
     /**
      * Requete SELECT
      *
-     * @param columns Colonnes
+     * @param columns
+     *            Colonnes
      * @return QuerySelect
      *
      */
@@ -58,13 +66,17 @@ public abstract class Table<T extends Table<T>> {
      * Requete SELECT
      *
      * Example :
-     * <pre>{@code
-     * Contacts contacts =  new Contacts();
-     * contacts.select("nom, prenom");
+     *
+     * <pre>
+     * {
+     *  &#64;code
+     *  Contacts contacts = new Contacts();
+     *  contacts.select("nom, prenom");
      * }
      * </pre>
      *
-     * @param columns Champs
+     * @param columns
+     *            Champs
      * @see Query
      * @return QuerySelect
      *
@@ -76,7 +88,7 @@ public abstract class Table<T extends Table<T>> {
 
     public PreparedStatement prepare(String sql) throws SQLException {
         Connection connection = getConnector().getConnection();
-        return  connection.prepareStatement(sql);
+        return connection.prepareStatement(sql);
     }
 
     public ResultSet execute(String sql) throws SQLException {
@@ -85,8 +97,7 @@ public abstract class Table<T extends Table<T>> {
         return result;
     }
 
-
-    public ResultSet execute(PreparedStatement  sql) throws SQLException {
+    public ResultSet execute(PreparedStatement sql) throws SQLException {
         logger.info("EXECUTE " + sql.toString());
         ResultSet result = sql.executeQuery();
         return result;
@@ -107,7 +118,9 @@ public abstract class Table<T extends Table<T>> {
 
     /**
      * Definie une colonne
-     * @param columns Colonne
+     *
+     * @param columns
+     *            Colonne
      */
     public void addColumn(String name) {
         columns.put(name, null);
@@ -115,14 +128,17 @@ public abstract class Table<T extends Table<T>> {
 
     /**
      * Supprime une colonne
-     * @param columns Colonne
+     *
+     * @param columns
+     *            Colonne
      */
     public void removeColumn(String name) {
         this.columns.remove(name);
     }
 
     /**
-     * @param columns Colonne
+     * @param columns
+     *            Colonne
      */
     private void addField(String name, Object value) {
         getColumns().put(name, value);
@@ -141,14 +157,16 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
-     * @param columns Colonne
+     * @param columns
+     *            Colonne
      */
     public Object getField(String name) {
-        if(getColumns().get(name) == null) { // Fly-weigth
+        if (!getLoadedField().contains(name)) { // Fly-weigth
             try {
                 logger.info("Inject field '" + name + "'");
+                getLoadedField().add(name);
                 addField(name, this.getResultSet().getObject(name));
-            } catch(SQLException e){
+            } catch (SQLException e) {
                 logger.warning("Can't inject field '" + name + "''" + e.getMessage());
                 return null;
             }
@@ -160,7 +178,7 @@ public abstract class Table<T extends Table<T>> {
         try {
             Object field = getTable().getField(name);
             return type.cast(field);
-        } catch(ClassCastException e) {
+        } catch (ClassCastException e) {
             logger.warning("Can't cast field '" + name + "''" + e.getMessage());
             return null;
         }
@@ -174,7 +192,8 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
-     * @param nameTable the nameTable to set
+     * @param nameTable
+     *            the nameTable to set
      */
     public void setNameTable(String nameTable) {
         this.nameTable = nameTable;
@@ -188,7 +207,8 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
-     * @param primaryKeyName the primaryKeyName to set
+     * @param primaryKeyName
+     *            the primaryKeyName to set
      */
     public void setPrimaryKeyName(String primaryKeyName) {
         this.primaryKeyName = primaryKeyName;
@@ -202,7 +222,8 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
-     * @param columns the columns to set
+     * @param columns
+     *            the columns to set
      */
     public void setColumns(Map<String, Object> columns) {
         this.columns = columns;
@@ -216,7 +237,8 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
-     * @param resultSet the resultSet to set
+     * @param resultSet
+     *            the resultSet to set
      */
     public void setResultSet(ResultSet resultSet) {
         this.resultSet = resultSet;
@@ -230,7 +252,8 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
-     * @param connector the connector to set
+     * @param connector
+     *            the connector to set
      */
     public void setConnector(Connector connector) {
         this.connector = connector;
@@ -244,10 +267,26 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
-     * @param isSave the isSave to set
+     * @param isSave
+     *            the isSave to set
      */
     public void setIsSave(Boolean isSave) {
         this.isSave = isSave;
+    }
+
+    /**
+     * @return the loadedField
+     */
+    public List<String> getLoadedField() {
+        return loadedField;
+    }
+
+    /**
+     * @param loadedField
+     *            the loadedField to set
+     */
+    public void setLoadedField(List<String> loadedField) {
+        this.loadedField = loadedField;
     }
 
     /**

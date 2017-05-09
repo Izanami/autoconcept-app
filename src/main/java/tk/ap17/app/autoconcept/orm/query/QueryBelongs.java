@@ -11,7 +11,6 @@ import tk.ap17.app.autoconcept.orm.Table;
 
 public interface QueryBelongs<T extends Table<T>> {
     public Table<T> getTable();
-    public Object getField(String name);
 
     public default <J extends Table<J>> J belongs(J table_join) throws SQLException {
         Connection connection = getTable().getConnector().getConnection();

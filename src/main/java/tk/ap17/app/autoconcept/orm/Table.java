@@ -126,10 +126,19 @@ public abstract class Table<T extends Table<T>> {
             try {
                 addField(name, this.getResultSet().getObject(name));
             } catch(SQLException e){
-                e.printStackTrace();
+                return null;
             }
         }
         return getColumns().get(name);
+    }
+
+    public <J> J getField(String name, Class<J> type) {
+        try {
+            Object field = getTable().getField(name);
+            return type.cast(field);
+        } catch(ClassCastException e) {
+            return null;
+        }
     }
 
     /**

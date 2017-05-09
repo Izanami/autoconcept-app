@@ -3,6 +3,8 @@ package tk.ap17.app.autoconcept.orm;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 
 import org.junit.After;
@@ -105,6 +107,7 @@ public class MysqlTest {
 
     @Test
     public void testDeserialize() throws Exception {
-        contacts.select("*").execute();
+        Path path = Paths.get("/tmp/t");
+        contacts.select("*").execute().toCsv(path);
     }
 }

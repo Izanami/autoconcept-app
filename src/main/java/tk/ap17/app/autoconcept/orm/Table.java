@@ -190,11 +190,9 @@ public abstract class Table<T extends Table<T>> implements modelToFile<T> {
      * Next row
      *
      **/
-    public boolean next() throws SQLException {
+    public Boolean next() throws SQLException {
         resetLoadedField();
-        getResultSet().next();
-
-        return getResultSet() != null;
+        return getResultSet().next();
     }
 
     /**
@@ -323,8 +321,6 @@ public abstract class Table<T extends Table<T>> implements modelToFile<T> {
     public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
         do {
             lambda.apply(this);
-        } while (next());
-
-        return true;
+        } while(next());
     }
 }

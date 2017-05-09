@@ -23,13 +23,13 @@ public class AccueilController extends Controller {
 	}
 	
 	@FXML
-	public Label utilisateur;
+	public Label utilisateurLabel;
 
 	@FXML
-	private ImageView deconnexion;
+	private ImageView deconnexionImageView;
 
 	@FXML
-	private Button contact;
+	private Button contactButton;
 	
 	/**
 	 * Initiazlize the accueil controllers.
@@ -51,7 +51,7 @@ public class AccueilController extends Controller {
 	public void username() {
 		try {
 			user = this.getApp().getConnector().getUser();
-			utilisateur.setText(user);
+			utilisateurLabel.setText(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

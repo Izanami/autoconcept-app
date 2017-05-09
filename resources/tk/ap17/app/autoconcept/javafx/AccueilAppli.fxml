@@ -26,7 +26,7 @@
                   <Insets right="2.0" />
                </HBox.margin>
             </Label>
-            <Label fx:id="utilisateur">
+            <Label fx:id="utilisateurLabel">
                <font>
                   <Font size="22.0" />
                </font>
@@ -44,7 +44,7 @@
       </HBox>
       <HBox alignment="BASELINE_CENTER" prefHeight="42.0" prefWidth="600.0">
          <children>
-            <Button fx:id="contact" mnemonicParsing="false" onAction="#contact" text="Contact">
+            <Button fx:id="contactButton" mnemonicParsing="false" onAction="#contact" text="Contact">
                <font>
                   <Font size="16.0" />
                </font>

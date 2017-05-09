@@ -6,20 +6,27 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" minHeight="-350.0" minWidth="-500.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="350.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tk.ap17.app.autoconcept.controllers.AuthController">
+<VBox alignment="CENTER" minHeight="-350.0" minWidth="-500.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="350.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tk.ap17.app.autoconcept.controllers.AuthController">
    <children>
+      <ImageView fitHeight="57.0" fitWidth="193.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/logo.png" />
+         </image>
+      </ImageView>
       <Label alignment="CENTER" text="Authentification" textAlignment="CENTER">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="msgErreur" text="Veuillez vérifier votre identifiant ou votre mot de passe !" textFill="RED" visible="false" />
+      <Label fx:id="msgErreurLabel" text="Veuillez vérifier votre identifiant ou votre mot de passe !" textFill="RED" visible="false" />
       <GridPane prefHeight="110.0" prefWidth="330.0" vgap="10.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="205.0" />
@@ -32,10 +39,10 @@
         </rowConstraints>
          <children>
             <Label text="Utilisateur :   " GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
-            <TextField fx:id="user" onKeyPressed="#hideErrMsg" GridPane.columnIndex="1" />
+            <TextField fx:id="userTextField" onKeyPressed="#hideErrMsg" GridPane.columnIndex="1" />
             <Label contentDisplay="CENTER" text="Mot de passe :   " GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-            <PasswordField fx:id="password" onKeyPressed="#hideErrMsg" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="connect_btn" alignment="CENTER" contentDisplay="TEXT_ONLY" defaultButton="true" mnemonicParsing="false" onAction="#connect" prefHeight="33.0" prefWidth="150.0" text="Valider" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <PasswordField fx:id="passwordPasswordField" onKeyPressed="#hideErrMsg" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="connectButton" alignment="CENTER" contentDisplay="TEXT_ONLY" defaultButton="true" mnemonicParsing="false" onAction="#connect" prefHeight="33.0" prefWidth="150.0" text="Valider" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <graphic>
                   <ProgressIndicator nodeOrientation="RIGHT_TO_LEFT" prefHeight="23.0" prefWidth="18.0" rotate="165.2" />
                </graphic>

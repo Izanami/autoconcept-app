@@ -26,16 +26,16 @@ public class AuthController extends Controller {
 	}
 
 	@FXML
-	private Label msgErreur;
+	private Label msgErreurLabel;
 
 	@FXML
-	private TextField user;
+	private TextField userTextField;
 
 	@FXML
-	private PasswordField password;
+	private PasswordField passwordPasswordField;
 
 	@FXML
-	private Button connect_btn;
+	private Button connectButton;
 
 	/**
 	 * Initiazlize the auth controllers.
@@ -48,24 +48,24 @@ public class AuthController extends Controller {
 	protected void connect(ActionEvent event)
 			throws ClassNotFoundException, IllegalAccessException, InstantiationException, IOException {
 
-		Mysql mysql = new Mysql("localhost", user.getText(), password.getText());
+		Mysql mysql = new Mysql("localhost", userTextField.getText(), passwordPasswordField.getText());
 		try {
-			connect_btn.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+			connectButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 			mysql.connect();
 			getApp().setConnector(mysql);
 			this.getApp().showAccueil();
 		} catch (SQLException e) {
 			showFailedConnect();
-			password.setText("");
-			connect_btn.setContentDisplay(ContentDisplay.TEXT_ONLY);
+			passwordPasswordField.setText("");
+			connectButton.setContentDisplay(ContentDisplay.TEXT_ONLY);
 		}
 	}
 
 	private void showFailedConnect() {
-		msgErreur.setVisible(true);
+		msgErreurLabel.setVisible(true);
 	}
 
 	public void hideErrMsg(KeyEvent event) {
-		msgErreur.setVisible(false);
+		msgErreurLabel.setVisible(false);
 	}
 }

@@ -22,25 +22,25 @@ public class ContactController extends Controller {
 	}
 
 	@FXML
-	private ImageView retour;
+	private ImageView retourImageView;
 
 	@FXML
-	private ChoiceBox<?> categorieChoiceBox;
+	private ChoiceBox<String> categorieChoiceBox;
 
 	@FXML
-	private Label EntrepriseLabel;
+	private Label entrepriseLabel;
 
 	@FXML
 	private ChoiceBox<?> entrepriseChoiceBox;
 
 	@FXML
-	private TextField whereNom;
+	private TextField whereNomTextField;
 
 	@FXML
-	private TextField wherePrenom;
+	private TextField wherePrenomTextField;
 
 	@FXML
-	private TextField whereDdn;
+	private TextField whereDdnTextField;
 
 	@FXML
 	private Label fsCatLabel;
@@ -88,22 +88,20 @@ public class ContactController extends Controller {
 	}
 
 	public void choixCategorie(){
-		 choixCategorie.getItems().addAll("Tous", "Particuliers", "Professionnels", "Salariés" );
-		 choixCategorie.setValue("tous");
+		categorieChoiceBox.getItems().addAll("Tous", "Particuliers", "Professionnels", "Salariés" );
+		categorieChoiceBox.setValue("Tous");
 
-		 String choix = getChoice(choixCategorie);
+		 String choix = getChoice(categorieChoiceBox);
 		 boolean nonParticulier = choix.equalsIgnoreCase("Salariés");
 
 		 if(nonParticulier){
-			 entreprise.setVisible(true);
-			 choixEntreprise.setVisible(true);
+			 entrepriseLabel.setVisible(true);
+			 entrepriseChoiceBox.setVisible(true);
 		 }
 	}
 
-	public String getChoice(ChoiceBox<String> choixCategorie) {
-		String choix = choixCategorie.getValue();
+	public String getChoice(ChoiceBox<String> categorieChoiceBox) {
+		String choix = categorieChoiceBox.getValue();
 		return choix;
 	}
-}
-
 }

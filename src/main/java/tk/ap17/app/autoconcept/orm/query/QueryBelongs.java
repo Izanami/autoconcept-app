@@ -13,15 +13,17 @@ public interface QueryBelongs<T extends Table<T>> {
     public Table<T> getTable();
 
     public default <J extends Table<J>> J belongs(J table_join) throws SQLException {
-        Connection connection = getTable().getConnector().getConnection();
-        PreparedStatement prepareStatement = connection.prepareStatement(belongsString(table_join));
-        ResultSet result = prepareStatement.executeQuery();
+        return belongs(table_join, "*");
+    }
+
+    public default <J extends Table<J>> J belongs(J table_join, String select) throws SQLException {
+        ResultSet result = getTable().execute(belongsString(table_join, select));
         result.next();
         table_join.setResultSet(result);
         return table_join;
     }
 
-    public default <J extends Table<J>> String belongsString(J table_join) {
+    public default <J extends Table<J>> String belongsString(J table_join, String select) {
         String nameTableJoin = table_join.getNameTable();
         String nameTable = getTable().getNameTable();
         Integer id = getTable().getId();

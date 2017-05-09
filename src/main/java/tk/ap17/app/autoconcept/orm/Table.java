@@ -1,5 +1,7 @@
 package tk.ap17.app.autoconcept.orm;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -68,6 +70,16 @@ public abstract class Table<T extends Table<T>> {
     public QuerySelect<T> select(String columns) {
         String[] columns_array = columns.split(",");
         return this.select(Arrays.asList(columns_array));
+    }
+
+    public PreparedStatement prepare(String sql) throws SQLException {
+        Connection connection = getConnector().getConnection();
+        return  connection.prepareStatement(sql);
+    }
+
+    public ResultSet execute(String sql) throws SQLException {
+        ResultSet result = prepare(sql).executeQuery();
+        return result;
     }
 
     /**

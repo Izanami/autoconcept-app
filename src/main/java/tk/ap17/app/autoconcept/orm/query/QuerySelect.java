@@ -33,7 +33,6 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
     private boolean distrinct = false;
     private String whereStr;
     private Object[] whereFields;
-    private Connector connector;
     private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName());
 
     /**
@@ -138,7 +137,7 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      *             impossible de compiler le Sql
      */
     public PreparedStatement compile(Connector connector) throws ExceptionOrm, SQLException {
-        PreparedStatement prepareStatement = connector.getConnection().prepareStatement(prepare().toString());
+        PreparedStatement prepareStatement = getTable().prepare(prepare().toString());
 
         logger.info("BEFORE WHERE : " + prepareStatement.toString());
         if(getWhereFields() != null) {
@@ -178,7 +177,8 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      *             Requete refuser par le serveur.
      * @throws ExceptionOrm
      */
-    public Table<T> execute(Connector connector) throws SQLException, ExceptionOrm {
+    public Table<T> execute() throws SQLException, ExceptionOrm {
+        Connector connector = getTable().getConnector();
         ResultSet result_set = this.compile(connector).executeQuery();
         result_set.next();
 
@@ -282,20 +282,6 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      */
     public void setWhereFields(Object[] whereFields) {
         this.whereFields = whereFields;
-    }
-
-    /**
-     * @return the connector
-     */
-    public Connector getConnector() {
-        return connector;
-    }
-
-    /**
-     * @param connector the connector to set
-     */
-    public void setConnector(Connector connector) {
-        this.connector = connector;
     }
 
     /**

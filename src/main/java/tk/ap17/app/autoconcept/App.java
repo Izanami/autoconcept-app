@@ -3,7 +3,7 @@ package tk.ap17.app.autoconcept;
 import java.io.IOException;
 import java.io.StringWriter;
 
-import ch.makery.address.model.Person;
+
 
 import java.io.PrintWriter;
 import javafx.application.Application;
@@ -34,12 +34,13 @@ public class App extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private Connector connector;
+	private ObservableList<Contacts> contact = FXCollections.observableArrayList();
+
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Autoconcept-App");
-
 		initRootLayout();
 		showAuthentification();
 	}
@@ -47,11 +48,12 @@ public class App extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
-	private ObservableList<Contacts> contact = FXCollections.observableArrayList();
-
+		
 	public App() {
-		contact.add(new Contacts(connector, "jeser", "adrien"));
+		contact.add(new Contacts(connector, "bousquet", "kelian", "25/09/1994"));
+		contact.add(new Contacts(connector, "jeser", "adrien", "06/10/1989"));
+		contact.add(new Contacts(connector, "devaux", "mathias", "??/??/????"));
+		contact.add(new Contacts(connector, "vistot", "michael", "??/??/????"));
 	}
 	
 	public ObservableList<Contacts> getContact() {
@@ -134,12 +136,13 @@ public class App extends Application {
 			controller.setApp(this);
 			controller.choixCategorie();
 
-			// primaryStage.close();
+
 		} catch (Exception e) {
 			exceptionDialog(e, "An exception was throw.");
 		}
 	}
 
+	
 	/**
 	 * Show a expection dialoag
 	 *

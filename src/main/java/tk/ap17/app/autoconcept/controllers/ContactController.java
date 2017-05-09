@@ -1,12 +1,10 @@
 package tk.ap17.app.autoconcept.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
-import tk.ap17.app.autoconcept.App;
 import tk.ap17.app.autoconcept.models.Contacts;
-import tk.ap17.app.autoconcept.orm.Connector;
+import tk.ap17.app.autoconcept.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -16,8 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
+import java.time.LocalDate;
 
-import ch.makery.address.MainApp;
 
 
 public class ContactController extends Controller {
@@ -97,26 +95,10 @@ public class ContactController extends Controller {
     @FXML
     private TableColumn<Contacts, String> prenomColonne;
     
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
-    private App App;
     @FXML
-    public void initialize() {
-        // Initialize the person table with the two columns.
-    	nomColonne.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
- 	    prenomColonne.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
-    }
+    private TableColumn<Contacts, String> ddnColonne;
+
     
-    public void setApp(App App) {
-        this.App = App;
-
-        // Add observable list data to the table
-        contactTable.setItems(App.getContact());
-    }
-
-
 	public void retourAccueil(MouseEvent event) {
 		try {
 			this.getApp().showAccueil();
@@ -124,15 +106,33 @@ public class ContactController extends Controller {
 			e.printStackTrace();
 		}
 	}
+	
+	private App App;
+	
+    @FXML  
+	public void initialize() {
+        // Initialize the person table with the two columns.
+    	nomColonne.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
+ 	    prenomColonne.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
+ 	    ddnColonne.setCellValueFactory(cellData -> cellData.getValue().dateDeNaissanceProperty());
+	}
+    
+    public void setApp(App App) {
+        this.App = App;
+
+        // Add observable list data to the table
+        contactTable.setItems(App.getContact());
+   }
+
 
 	public void choixCategorie(){
 		categorieChoiceBox.getItems().addAll("Tous", "Particuliers", "Professionnels", "Salariés" );
 		categorieChoiceBox.setValue("Tous");
 
 		 String choix = getChoice(categorieChoiceBox);
-		 boolean nonParticulier = choix.equalsIgnoreCase("Salariés");
+		 boolean Particulier = choix.equalsIgnoreCase("Particuliers");
 
-		 if(nonParticulier){
+		 if(!Particulier){
 			 entrepriseLabel.setVisible(true);
 			 entrepriseChoiceBox.setVisible(true);
 		 }

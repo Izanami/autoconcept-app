@@ -1,7 +1,6 @@
 package tk.ap17.app.autoconcept.models;
 
 import java.time.LocalDate;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -18,7 +17,7 @@ public class Contacts extends Table<Contacts> {
 	private IntegerProperty codePostal;
 	private StringProperty nom;
 	private StringProperty prenom;
-	private ObjectProperty<LocalDate> dateDeNaissance;
+	private StringProperty dateDeNaissance;
 	private IntegerProperty sexe;
 	private StringProperty courriel;
 	private StringProperty telephone;
@@ -37,17 +36,17 @@ public class Contacts extends Table<Contacts> {
 	 * @param prenom
 	 * @param dateDeNaissance
 	 */
-	public Contacts(Connector connector, String nom, String prenom) {
+	public Contacts(Connector connector, String nom, String prenom, String dateDeNaissance) {
 		super(connector);
 		this.nom = new SimpleStringProperty(nom);
 		this.prenom = new SimpleStringProperty(prenom);
-		this.dateDeNaissance = new SimpleObjectProperty<LocalDate>(LocalDate.of(25, 9, 1994));
+		this.dateDeNaissance = new SimpleStringProperty(dateDeNaissance);
 
 		// Some initial dummy data, just for convenient testing.
 		this.adresse = new SimpleStringProperty("7 rue du bois");
 		this.ville = new SimpleStringProperty("Pau");
 		this.codePostal = new SimpleIntegerProperty(64000);
-		this.anciennete = new SimpleObjectProperty<LocalDate>(LocalDate.of(1994, 9, 25));
+		//this.anciennete = new SimpleObjectProperty<LocalDate>(LocalDate.of(1994, 9, 25));
 		this.telephone = new SimpleStringProperty("0102030405");
 	}
 
@@ -123,15 +122,15 @@ public class Contacts extends Table<Contacts> {
 		return prenom;
 	}
 
-	public LocalDate getDateDeNaissance() {
+	public String getDateDeNaissance() {
 		return dateDeNaissance.get();
 	}
 
-	public void setDateDeNaissance(LocalDate dateDeNaissance) {
+	public void setDateDeNaissance(String dateDeNaissance) {
 		this.dateDeNaissance.set(dateDeNaissance);
 	}
 
-	public ObjectProperty<LocalDate> dateDeNaissanceProperty() {
+	public StringProperty dateDeNaissanceProperty() {
 		return dateDeNaissance;
 	}
 

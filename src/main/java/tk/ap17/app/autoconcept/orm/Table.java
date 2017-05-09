@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import tk.ap17.app.autoconcept.orm.query.QuerySave;
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**

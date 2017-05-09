@@ -39,6 +39,7 @@
             </Label>
             <ChoiceBox fx:id="categorieChoiceBox" prefHeight="26.0" prefWidth="172.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="15.0" />
             <Label fx:id="entrepriseLabel" text="Entreprise :" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="15.0">
+
                <font>
                   <Font size="20.0" />
                </font>

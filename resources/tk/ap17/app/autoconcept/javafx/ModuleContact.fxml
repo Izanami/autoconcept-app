@@ -38,12 +38,12 @@
                </font>
             </Label>
             <ChoiceBox fx:id="choixCategorie" prefHeight="26.0" prefWidth="172.0" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="15.0" />
-            <Label fx:id="entreprise" text="Entreprise :" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="15.0">
+            <Label fx:id="entreprise" text="Entreprise :" visible="false" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="15.0">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="choixEntreprise" prefHeight="26.0" prefWidth="138.0" AnchorPane.leftAnchor="730.0" AnchorPane.topAnchor="15.0" />
+            <ChoiceBox fx:id="choixEntreprise" prefHeight="26.0" prefWidth="138.0" visible="false" AnchorPane.leftAnchor="730.0" AnchorPane.topAnchor="15.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="50.0" prefWidth="900.0">

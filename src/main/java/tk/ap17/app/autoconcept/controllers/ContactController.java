@@ -25,7 +25,7 @@ public class ContactController extends Controller {
 	private ImageView retour;
 	
 	@FXML
-	private ChoiceBox<?> choixCategorie;
+	private ChoiceBox<String> choixCategorie;
 	
 	@FXML
 	private Label entreprise;
@@ -86,4 +86,25 @@ public class ContactController extends Controller {
 			e.printStackTrace();
 		}
 	}
+	
+	public void choixCategorie(){
+		 choixCategorie.getItems().addAll("Tous", "Particuliers", "Professionnels", "Salariés" );
+		 choixCategorie.setValue("tous");
+		 
+		 String choix = getChoice(choixCategorie);
+		 boolean nonParticulier = choix.equalsIgnoreCase("Salariés");
+		 
+		 if(nonParticulier){
+			 entreprise.setVisible(true);
+			 choixEntreprise.setVisible(true);
+		 }
+	}
+	
+	public String getChoice(ChoiceBox<String> choixCategorie) {
+		String choix = choixCategorie.getValue();
+		return choix;
+	}
 }
+
+
+

@@ -115,6 +115,7 @@ public class App extends Application {
 
 			ContactController controller = loader.getController();
 			controller.setApp(this);
+			controller.choixCategorie();
 
 			// primaryStage.close();
 		} catch (Exception e) {

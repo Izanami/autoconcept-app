@@ -102,4 +102,9 @@ public class MysqlTest {
         contacts.next();
         assertEquals("Cartman", contacts.getField("nom"));
     }
+
+    @Test
+    public void testDeserialize() throws Exception {
+        contacts.select("*").execute();
+    }
 }

@@ -88,4 +88,10 @@ public class MysqlTest {
         partenaires.select("*").execute();
         assertTrue(partenaires.contact().getId() == 1);
     }
+
+    @Test
+    public void testWhere() throws Exception {
+        contacts.select("*").where("nom = ?", "Luther King").execute();
+        assertTrue(contacts.getId() == 1);
+    }
 }

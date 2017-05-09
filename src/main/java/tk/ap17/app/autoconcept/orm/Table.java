@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import tk.ap17.app.autoconcept.orm.query.QuerySave;
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**
@@ -27,13 +28,14 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * @see Connector
  * @see QuerySelect
  */
-public abstract class Table<T extends Table<T>> {
+public abstract class Table<T extends Table<T>> implements QuerySave {
     private String nameTable;
     private String primaryKeyName = "id";
     private Map<String, Object> columns = new HashMap<>();
     private ResultSet resultSet;
     private Connector connector;
     private static Logger logger = Logger.getLogger(ORMLogger.class.getName());
+    private Boolean isSave = false;
 
     public Table(Connector connector) {
         setConnector(connector);
@@ -84,10 +86,17 @@ public abstract class Table<T extends Table<T>> {
         return result;
     }
 
+
+    public ResultSet execute(PreparedStatement  sql) throws SQLException {
+        logger.info("EXECUTE " + sql.toString());
+        ResultSet result = sql.executeQuery();
+        return result;
+    }
+
     /**
      * Returns the FOREIGN KEY
      *
-	 * @return object
+     * @return object
      **/
     public String foreignKey() {
         String fk = getNameTable().toLowerCase();
@@ -226,6 +235,20 @@ public abstract class Table<T extends Table<T>> {
      */
     public void setConnector(Connector connector) {
         this.connector = connector;
+    }
+
+    /**
+     * @return the isSave
+     */
+    public Boolean getIsSave() {
+        return isSave;
+    }
+
+    /**
+     * @param isSave the isSave to set
+     */
+    public void setIsSave(Boolean isSave) {
+        this.isSave = isSave;
     }
 
     /**

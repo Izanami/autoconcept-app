@@ -136,7 +136,7 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      * @throws SQLException
      *             impossible de compiler le Sql
      */
-    public PreparedStatement compile(Connector connector) throws ExceptionOrm, SQLException {
+    public PreparedStatement compile() throws ExceptionOrm, SQLException {
         PreparedStatement prepareStatement = getTable().prepare(prepare().toString());
 
         logger.info("BEFORE WHERE : " + prepareStatement.toString());
@@ -178,10 +178,8 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      * @throws ExceptionOrm
      */
     public Table<T> execute() throws SQLException, ExceptionOrm {
-        Connector connector = getTable().getConnector();
-        ResultSet result_set = this.compile(connector).executeQuery();
+        ResultSet result_set = getTable().execute(this.compile());
         result_set.next();
-
         this.table.setResultSet(result_set);
         return this.table;
     }

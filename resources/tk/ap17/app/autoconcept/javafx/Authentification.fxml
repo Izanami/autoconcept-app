@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" minHeight="-350.0" minWidth="-500.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="350.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tk.ap17.app.autoconcept.controllers.AuthController">
+<VBox alignment="CENTER" minHeight="-350.0" minWidth="-500.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="350.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tk.ap17.app.autoconcept.controllers.AuthController">
    <children>
       <Label alignment="CENTER" text="Authentification" textAlignment="CENTER">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="msgErreur" text="Veuillez vérifier votre identifiant ou votre mot de passe !" visible="false" />
+      <Label fx:id="msgErreur" text="Veuillez vérifier votre identifiant ou votre mot de passe !" textFill="RED" visible="false" />
       <GridPane prefHeight="110.0" prefWidth="330.0" vgap="10.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="205.0" />

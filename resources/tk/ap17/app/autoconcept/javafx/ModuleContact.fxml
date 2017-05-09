@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tk.ap17.app.autoconcept.controllers.ContactController">
+   <children>
+      <HBox prefHeight="57.0" prefWidth="900.0">
+         <children>
+            <ImageView fx:id="retour" fitHeight="39.0" fitWidth="42.0" onMouseClicked="#retourAccueil" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/fleche.gif" />
+               </image>
+               <HBox.margin>
+                  <Insets left="5.0" top="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Contact" textAlignment="CENTER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" top="10.0" />
+               </HBox.margin>
+            </Label>
+            <Label prefHeight="30.0" prefWidth="71.0" text="Type :" textAlignment="RIGHT">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="60.0" right="-180.0" top="13.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox prefHeight="26.0" prefWidth="172.0">
+               <HBox.margin>
+                  <Insets left="200.0" top="15.0" />
+               </HBox.margin>
+            </ChoiceBox>
+            <Label text="Label">
+               <HBox.margin>
+                  <Insets left="60.0" right="-80.0" top="13.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <ChoiceBox prefHeight="26.0" prefWidth="169.0">
+               <HBox.margin>
+                  <Insets left="100.0" top="15.0" />
+               </HBox.margin>
+            </ChoiceBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="52.0" prefWidth="900.0" />
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER_RIGHT" prefHeight="400.0" prefWidth="900.0">
+               <children>
+                  <ScrollPane prefHeight="296.0" prefWidth="850.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <TableView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Nom" />
+                                  <TableColumn prefWidth="75.0" text="Prénom" />
+                                    <TableColumn prefWidth="150.0" text="Date de naissance" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

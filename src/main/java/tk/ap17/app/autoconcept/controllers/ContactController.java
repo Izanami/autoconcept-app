@@ -25,13 +25,13 @@ public class ContactController extends Controller {
 	private ImageView retour;
 	
 	@FXML
-	private ChoiceBox<?> choixCategorie;
+	private ChoiceBox<?> categorieChoiceBox;
 	
 	@FXML
-	private Label entreprise;
+	private Label EntrepriseLabel;
 	
 	@FXML
-	private ChoiceBox<?> choixEntreprise;
+	private ChoiceBox<?> entrepriseChoiceBox;
 	
 	@FXML
 	private TextField whereNom;
@@ -43,40 +43,40 @@ public class ContactController extends Controller {
 	private TextField whereDdn;
 	
 	@FXML
-	private Label fsCat;
+	private Label fsCatLabel;
 	
 	@FXML
-	private Label fsAdresse;
+	private Label fsAdresseLabel;
 	
 	@FXML
-	private Label fsNom;
+	private Label fsNomLabel;
 	
 	@FXML
-	private Label fsPrenom;
+	private Label fsPrenomLabel;
 	
 	@FXML
-	private Label fsDdn;
+	private Label fsDdnLabel;
 	
 	@FXML
-	private Label fsSexe;
+	private Label fsSexeLabel;
 	
 	@FXML
-	private Label fsCourriel;
+	private Label fsCourrielLabel;
 	
 	@FXML
-	private Label fsTelephone;
+	private Label fsTelephoneLabel;
 	
 	@FXML
-	private Label fsInscription;
+	private Label fsInscriptionLabel;
 	
 	@FXML
-	private Button nouveau;
+	private Button nouveauButton;
 	
 	@FXML
-	private Button editer;
+	private Button editerButton;
 	
 	@FXML
-	private Button supprimer;
+	private Button supprimerButton;
 	
 
 	public void retourAccueil(MouseEvent event) {
@@ -86,4 +86,6 @@ public class ContactController extends Controller {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

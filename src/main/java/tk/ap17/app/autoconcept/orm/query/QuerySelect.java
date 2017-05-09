@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tk.ap17.app.autoconcept.AutoconceptLogger;
 import tk.ap17.app.autoconcept.exceptions.ExceptionOrm;
 import tk.ap17.app.autoconcept.orm.Connector;
+import tk.ap17.app.autoconcept.orm.ORMLogger;
 import tk.ap17.app.autoconcept.orm.Table;
 
 /**
@@ -33,8 +33,7 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
     private boolean distrinct = false;
     private String whereStr;
     private Object[] whereFields;
-    private Connector connector;
-    private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName());
+    private static Logger logger = Logger.getLogger(ORMLogger.class.getName());
 
     /**
      * Constructeur.
@@ -137,8 +136,8 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      * @throws SQLException
      *             impossible de compiler le Sql
      */
-    public PreparedStatement compile(Connector connector) throws ExceptionOrm, SQLException {
-        PreparedStatement prepareStatement = connector.getConnection().prepareStatement(prepare().toString());
+    public PreparedStatement compile() throws ExceptionOrm, SQLException {
+        PreparedStatement prepareStatement = getTable().prepare(prepare().toString());
 
         logger.info("BEFORE WHERE : " + prepareStatement.toString());
         if(getWhereFields() != null) {
@@ -178,10 +177,9 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      *             Requete refuser par le serveur.
      * @throws ExceptionOrm
      */
-    public Table<T> execute(Connector connector) throws SQLException, ExceptionOrm {
-        ResultSet result_set = this.compile(connector).executeQuery();
+    public Table<T> execute() throws SQLException, ExceptionOrm {
+        ResultSet result_set = getTable().execute(this.compile());
         result_set.next();
-
         this.table.setResultSet(result_set);
         return this.table;
     }
@@ -282,20 +280,6 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      */
     public void setWhereFields(Object[] whereFields) {
         this.whereFields = whereFields;
-    }
-
-    /**
-     * @return the connector
-     */
-    public Connector getConnector() {
-        return connector;
-    }
-
-    /**
-     * @param connector the connector to set
-     */
-    public void setConnector(Connector connector) {
-        this.connector = connector;
     }
 
     /**

@@ -15,6 +15,7 @@ import tk.ap17.app.autoconcept.models.Partenaires;
 public class MysqlTest {
     private Mysql mysql;
     private Contacts contacts;
+    private Partenaires partenaires;
 
     @Before
     public void setUp() throws Exception {
@@ -23,6 +24,7 @@ public class MysqlTest {
         mysql.setPassword("autoconcept");
         mysql.connect();
         contacts = new Contacts(mysql);
+        partenaires = new Partenaires(mysql);
     }
 
     @After
@@ -71,14 +73,25 @@ public class MysqlTest {
 
     @Test
     public void testQuerySelect() throws Exception {
-        contacts.select("*").execute(mysql);
+        contacts.select("*").execute();
         assertEquals("Luther King", contacts.getField("nom"));
     }
 
     @Test
     public void testQueryBelongs() throws Exception {
-        Partenaires partenaires = new Partenaires(mysql);
-        partenaires.select("*").execute(mysql);
+        partenaires.select("*").execute();
         assertEquals("Luther King", partenaires.contact().getField("nom"));
+    }
+
+    @Test
+    public void testGetId() throws Exception {
+        partenaires.select("*").execute();
+        assertTrue(partenaires.contact().getId() == 1);
+    }
+
+    @Test
+    public void testWhere() throws Exception {
+        contacts.select("*").where("nom = ?", "Luther King").execute();
+        assertTrue(contacts.getId() == 1);
     }
 }

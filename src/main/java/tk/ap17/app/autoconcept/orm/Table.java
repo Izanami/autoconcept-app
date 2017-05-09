@@ -1,13 +1,16 @@
 package tk.ap17.app.autoconcept.orm;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
-import tk.ap17.app.autoconcept.orm.query.QueryBelongs;
+import tk.ap17.app.autoconcept.orm.query.QuerySave;
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**
@@ -25,12 +28,14 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * @see Connector
  * @see QuerySelect
  */
-public abstract class Table<T extends Table<T>> {
+public abstract class Table<T extends Table<T>> implements QuerySave {
     private String nameTable;
     private String primaryKeyName = "id";
     private Map<String, Object> columns = new HashMap<>();
     private ResultSet resultSet;
     private Connector connector;
+    private static Logger logger = Logger.getLogger(ORMLogger.class.getName());
+    private Boolean isSave = false;
 
     public Table(Connector connector) {
         setConnector(connector);
@@ -70,6 +75,37 @@ public abstract class Table<T extends Table<T>> {
         return this.select(Arrays.asList(columns_array));
     }
 
+    public PreparedStatement prepare(String sql) throws SQLException {
+        Connection connection = getConnector().getConnection();
+        return  connection.prepareStatement(sql);
+    }
+
+    public ResultSet execute(String sql) throws SQLException {
+        logger.info("EXECUTE " + sql);
+        ResultSet result = prepare(sql).executeQuery();
+        return result;
+    }
+
+
+    public ResultSet execute(PreparedStatement  sql) throws SQLException {
+        logger.info("EXECUTE " + sql.toString());
+        ResultSet result = sql.executeQuery();
+        return result;
+    }
+
+    /**
+     * Returns the FOREIGN KEY
+     *
+     * @return object
+     **/
+    public String foreignKey() {
+        String fk = getNameTable().toLowerCase();
+        fk += "_";
+        fk += getPrimaryKeyName();
+
+        return fk;
+    }
+
     /**
      * Definie une colonne
      * @param columns Colonne
@@ -94,17 +130,41 @@ public abstract class Table<T extends Table<T>> {
     }
 
     /**
+     *
+     *
+     * @return
+     */
+    public Integer getId() {
+        Table<T> table = getTable();
+        String pkn = table.getPrimaryKeyName();
+        Integer primary_key = (Integer) getField(pkn);
+        return primary_key;
+    }
+
+    /**
      * @param columns Colonne
      */
     public Object getField(String name) {
         if(getColumns().get(name) == null) { // Fly-weigth
             try {
+                logger.info("Inject field '" + name + "'");
                 addField(name, this.getResultSet().getObject(name));
             } catch(SQLException e){
-                e.printStackTrace();
+                logger.warning("Can't inject field '" + name + "''" + e.getMessage());
+                return null;
             }
         }
         return getColumns().get(name);
+    }
+
+    public <J> J getField(String name, Class<J> type) {
+        try {
+            Object field = getTable().getField(name);
+            return type.cast(field);
+        } catch(ClassCastException e) {
+            logger.warning("Can't cast field '" + name + "''" + e.getMessage());
+            return null;
+        }
     }
 
     /**
@@ -175,6 +235,20 @@ public abstract class Table<T extends Table<T>> {
      */
     public void setConnector(Connector connector) {
         this.connector = connector;
+    }
+
+    /**
+     * @return the isSave
+     */
+    public Boolean getIsSave() {
+        return isSave;
+    }
+
+    /**
+     * @param isSave the isSave to set
+     */
+    public void setIsSave(Boolean isSave) {
+        this.isSave = isSave;
     }
 
     /**

@@ -1,78 +1,149 @@
 @startuml
+
 package Orm {
 
-class SerializerTableFile {
-    - Path path
+package Serializable {
 
-    + SerializerTableFile()
-    + SerializerTableFile(Table, Path)
-    + SerializerTableFile(Table, String path)
-    + toFile(String) : void
-    + fromFile() : String
-    + fromFileEach(Function<String, void>) : void
+interface DeserializeTableFile {
+    + toFile(Path) : boolean <<default>>
+    + toFile(String path) : boolean <<default>>
 }
 
-class SerializerTableCsv{
-    + SerializerTableCsv()
-    + SerializerTableCsv(Table)
-    + SerializerTableCsv(Table, Path)
-    + SerializerTableCsV(table, String path)
-    + fromCsv() : void
-    + toCsv() : void
+interface DeserializeTableCsv{
+    + toCsv(Path) : boolean <<default>>
+    + toCsv(String path) : boolean <<default>>
 }
 
+interface DeserializeTableSql{
+    + toSql(Path) : boolean <<default>>
+    + toSql(String path) : boolean <<default>>
+}
 
-class Connector {
-    - String uri
+}
+
+class Connector <<Abstract>> {
+    - String host
     - String user
     - String password
 
     + Connector()
-    + Connector(String uri)
-    + Connector(String uri, String user, String password)
-    + Connector(Path uri)
-    + Connector(Path uri, String user, String password)
+    + Connector(String host)
+    + Connector(String host, String user, String password, String port)
 
     + connect() : Connector
     + execute(String query) : Connector
     + close(): void
+    + forEachTable(Function<Table, Boolean>) : void
 }
 
 class MySql {
     + Mysql()
-    + Mysql(String uri)
-    + Mysql(String uri, String user, String password)
-    + Mysql(Path uri)
-    + Mysql(Path uri, String user, String password)
+    + Mysql(String host)
+    + Mysql(String host, String user, String password, String port)
 }
 
-class Fixture {
-    
+package Query {
+class Query {
+    - Table table
+
+    + Query()
+    + Query(Table)
+
+    + select(List<String> columns) : QuerySelect
+    + select(String columns) : QuerySelect
+    + insert(Map<String, String>) : QueryInsert
+    + update(Map<String,String>) : QueryUpdate
+    + delete(Map<String, String>) : QueryDelete
+}
+
+
+interface QueryBelongs {
+     + getTable() : Table
+     + setBelongs(Row) : void
+     + getBelongs() : Row
+     + belongsPrepare() : PrepareStatement <<default>>
+     + belongs(Row) <<default>>
+}
+
+interface QueryWhere {
+     + getTable() : Table
+     + getWhere(): String
+     + wherePrepare(PrepareStatement) : PrepareStatement <<default>>
+}
+
+class QuerySelect {
+    - Table table
+    - Integer count
+    - List String<String columns>
+    - Interger cout
+    - String group_by
+    - boolean distinct
+    - List<String> field
+
+    + QuerySelect()
+
+    + prepare(Connector) : PrepareStatement
+
+    + limit(Integer count) : QuerySelect
+    + groupBy(String str) : QuerySelect
+    + distinct() : QuerySelect
+    + where(String str, String... field) : QuerySelect
+    + execute(Connector) : ResultSet
+}
+
 }
 
 class Table {
-    - String name
-
-    + Table()
-    + Table(String name)
-
-    + select(List<String> columns) : ResultSet
-    + insert(Map<String, String>) : ResultSet
-    + update(Map<String,String>) : ResultSet
-    + delete(Map<String, String>) : ResultSet
+    - String nameTable
+    - String primaryKeyName
+    - Map<String, JDBCType> columns
+    + query() : Query
 }
 
+class Row {
+    - String primaryKey
+}
+
+class Fixture {
+    - Path path
+    + boolean populate(Connector)
+}
 
 Connector <|-- MySql
 Table "*" --* "1" Connector
+Table --> Query : Prepare >
+Connector "1" <-- "1" Fixture : Populate <
 
-SerializerTableFile  <|-- SerializerTableCsv
+QuerySelect <-- Query : Factory <
+QuerySelect ..|> QueryWhere
+QuerySelect ..|> QueryBelongs
+
+DeserializeTableSql  <|.. QuerySelect
+DeserializeTableCsv  <|.. QuerySelect
+DeserializeTableFile  <|-- DeserializeTableCsv
+DeserializeTableFile  <|-- DeserializeTableSql
 }
 
-package Contact {
-class Contact {
+package Models {
+    class Partenaires {
 
+    }
+
+    class Partenaire {
+        
+    }
+
+    Table <|-- Partenaires
+    Row <|-- Partenaire
+    Partenaires "1" --> "*" Partenaire : For each row >
 }
+
+package exceptions {
+    class ExceptionOrm {
+
+    }
+
+    ExceptionOrm --|> java.lang.Exception
 }
 
 @enduml

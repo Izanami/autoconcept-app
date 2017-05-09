@@ -1,14 +1,24 @@
 package tk.ap17.app.autoconcept.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
+import tk.ap17.app.autoconcept.App;
+import tk.ap17.app.autoconcept.models.Contacts;
+import tk.ap17.app.autoconcept.orm.Connector;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
+
+import ch.makery.address.MainApp;
+
 
 public class ContactController extends Controller {
 	private Stage primaryStage;
@@ -77,6 +87,34 @@ public class ContactController extends Controller {
 
 	@FXML
 	private Button supprimerButton;
+	
+	@FXML
+    private TableView<Contacts> contactTable;
+	
+    @FXML
+    private TableColumn<Contacts, String> nomColonne;
+    
+    @FXML
+    private TableColumn<Contacts, String> prenomColonne;
+    
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    private App App;
+    @FXML
+    public void initialize() {
+        // Initialize the person table with the two columns.
+    	nomColonne.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
+ 	    prenomColonne.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
+    }
+    
+    public void setApp(App App) {
+        this.App = App;
+
+        // Add observable list data to the table
+        contactTable.setItems(App.getContact());
+    }
 
 
 	public void retourAccueil(MouseEvent event) {
@@ -104,4 +142,5 @@ public class ContactController extends Controller {
 		String choix = categorieChoiceBox.getValue();
 		return choix;
 	}
+        
 }

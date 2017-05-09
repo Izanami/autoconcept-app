@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tk.ap17.app.autoconcept.models.Contacts;
+import tk.ap17.app.autoconcept.models.Partenaires;
 
 public class MysqlTest {
     private Mysql mysql;
@@ -59,8 +60,6 @@ public class MysqlTest {
 
     /**
      *
-     * Test l'execution.
-     *
      * @throws SQLException Echec de l'execution de la requete
      */
     @Test
@@ -74,5 +73,12 @@ public class MysqlTest {
     public void testQuerySelect() throws Exception {
         contacts.select("*").execute(mysql);
         assertEquals("Luther King", contacts.getField("nom"));
+    }
+
+    @Test
+    public void testQueryBelongs() throws Exception {
+        Partenaires partenaires = new Partenaires(mysql);
+        partenaires.select("*").execute(mysql);
+        assertEquals("Luther King", partenaires.contact().getField("nom"));
     }
 }

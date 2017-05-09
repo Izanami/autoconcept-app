@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tk.ap17.app.autoconcept.orm.query.QueryBelongs;
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**
@@ -17,8 +18,6 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  *  class Qux extends Table<Qux> {
  *      public Qux() {
  *          addColumn("fred");
- *  }
- *
  *  }
  * }
  * </pre>
@@ -97,9 +96,13 @@ public abstract class Table<T extends Table<T>> {
     /**
      * @param columns Colonne
      */
-    public Object getField(String name) throws SQLException {
+    public Object getField(String name) {
         if(getColumns().get(name) == null) { // Fly-weigth
-            addField(name, this.getResultSet().getObject(name));
+            try {
+                addField(name, this.getResultSet().getObject(name));
+            } catch(SQLException e){
+                e.printStackTrace();
+            }
         }
         return getColumns().get(name);
     }
@@ -172,5 +175,11 @@ public abstract class Table<T extends Table<T>> {
      */
     public void setConnector(Connector connector) {
         this.connector = connector;
+    }
+
+    /**
+     */
+    public Table<T> getTable() {
+        return this;
     }
 }

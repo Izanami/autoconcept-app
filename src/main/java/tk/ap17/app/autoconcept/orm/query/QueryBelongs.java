@@ -1,26 +1,34 @@
 package tk.ap17.app.autoconcept.orm.query;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tk.ap17.app.autoconcept.orm.Connector;
-import tk.ap17.app.autoconcept.orm.Row;
 import tk.ap17.app.autoconcept.orm.Table;
 
-public interface QueryBelongs {
-    public Table getTable();
+public interface QueryBelongs<T extends Table<T>, S extends Table<S>> {
+    public Table<T> getTable();
     public Object getField(String name);
     public default String getId() {
-        return (String) getField(getTable().getPrimaryKeyName());
+        Table<T> table = getTable();
+        String pkn = table.getPrimaryKeyName();
+        String primary_key = (String) getField(pkn);
+        return primary_key;
     }
 
-    public default Row belongsString(Connector connector, Table table_join) throws SQLException {
-        PreparedStatement prepareStatement = connector.getConnection().prepareStatement("SELECT * FROM ? INNER JOIN ? = ? LIMIT 1");
+    public default S belongs(S table_join) throws SQLException {
+        Connection connection = getTable().getConnector().getConnection();
+        String query = belongsString(table_join);
+        PreparedStatement prepareStatement = connection.prepareStatement(query);
+        ResultSet result = prepareStatement.executeQuery();
+        result.next();
+        table_join.setResultSet(result);
+        return table_join;
+    }
 
-        prepareStatement.setString(1, table_join.getNameTable()); // table
-        prepareStatement.setString(2, table_join.getNameTable() + "." + table_join.getNameTable() + "_"+ getTable().getPrimaryKeyName());
-        prepareStatement.setString(3, getId()); // table
-        System.out.println(prepareStatement);
-        return new Row(connector, getTable(), prepareStatement.executeQuery());
+    public default String belongsString(S table_join) throws SQLException {
+        String query = "SELECT * FROM Contact INNER JOIN Partenaire ON Partenaire.Contact_id=1 LIMIT 1";
+        return query;
     }
 }

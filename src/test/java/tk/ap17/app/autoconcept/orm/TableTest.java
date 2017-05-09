@@ -2,35 +2,27 @@ package tk.ap17.app.autoconcept.orm;
 
 import static org.junit.Assert.*;
 
-import java.sql.JDBCType;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import tk.ap17.app.autoconcept.exceptions.ExceptionOrm;
-import tk.ap17.app.autoconcept.orm.query.Query;
+import tk.ap17.app.autoconcept.models.Contacts;
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 public class TableTest {
-    private Query query;
+    private Contacts table;
 
     @Before
     public void setUp() {
-        Table table = new Table();
+        this.table = new Contacts(null);
         table.addColumn("nom");
         table.addColumn("prenom");
-
-        query = new Query(table);
-
         table.setNameTable("personne");
     }
 
     @Test
     public void testQuery() throws ExceptionOrm {
-         QuerySelect querySelect = query.select("nom,prenom");
+         QuerySelect<Contacts> querySelect = table.select("nom,prenom");
          assertEquals("SELECT nom, prenom FROM personne", querySelect.prepare());
     }
-
 }

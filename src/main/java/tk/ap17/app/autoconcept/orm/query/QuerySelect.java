@@ -1,10 +1,12 @@
 package tk.ap17.app.autoconcept.orm.query;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import tk.ap17.app.autoconcept.AutoconceptLogger;
 import tk.ap17.app.autoconcept.exceptions.ExceptionOrm;
 import tk.ap17.app.autoconcept.orm.Connector;
 import tk.ap17.app.autoconcept.orm.Table;
@@ -13,21 +15,26 @@ import tk.ap17.app.autoconcept.orm.Table;
  * Effectue les requetes SELECT
  *
  * <pre>{@code
- *  Partenaire partenaire = new Partenaire();
- *  partenaire.query().select().limit(10).where("nom = ?", "Adrien").execute(connector);
+ *  Partenaires partenaires = new Partenaires(connector);
+ *  partenaire.select("thud").limit(10).where("nom = ?", "Adrien").execute();
+ *
+ *  System.out.println(partenaire.getField("thud"));
  * }
+ * </pre>
  *
  * @author Kelian Bousquet
  * @author Adrien Jeser : adrien@jeser.me
  */
-public class QuerySelect implements QueryWhere {
-    private Table table;
+public class QuerySelect<T extends Table<T>> implements QueryWhere {
+    private Table<T> table;
     private Integer count;
     private String group_by;
     private List<String> columns;
     private boolean distrinct = false;
     private String whereStr;
     private Object[] whereFields;
+    private Connector connector;
+    private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName());
 
     /**
      * Constructeur.
@@ -41,28 +48,12 @@ public class QuerySelect implements QueryWhere {
     }
 
     /**
-     * Constructeur.
-     *
-     * Pour construire, prefere l'emploi de Table.query().select();
-     *
-     * @param table
-     *            Table
-     * @param columns
-     *            Colonne
-     * @see Table
-     */
-    public QuerySelect(Table table, List<String> columns) {
-        setTable(table);
-        setColumns(columns);
-    }
-
-    /**
      * Limite le nombre de resulta
      *
      * @param count
      * @return QuerySelect
      */
-    public QuerySelect limit(Integer count) {
+    public QuerySelect<T> limit(Integer count) {
         this.setCount(count);
         return this;
     }
@@ -72,7 +63,7 @@ public class QuerySelect implements QueryWhere {
      *
      * @return object QuerySelect
      */
-    public QuerySelect groupBy(String str) {
+    public QuerySelect<T> groupBy(String str) {
         this.setGroupBy(str);
         return this;
     }
@@ -82,7 +73,7 @@ public class QuerySelect implements QueryWhere {
      *
      * @return object QuerySelect
      */
-    public QuerySelect distinct() {
+    public QuerySelect<T> distinct() {
         this.setDistrinct(true);
         return this;
     }
@@ -94,7 +85,6 @@ public class QuerySelect implements QueryWhere {
      *             impossible de compiler le Sql
      */
     public String prepare() throws ExceptionOrm {
-
         StringBuffer query = new StringBuffer();
         query.append("SELECT ");
 
@@ -102,16 +92,21 @@ public class QuerySelect implements QueryWhere {
             query.append("DISTINCT ");
         }
 
-        for (String column : columns) {
-            if (!getTable().getColumns().contains(column)) {
-                throw new ExceptionOrm("Column " + column + " not in the " + getTable().getClass().getName()
-                        + " models (Table name : " + getTable().getNameTable() + ")");
-            }
+        if (getColumns().contains("*")) {
+            query.append("*");
+        } else {
+            for (String column : columns) {
+                if (!getTable().getColumns().containsKey(column)) {
+                    throw new ExceptionOrm("Column " + column + " not in the " + getTable().getClass().getName()
+                            + " models (Table name : " + getTable().getNameTable() + ")");
+                }
 
-            query.append(column);
-            query.append(", ");
-        }
+                query.append(column);
+                query.append(", ");
+            }
         query.setLength(query.length() - 2);
+        }
+
         query.append(" FROM ");
         query.append(table.getNameTable());
 
@@ -130,6 +125,9 @@ public class QuerySelect implements QueryWhere {
             query.append(getGroupBy());
         }
 
+
+        logger.info("PREPARE : " + query.toString());
+
         return query.toString();
     }
 
@@ -142,9 +140,11 @@ public class QuerySelect implements QueryWhere {
     public PreparedStatement compile(Connector connector) throws ExceptionOrm, SQLException {
         PreparedStatement prepareStatement = connector.getConnection().prepareStatement(prepare().toString());
 
+        logger.info("BEFORE WHERE : " + prepareStatement.toString());
         if(getWhereFields() != null) {
             prepareStatement = wherePrepare(prepareStatement, getWhereFields());
         }
+        logger.info("AFTER WHERE : " + prepareStatement.toString());
 
         return prepareStatement;
     }
@@ -162,7 +162,7 @@ public class QuerySelect implements QueryWhere {
      * @param fields Champs a injecter
      * @return
      */
-    public QuerySelect where(String sql, Object... fields) {
+    public QuerySelect<T> where(String sql, Object... fields) {
         setWhereStr(sql);
         setWhereFields(fields);
         return this;
@@ -178,14 +178,18 @@ public class QuerySelect implements QueryWhere {
      *             Requete refuser par le serveur.
      * @throws ExceptionOrm
      */
-    public ResultSet execute(Connector connector) throws SQLException, ExceptionOrm {
-        return this.compile(connector).executeQuery();
+    public Table<T> execute(Connector connector) throws SQLException, ExceptionOrm {
+        ResultSet result_set = this.compile(connector).executeQuery();
+        result_set.next();
+
+        this.table.setResultSet(result_set);
+        return this.table;
     }
 
     /**
      * @return the table
      */
-    public Table getTable() {
+    public Table<T> getTable() {
         return table;
     }
 
@@ -193,7 +197,7 @@ public class QuerySelect implements QueryWhere {
      * @param table
      *            the table to set
      */
-    public void setTable(Table table) {
+    public void setTable(Table<T> table) {
         this.table = table;
     }
 
@@ -278,5 +282,26 @@ public class QuerySelect implements QueryWhere {
      */
     public void setWhereFields(Object[] whereFields) {
         this.whereFields = whereFields;
+    }
+
+    /**
+     * @return the connector
+     */
+    public Connector getConnector() {
+        return connector;
+    }
+
+    /**
+     * @param connector the connector to set
+     */
+    public void setConnector(Connector connector) {
+        this.connector = connector;
+    }
+
+    /**
+     * @return the logger
+     */
+    public static Logger getLogger() {
+        return logger;
     }
 }

@@ -50,4 +50,9 @@ public class QuerySelectTest {
     public void testWhere() throws ExceptionOrm {
         select.where("qux = ?", 42);
     }
+
+    @Test
+    public void testLogger() {
+        assertNotNull(select.getLogger());
+    }
 }

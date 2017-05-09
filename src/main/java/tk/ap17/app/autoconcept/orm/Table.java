@@ -11,11 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Logger;
-
-<<<<<<< HEAD
-=======
 import tk.ap17.app.autoconcept.orm.deserialize.modelToFile;
->>>>>>> master
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**
@@ -327,7 +323,5 @@ public abstract class Table<T extends Table<T>> implements modelToFile<T> {
         do {
             lambda.apply(this);
         } while (next());
-
-        return true;
     }
 }

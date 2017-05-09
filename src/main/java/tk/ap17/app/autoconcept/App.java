@@ -2,9 +2,6 @@ package tk.ap17.app.autoconcept;
 
 import java.io.IOException;
 import java.io.StringWriter;
-
-
-
 import java.io.PrintWriter;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -134,6 +131,7 @@ public class App extends Application {
 
 			ContactController controller = loader.getController();
 			controller.setApp(this);
+			controller.afficherDonnees(controller.getApp());
 			controller.choixCategorie();
 
 

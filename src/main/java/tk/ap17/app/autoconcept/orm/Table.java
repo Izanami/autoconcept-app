@@ -194,7 +194,7 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
         T newTable = create();
         getResultSet().next();
         newTable.setResultSet(getResultSet());
-        return create();
+        return newTable;
     }
 
     /**
@@ -320,9 +320,9 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
      * For each
      *
      **/
-    public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
-        do {
-            lambda.apply(this);
-        } while(next());
-    }
+    //public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
+        //do {
+            //lambda.apply(this);
+        //} while(next());
+    //}
 }

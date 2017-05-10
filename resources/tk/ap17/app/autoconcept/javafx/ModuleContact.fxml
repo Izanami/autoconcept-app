@@ -65,7 +65,7 @@
          <items>
           <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
-                  <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="410.0" prefWidth="536.0">
+                  <TableView fx:id="contactTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="410.0" prefWidth="536.0">
                     <columns>
                       <TableColumn fx:id="nomColonne" prefWidth="188.0" resizable="false" text="Nom" />
                       <TableColumn fx:id="prenomColonne" prefWidth="136.0" resizable="false" text="Prénom" />

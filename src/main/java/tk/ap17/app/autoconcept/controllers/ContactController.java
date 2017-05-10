@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
+
 public class ContactController extends Controller {
 	private Stage primaryStage;
 	private String Tous="Tous", Particuliers="Particuliers", Professionnels="Professionnels", Salaries="Salaries";
@@ -54,6 +55,12 @@ public class ContactController extends Controller {
 
 	@FXML
 	private Label fsAdresseLabel;
+	
+	@FXML
+	private Label fsVilleLabel;
+	
+	@FXML
+	private Label fsCodePostalLabel;
 
 	@FXML
 	private Label fsNomLabel;
@@ -101,10 +108,17 @@ public class ContactController extends Controller {
 
 	@FXML
 	public void initialize() {
-		// Initialize the person table with the two columns.
+		// Initialize the contact table with the two columns.
 		nomColonne.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
 		prenomColonne.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
 		ddnColonne.setCellValueFactory(cellData -> cellData.getValue().dateDeNaissanceProperty());
+		
+		 // Clear contact details.
+    //   Contact(null);
+
+        // Listen for selection changes and show the contact details when changed.
+        contactTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showcontactDetails(newValue));
 	}
 
 	public void afficherDonnees(App App) {
@@ -114,7 +128,7 @@ public class ContactController extends Controller {
 
 	public void choixCategorie() throws SQLException, ExceptionOrm {
 		categorieChoiceBox.getItems().addAll(Tous, Particuliers, Professionnels, Salaries);
-		categorieChoiceBox.setValue("Tous");
+		categorieChoiceBox.setValue(Tous);
 
 		String choix = getChoice(categorieChoiceBox);
 		boolean Particulier = choix.equalsIgnoreCase(Particuliers);
@@ -137,5 +151,54 @@ public class ContactController extends Controller {
 		String choix = categorieChoiceBox.getValue();
 		return choix;
 	}
+	
+	   /**
+     * Fills all text fields to show details about the contact.
+     * If the specified contact is null, all text fields are cleared.
+     *
+     * @param contact the contact or null
+     */
+    private void showcontactDetails(Contacts contact) {
+        if (contact != null) {
+            // Fill the labels with info from the contact object.
+        	
+        	fsCatLabel.setText(contact.getProfessionnel());
+        	fsAdresseLabel.setText(contact.getAdresse());
+        	fsCodePostalLabel.setText(Integer.toString(contact.getCodePostal()));
+        	fsVilleLabel.setText(contact.getVille());
+        	fsNomLabel.setText(contact.getNom());
+        	fsPrenomLabel.setText(contact.getPrenom());
+        	fsDdnLabel.setText(contact.getDateDeNaissance());
+        	
+        	int sexe = contact.getSexe();        	
+        	if(sexe == 0){
+        		fsSexeLabel.setText("Homme");
+        	}else{
+        		fsSexeLabel.setText("Femme");
+        	}
+        	
+        	fsCourrielLabel.setText(contact.getCourriel());
+        	fsTelephoneLabel.setText(contact.getTelephone());
+        	fsInscriptionLabel.setText(contact.getAnciennete());
+        }
+
+//        } else {
+//            // contact is null, remove all the text.
+//        	fsNomLabel.setText("");
+//        	fsPrenomLabel.setText("");
+//            fsAdresseLabel.setText("");
+//            fsCodePostalLabel.setText("");
+//            fsVilleLabel.setText("");
+//        }
+    }
+    
+    /**
+     * Called when the user clicks on the delete button.
+     */
+    @FXML
+    private void handleDeletecontact() {
+        int selectedIndex = contactTable.getSelectionModel().getSelectedIndex();
+        contactTable.getItems().remove(selectedIndex);
+    }
 
 }

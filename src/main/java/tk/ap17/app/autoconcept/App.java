@@ -49,8 +49,8 @@ public class App extends Application {
 	public App() {
 		contact.add(new Contacts(connector, "bousquet", "kelian", "25/09/1994"));
 		contact.add(new Contacts(connector, "jeser", "adrien", "06/10/1989"));
-		contact.add(new Contacts(connector, "devaux", "mathias", "??/??/????"));
-		contact.add(new Contacts(connector, "vistot", "michael", "??/??/????"));
+		contact.add(new Contacts(connector, "devaux", "mathias", "19/09/1977"));
+		contact.add(new Contacts(connector, "vistot", "michael", "15/12/1987"));
 	}
 	
 	public ObservableList<Contacts> getContact() {

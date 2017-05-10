@@ -29,29 +29,6 @@ public class Contacts extends Table<Contacts> {
 		this.addColumn("nom");
 	}
 
-	/**
-	 * Constructor with some initial data.
-	 * 
-	 * @param nom
-	 * @param prenom
-	 * @param dateDeNaissance
-	 */
-	public Contacts(Connector connector, String nom, String prenom, String dateDeNaissance) {
-		super(connector);
-		
-		this.professionnel = new SimpleStringProperty("Professionnel");
-		this.adresse = new SimpleStringProperty("7 rue du bois");
-		this.ville = new SimpleStringProperty("Pau");
-		this.codePostal = new SimpleIntegerProperty(64000);
-		this.nom = new SimpleStringProperty(nom);
-		this.prenom = new SimpleStringProperty(prenom);
-		this.dateDeNaissance = new SimpleStringProperty(dateDeNaissance);
-		this.sexe = new SimpleIntegerProperty(0);
-		this.courriel = new SimpleStringProperty ("nom.prenom@exemple.com");
-		this.telephone = new SimpleStringProperty("0102030405");
-		this.anciennete = new SimpleStringProperty("12/04/1997");
-	}
-
 	public String getProfessionnel() {
 		return professionnel.get();
 	}
@@ -184,8 +161,24 @@ public class Contacts extends Table<Contacts> {
 		return anciennete;
 	}
 
-    public Contacts create() {	
-    	String nom = (String) getTable().getField("nom");
-        return new Contacts(getConnector(), nom, nom, nom);
+    public Contacts create() {
+        return new Contacts(getConnector());
+    }
+
+    public Contacts initialize() {
+        String name = (String) getField("nom");
+		this.nom = new SimpleStringProperty(name);
+
+		this.professionnel = new SimpleStringProperty("Professionnel");
+        this.adresse = new SimpleStringProperty("7 rue du bois");
+        this.ville = new SimpleStringProperty("Pau");
+        this.codePostal = new SimpleIntegerProperty(64000);
+        this.prenom = new SimpleStringProperty("ds");
+        this.dateDeNaissance = new SimpleStringProperty("");
+        this.sexe = new SimpleIntegerProperty(0);
+        this.courriel = new SimpleStringProperty ("nom.prenom@exemple.com");
+        this.telephone = new SimpleStringProperty("0102030405");
+        this.anciennete = new SimpleStringProperty("12/04/1997");
+        return this;
     }
 }

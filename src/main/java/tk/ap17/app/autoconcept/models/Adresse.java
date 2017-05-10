@@ -7,4 +7,8 @@ public class Adresse extends Table<Adresse> {
 	public Adresse(Connector connector) {
         super(connector);
 	}
+
+    public Adresse create() {
+        return new Adresse(getConnector());
+    }
 }

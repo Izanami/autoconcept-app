@@ -20,4 +20,8 @@ public class Partenaires
         Contacts contact = new Contacts(getConnector());
         return this.belongs(contact);
     }
+
+    public Partenaires create() {
+        return new Partenaires(getConnector());
+    }
 }

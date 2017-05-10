@@ -9,4 +9,8 @@ public class Contacts extends Table<Contacts> {
         this.setNameTable("Contact");
         this.addColumn("nom");
 	}
+
+    public Contacts create() {
+        return new Contacts(getConnector());
+    }
 }

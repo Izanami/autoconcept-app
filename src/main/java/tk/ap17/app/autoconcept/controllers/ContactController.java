@@ -1,10 +1,10 @@
 package tk.ap17.app.autoconcept.controllers;
 
-
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import tk.ap17.app.autoconcept.models.Contacts;
 import tk.ap17.app.autoconcept.*;
+import tk.ap17.app.autoconcept.exceptions.ExceptionOrm;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -14,12 +14,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
-import java.time.LocalDate;
-
-
+import java.sql.SQLException;
 
 public class ContactController extends Controller {
 	private Stage primaryStage;
+	private String Tous="Tous", Particuliers="Particuliers", Professionnels="Professionnels", Salaries="Salaries";
 
 	public Stage getPrimaryStage() {
 		return primaryStage;
@@ -85,20 +84,47 @@ public class ContactController extends Controller {
 
 	@FXML
 	private Button supprimerButton;
-	
-	@FXML
-    private TableView<Contacts> contactTable;
-	
-    @FXML
-    private TableColumn<Contacts, String> nomColonne;
-    
-    @FXML
-    private TableColumn<Contacts, String> prenomColonne;
-    
-    @FXML
-    private TableColumn<Contacts, String> ddnColonne;
 
-    
+	@FXML
+	private TableView<Contacts> contactTable;
+
+	@FXML
+	private TableColumn<Contacts, String> nomColonne;
+
+	@FXML
+	private TableColumn<Contacts, String> prenomColonne;
+
+	@FXML
+	private TableColumn<Contacts, String> ddnColonne;
+
+	private App App;
+
+	@FXML
+	public void initialize() {
+		// Initialize the person table with the two columns.
+		nomColonne.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
+		prenomColonne.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
+		ddnColonne.setCellValueFactory(cellData -> cellData.getValue().dateDeNaissanceProperty());
+	}
+
+	public void afficherDonnees(App App) {
+		this.App = App;
+		contactTable.setItems(App.getContact());
+	}
+
+	public void choixCategorie() throws SQLException, ExceptionOrm {
+		categorieChoiceBox.getItems().addAll(Tous, Particuliers, Professionnels, Salaries);
+		categorieChoiceBox.setValue("Tous");
+
+		String choix = getChoice(categorieChoiceBox);
+		boolean Particulier = choix.equalsIgnoreCase(Particuliers);
+
+		if (!Particulier) {
+			entrepriseLabel.setVisible(true);
+			entrepriseChoiceBox.setVisible(true);
+		}
+	}
+
 	public void retourAccueil(MouseEvent event) {
 		try {
 			this.getApp().showAccueil();
@@ -106,41 +132,10 @@ public class ContactController extends Controller {
 			e.printStackTrace();
 		}
 	}
-	
-	private App App;
-	
-    @FXML  
-	public void initialize() {
-        // Initialize the person table with the two columns.
-    	nomColonne.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
- 	    prenomColonne.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
- 	    ddnColonne.setCellValueFactory(cellData -> cellData.getValue().dateDeNaissanceProperty());
-	}
-    
-    public void setApp(App App) {
-        this.App = App;
-
-        // Add observable list data to the table
-        contactTable.setItems(App.getContact());
-   }
-
-
-	public void choixCategorie(){
-		categorieChoiceBox.getItems().addAll("Tous", "Particuliers", "Professionnels", "Salariés" );
-		categorieChoiceBox.setValue("Tous");
-
-		 String choix = getChoice(categorieChoiceBox);
-		 boolean Particulier = choix.equalsIgnoreCase("Particuliers");
-
-		 if(!Particulier){
-			 entrepriseLabel.setVisible(true);
-			 entrepriseChoiceBox.setVisible(true);
-		 }
-	}
 
 	public String getChoice(ChoiceBox<String> categorieChoiceBox) {
 		String choix = categorieChoiceBox.getValue();
 		return choix;
 	}
-        
+
 }

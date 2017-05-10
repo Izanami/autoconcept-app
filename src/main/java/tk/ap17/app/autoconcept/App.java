@@ -136,13 +136,7 @@ public class App extends Application {
             controller.afficherDonnees(controller.getApp());
             controller.choixCategorie();
 
-            Mysql mysql = new Mysql();
-            mysql.setHost("localhost");
-            mysql.setUser("root");
-            mysql.setPassword("autoconcept");
-            mysql.connect();
-
-            Contacts contacts = new Contacts(mysql);
+            Contacts contacts = new Contacts(getConnector());
             contacts = contacts.select("*").execute().next();
 
             while(contacts.getHasNext()) {

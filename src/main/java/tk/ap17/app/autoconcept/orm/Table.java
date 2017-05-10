@@ -365,15 +365,4 @@ public abstract class Table<T extends Table<T>> implements Factory<T>, modelToFi
     public Table<T> getTable() {
         return this;
     }
-
-    /**
-     * For each
-     *
-     **/
-
-    //public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
-        //do {
-            //lambda.apply(this);
-        //} while(next());
-    //}
 }

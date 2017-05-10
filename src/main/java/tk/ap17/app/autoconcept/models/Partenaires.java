@@ -24,4 +24,8 @@ public class Partenaires
     public Partenaires create() {
         return new Partenaires(getConnector());
     }
+
+    public Partenaires initialize() {
+        return this;
+    }
 }

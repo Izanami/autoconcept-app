@@ -32,7 +32,9 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * <pre>
  * {@code
  * Qux quxs = new Qux(connector);
- * quxs = quxs.select("*").execut();
+ * quxs = quxs.select("*").execute();
+ *
+ * quxs = quxs.next();
  *
  * // First row
  * System.out.println(quxs.getField("fred"));
@@ -47,7 +49,7 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * @see Connector
  * @see QuerySelect
  */
-public abstract class Table<T extends Table<T>> implements Factory<T> {
+public abstract class Table<T extends Table<T>> implements Factory<T>, modelToFile<T> {
     private String nameTable;
     private String primaryKeyName = "id";
     private Map<String, Object> columns = new HashMap<>();
@@ -211,7 +213,11 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
         T newTable = create();
         newTable.setHasNext(getResultSet().next());
         newTable.setResultSet(getResultSet());
-        newTable.initialize();
+
+        if(newTable.getHasNext()){
+            newTable.initialize();
+        }
+
         return newTable;
     }
 
@@ -219,11 +225,13 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
      * For each
      *
      **/
-    //public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
-        //do {
-            //lambda.apply(this);
-        //} while(next());
-    //}
+    public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
+        Table<T> table = getTable().next();
+        while(table.getHasNext()) {
+            lambda.apply(table);
+            table = table.next();
+        }
+    }
 
     /**
      * @return the nameTable
@@ -357,15 +365,4 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
     public Table<T> getTable() {
         return this;
     }
-
-    /**
-     * For each
-     *
-     **/
-
-    //public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
-        //do {
-            //lambda.apply(this);
-        //} while(next());
-    //}
 }

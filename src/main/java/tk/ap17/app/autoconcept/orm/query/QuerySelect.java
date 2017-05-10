@@ -180,7 +180,6 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
     public T execute() throws SQLException, ExceptionOrm {
         T table = getTable().create();
         ResultSet result_set = getTable().execute(this.compile());
-        result_set.next();
         table.setResultSet(result_set);
         table.initialize();
         return table;

@@ -93,8 +93,8 @@ public class MysqlTest {
 
     @Test
     public void testWhere() throws Exception {
-        //Contacts contact = contact.select("*").where("nom = ?", "Luther King").execute();
-        //assertTrue(contact.getId() == 1);
+        Contacts contact = contacts.select("*").where("nom = ?", "Luther King").execute();
+        assertTrue(contact.getId() == 1);
     }
 
     @Test

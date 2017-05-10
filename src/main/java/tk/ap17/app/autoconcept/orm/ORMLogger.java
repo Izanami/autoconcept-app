@@ -7,6 +7,19 @@ import java.util.logging.Logger;
 /**
  * ORM Logger
  *
+ * setup() SHOULD call inside "main" function.
+ *
+ * Example :
+ * <pre>{@code
+ * class Foo {
+ *  private static Logger logger = Logger.getLogger(ORMLogger.class.getName());
+ *
+ *  def baz() {
+ *      logger.info("A notice message.");
+ *  }
+ * }
+ * </pre>
+ *
  * @author Kelian Bousquet
  */
 public class ORMLogger {
@@ -14,17 +27,6 @@ public class ORMLogger {
      *
      * Configure handler logging.
      *
-     * It SHOULD call inside "main" function.
-     *
-     * Example :
-     *
-     * class Foo {
-     *  private static Logger logger = Logger.getLogger(AutoconceptLogger.class.getName());
-     *
-     *  def baz() {
-     *      logger.info("A notice message.");
-     *  }
-     * }
      *
      * @throws IOException
      */

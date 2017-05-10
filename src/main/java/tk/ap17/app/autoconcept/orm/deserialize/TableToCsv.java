@@ -13,12 +13,12 @@ import java.util.function.Function;
 
 import tk.ap17.app.autoconcept.orm.Table;
 
-public interface modelToFile<T extends Table<T>> {
+public interface TableToCsv<T extends Table<T>> {
     public Table<T> getTable();
 
-    public default void toCsv(Path path) throws FileNotFoundException, IOException, SQLException {
+    public default void toCsv(String path) throws FileNotFoundException, IOException, SQLException {
         Table<T> table = getTable();
-        BufferedWriter out = new BufferedWriter(new FileWriter("/tmp/ez"));
+        BufferedWriter out = new BufferedWriter(new FileWriter(path));
 
         // Head
         StringBuilder head = new StringBuilder();

@@ -49,7 +49,7 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * @see Connector
  * @see QuerySelect
  */
-public abstract class Table<T extends Table<T>> implements Factory<T>, TableToCsv<T> {
+public abstract class Table<T extends Table<T>> implements Factory<T> {
     private String nameTable;
     private String primaryKeyName = "id";
     private Map<String, Object> columns = new HashMap<>();

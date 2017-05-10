@@ -22,176 +22,190 @@ import tk.ap17.app.autoconcept.controllers.AuthController;
 import tk.ap17.app.autoconcept.controllers.ContactController;
 import tk.ap17.app.autoconcept.models.Contacts;
 import tk.ap17.app.autoconcept.orm.Connector;
+import tk.ap17.app.autoconcept.orm.Mysql;
 
 /**
  * Autoconcept
  *
  */
 public class App extends Application {
-	private Stage primaryStage;
-	private BorderPane rootLayout;
-	private Connector connector;
-	private ObservableList<Contacts> contact = FXCollections.observableArrayList();
+    private Stage primaryStage;
+    private BorderPane rootLayout;
+    private Connector connector;
+    private ObservableList<Contacts> contact = FXCollections.observableArrayList();
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Autoconcept-App");
+        initRootLayout();
+        showAuthentification();
+    }
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Autoconcept-App");
-		initRootLayout();
-		showAuthentification();
-	}
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-		
-	public App() {
-		contact.add(new Contacts(connector, "bousquet", "kelian", "25/09/1994"));
-		contact.add(new Contacts(connector, "jeser", "adrien", "06/10/1989"));
-		contact.add(new Contacts(connector, "devaux", "mathias", "19/09/1977"));
-		contact.add(new Contacts(connector, "vistot", "michael", "15/12/1987"));
-	}
-	
-	public ObservableList<Contacts> getContact() {
+    public App() {
+    }
+
+    public ObservableList<Contacts> getContact() {
         return contact;
     }
-	
-	/**
-	 * Initializes the root layout.
-	 */
-	public void initRootLayout() {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(App.class.getResource("RootLayout.fxml"));
-			rootLayout = (BorderPane) loader.load();
 
-			// Show the scene containing the root layout.
-			Scene scene = new Scene(rootLayout);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    /**
+     * Initializes the root layout.
+     */
+    public void initRootLayout() {
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(App.class.getResource("RootLayout.fxml"));
+            rootLayout = (BorderPane) loader.load();
 
-	public void showAuthentification() throws IOException {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/Authentification.fxml"));
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-			VBox Authentification = (VBox) loader.load();
+    public void showAuthentification() throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/Authentification.fxml"));
 
-			// Show the scene containing the root layout.
-			Scene scene = new Scene(Authentification);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+            VBox Authentification = (VBox) loader.load();
 
-			AuthController controller = loader.getController();
-			controller.setApp(this);
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(Authentification);
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-			// primaryStage.close();
-		} catch (Exception e) {
-			exceptionDialog(e, "An exception was throw.");
-		}
-	}
+            AuthController controller = loader.getController();
+            controller.setApp(this);
 
-	public void showAccueil() throws IOException {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/AccueilAppli.fxml"));
+            // primaryStage.close();
+        } catch (Exception e) {
+            exceptionDialog(e, "An exception was throw.");
+        }
+    }
 
-			VBox Accueil = (VBox) loader.load();
+    public void showAccueil() throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/AccueilAppli.fxml"));
 
-			// Show the scene containing the root layout.
-			Scene scene = new Scene(Accueil);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+            VBox Accueil = (VBox) loader.load();
 
-			AccueilController controller = loader.getController();
-			controller.setApp(this);
-			controller.username();
-			controller.initialize();
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(Accueil);
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-			// primaryStage.close();
-		} catch (Exception e) {
-			exceptionDialog(e, "An exception was throw.");
-		}
-	}
+            AccueilController controller = loader.getController();
+            controller.setApp(this);
+            controller.username();
+            controller.initialize();
 
-	public void showContact() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/ModuleContact.fxml"));
+            // "06/10/1989"));
+            // contact.add(new Contacts(connector, "devaux", "mathias",
+            // "19/09/1977"));
+            // contact.add(new Contacts(connector, "vistot", "michael",
+            // "15/12/1987"));
 
-			VBox Contact = (VBox) loader.load();
+            // primaryStage.close();
+        } catch (Exception e) {
+            exceptionDialog(e, "An exception was throw.");
+        }
+    }
 
-			// Show the scene containing the root layout.
-			Scene scene = new Scene(Contact);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+    public void showContact() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/ModuleContact.fxml"));
 
-			ContactController controller = loader.getController();
-			controller.setApp(this);
-			controller.afficherDonnees(controller.getApp());
-			controller.choixCategorie();
+            VBox Contact = (VBox) loader.load();
 
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(Contact);
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-		} catch (Exception e) {
-			exceptionDialog(e, "An exception was throw.");
-		}
-	}
+            ContactController controller = loader.getController();
+            controller.setApp(this);
+            controller.afficherDonnees(controller.getApp());
+            controller.choixCategorie();
 
-	
-	/**
-	 * Show a expection dialoag
-	 *
-	 **/
-	private void exceptionDialog(Exception exception, String message) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Exception Dialog");
-		alert.setHeaderText("Look, an Exception Dialog");
-		alert.setContentText(message);
+            Mysql mysql = new Mysql();
+            mysql.setHost("localhost");
+            mysql.setUser("root");
+            mysql.setPassword("autoconcept");
+            mysql.connect();
 
-		// Create expandable Exception.
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		exception.printStackTrace(pw);
-		String exceptionText = sw.toString();
+            Contacts contacts = new Contacts(mysql);
+            Contacts row = contacts.select("*").execute();
 
-		Label label = new Label("The exception stacktrace was:");
+            do {
+                contact.add(row);
+                row = row.next();
+            } while(row.getHasNext());
 
-		TextArea textArea = new TextArea(exceptionText);
-		textArea.setEditable(false);
-		textArea.setWrapText(true);
+        } catch (Exception e) {
+            exceptionDialog(e, "An exception was throw.");
+        }
+    }
 
-		textArea.setMaxWidth(Double.MAX_VALUE);
-		textArea.setMaxHeight(Double.MAX_VALUE);
-		GridPane.setVgrow(textArea, Priority.ALWAYS);
-		GridPane.setHgrow(textArea, Priority.ALWAYS);
+    /**
+     * Show a expection dialoag
+     *
+     **/
+    private void exceptionDialog(Exception exception, String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Exception Dialog");
+        alert.setHeaderText("Look, an Exception Dialog");
+        alert.setContentText(message);
 
-		GridPane expContent = new GridPane();
-		expContent.setMaxWidth(Double.MAX_VALUE);
-		expContent.add(label, 0, 0);
-		expContent.add(textArea, 0, 1);
+        // Create expandable Exception.
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        String exceptionText = sw.toString();
 
-		// Set expandable Exception into the dialog pane.
-		alert.getDialogPane().setExpandableContent(expContent);
+        Label label = new Label("The exception stacktrace was:");
 
-		alert.showAndWait();
-	}
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
 
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
 
-	public void setPrimaryStage(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-	}
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
 
-	public Connector getConnector() {
-		return connector;
-	}
+        // Set expandable Exception into the dialog pane.
+        alert.getDialogPane().setExpandableContent(expContent);
 
-	public void setConnector(Connector connector) {
-		this.connector = connector;
-	}
+        alert.showAndWait();
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public Connector getConnector() {
+        return connector;
+    }
+
+    public void setConnector(Connector connector) {
+        this.connector = connector;
+    }
 }

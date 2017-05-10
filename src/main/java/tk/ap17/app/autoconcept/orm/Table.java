@@ -32,7 +32,7 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * <pre>
  * {@code
  * Qux quxs = new Qux(connector);
- * quxs = quxs.select("*").execute();
+ * quxs = quxs.select("*").execut();
  *
  * // First row
  * System.out.println(quxs.getField("fred"));
@@ -56,6 +56,7 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
     private Boolean isSave = false;
     private List<String> loadedField = new ArrayList<>();
     private static Logger logger = Logger.getLogger(ORMLogger.class.getName());
+    private Boolean hasNext;
 
     public Table(Connector connector) {
         setConnector(connector);
@@ -203,13 +204,14 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
     }
 
     /**
-     * Next row
+     * Nex row
      *
      **/
     public T next() throws SQLException {
         T newTable = create();
-        getResultSet().next();
+        newTable.setHasNext(getResultSet().next());
         newTable.setResultSet(getResultSet());
+        newTable.initialize();
         return newTable;
     }
 
@@ -326,6 +328,20 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
      */
     public void setLoadedField(List<String> loadedField) {
         this.loadedField = loadedField;
+    }
+
+    /**
+     * @return the hasNext
+     */
+    public Boolean getHasNext() {
+        return hasNext;
+    }
+
+    /**
+     * @param hasNext the hasNext to set
+     */
+    public void setHasNext(Boolean hasNext) {
+        this.hasNext = hasNext;
     }
 
     /**

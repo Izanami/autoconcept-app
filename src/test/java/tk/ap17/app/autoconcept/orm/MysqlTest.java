@@ -108,7 +108,7 @@ public class MysqlTest {
     @Test
     public void testDeserialize() throws Exception {
         Path path = Paths.get("/tmp/t");
-        //contacts.select("*").execute().toCsv(path);
+        contacts.select("*").execute().toCsv(path);
     }
 
     @Test

@@ -49,7 +49,7 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * @see Connector
  * @see QuerySelect
  */
-public abstract class Table<T extends Table<T>> implements Factory<T> {
+public abstract class Table<T extends Table<T>> implements Factory<T>, modelToFile<T> {
     private String nameTable;
     private String primaryKeyName = "id";
     private Map<String, Object> columns = new HashMap<>();
@@ -225,11 +225,13 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
      * For each
      *
      **/
-    //public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
-        //do {
-            //lambda.apply(this);
-        //} while(next());
-    //}
+    public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
+        Table<T> table = getTable().next();
+        while(table.getHasNext()) {
+            lambda.apply(table);
+            table = table.next();
+        }
+    }
 
     /**
      * @return the nameTable

@@ -183,4 +183,8 @@ public class Contacts extends Table<Contacts> {
 	public StringProperty ancienneteProperty() {
 		return anciennete;
 	}
+
+    public Contacts create() {
+        return new Contacts(getConnector());
+    }
 }

@@ -17,16 +17,29 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 /**
  * Representation d'une table sql.
  *
- * Example de models :
- *
+ * Models example :
  * <pre>
- * {
- *  &#64;code
+ * {@code
  *  class Qux extends Table<Qux> {
  *      public Qux() {
  *          addColumn("fred");
  *      }
  *  }
+ * }
+ * </pre>
+ *
+ * Example :
+ * <pre>
+ * {@code
+ * Qux quxs = new Qux(connector);
+ * quxs = quxs.select("*").execute();
+ *
+ * // First row
+ * System.out.println(quxs.getField("fred"));
+ *
+ * // Second row
+ * quxs = quxs.next();
+ * System.out.println(quxs.getField("fred"));
  * }
  * </pre>
  *
@@ -51,8 +64,7 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
     /**
      * Requete SELECT
      *
-     * @param columns
-     *            Colonnes
+     * @param columns List of columns
      * @return QuerySelect
      *
      */
@@ -69,8 +81,7 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
      * Example :
      *
      * <pre>
-     * {
-     *  &#64;code
+     * {@code
      *  Contacts contacts = new Contacts();
      *  contacts.select("nom, prenom");
      * }
@@ -105,61 +116,60 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
     }
 
     /**
-     * Returns the FOREIGN KEY
-     *
-     * @return object
+     * @return Foreign key anme
      **/
     public String foreignKey() {
         String fk = getNameTable().toLowerCase();
         fk += "_";
         fk += getPrimaryKeyName();
-
         return fk;
     }
 
     /**
-     * Definie une colonne
+     * Add a column
      *
-     * @param columns
-     *            Colonne
+     * @param name Column name
      */
     public void addColumn(String name) {
         columns.put(name, null);
     }
 
     /**
-     * Supprime une colonne
+     * Delete column
      *
-     * @param columns
-     *            Colonne
+     * @param name Column name
      */
     public void removeColumn(String name) {
         this.columns.remove(name);
     }
 
     /**
-     * @param columns
-     *            Colonne
+     * Set value of a field.
+     * @param name
+     * @param value
      */
     private void addField(String name, Object value) {
         getColumns().put(name, value);
     }
 
     /**
-     *
-     *
-     * @return
+     * @return Primary key
      */
     public Integer getId() {
         Table<T> table = getTable();
         String pkn = table.getPrimaryKeyName();
-        Integer primary_key = (Integer) getField(pkn);
+        Integer primary_key = getField(pkn, Integer.class);
         return primary_key;
     }
 
     /**
-     * @param columns
-     *            Colonne
+     * Returns field
+     *
+     * Prefer use getField(String name, Class<J> type)
+     *
+     * @param name Column name
+     * @param type Type
+     * @return Field
      */
     public Object getField(String name) {
         if (!getLoadedField().contains(name)) { // Fly-weigth
@@ -175,6 +185,13 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
         return getColumns().get(name);
     }
 
+    /**
+     * Returns casted field
+     *
+     * @param name Column name
+     * @param type Type
+     * @return Field
+     */
     public <J> J getField(String name, Class<J> type) {
         try {
             Object field = getTable().getField(name);
@@ -195,6 +212,35 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
         newTable.setResultSet(getResultSet());
         return newTable;
     }
+
+    /**
+     * Flush cache
+     *
+     **/
+    public void resetLoadedField() {
+        setLoadedField(new ArrayList<String>());
+    }
+
+    /**
+     * Returns itself.
+     *
+     * It methods is used in interface likes QuerySelect
+     *
+     * @return
+     */
+    public Table<T> getTable() {
+        return this;
+    }
+
+    /**
+     * For each
+     *
+     **/
+    //public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
+        //do {
+            //lambda.apply(this);
+        //} while(next());
+    //}
 
     /**
      * @return the nameTable
@@ -325,5 +371,4 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
             //lambda.apply(this);
         //} while(next());
     //}
-
 }

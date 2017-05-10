@@ -32,7 +32,9 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * <pre>
  * {@code
  * Qux quxs = new Qux(connector);
- * quxs = quxs.select("*").execut();
+ * quxs = quxs.select("*").execute();
+ *
+ * quxs = quxs.next();
  *
  * // First row
  * System.out.println(quxs.getField("fred"));
@@ -211,7 +213,11 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
         T newTable = create();
         newTable.setHasNext(getResultSet().next());
         newTable.setResultSet(getResultSet());
-        newTable.initialize();
+
+        if(newTable.getHasNext()){
+            newTable.initialize();
+        }
+
         return newTable;
     }
 

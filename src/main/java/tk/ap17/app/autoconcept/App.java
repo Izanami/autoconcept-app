@@ -143,12 +143,12 @@ public class App extends Application {
             mysql.connect();
 
             Contacts contacts = new Contacts(mysql);
-            Contacts row = contacts.select("*").execute();
+            contacts = contacts.select("*").execute().next();
 
-            do {
-                contact.add(row);
-                row = row.next();
-            } while(row.getHasNext());
+            while(contacts.getHasNext()) {
+                contact.add(contacts);
+                contacts = contacts.next();
+            }
 
         } catch (Exception e) {
             exceptionDialog(e, "An exception was throw.");

@@ -76,13 +76,13 @@ public class MysqlTest {
     @Test
     public void testQuerySelect() throws Exception {
         Contacts contact = contacts.select("*").execute();
-        assertEquals("Luther King", contact.getField("nom"));
+        assertEquals("Luther King", contact.next().getField("nom"));
     }
 
     @Test
     public void testQueryBelongs() throws Exception {
         Partenaires partenaire = partenaires.select("*").execute();
-        assertEquals("Luther King", partenaire.contact().getField("nom"));
+        assertEquals("Luther King", partenaire.next().contact().getField("nom"));
     }
 
     @Test
@@ -93,13 +93,13 @@ public class MysqlTest {
 
     @Test
     public void testWhere() throws Exception {
-        Contacts contact = contacts.select("*").where("nom = ?", "Luther King").execute();
+        Contacts contact = contacts.select("*").where("nom = ?", "Luther King").execute().next();
         assertTrue(contact.getId() == 1);
     }
 
     @Test
     public void testNext() throws Exception {
-        Contacts contact = contacts.select("*").execute();
+        Contacts contact = contacts.select("*").execute().next();
         assertEquals("Luther King", contact.getField("nom"));
         Contacts c = contact.next();
         assertEquals("Cartman", c.getField("nom"));
@@ -109,5 +109,14 @@ public class MysqlTest {
     public void testDeserialize() throws Exception {
         Path path = Paths.get("/tmp/t");
         //contacts.select("*").execute().toCsv(path);
+    }
+
+    @Test
+    public void testWhile() throws Exception {
+        contacts = contacts.select("*").execute().next();
+
+        while(contacts.getHasNext()) {
+            contacts = contacts.next();
+        }
     }
 }

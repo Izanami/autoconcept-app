@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Logger;
-import tk.ap17.app.autoconcept.orm.deserialize.modelToFile;
+import tk.ap17.app.autoconcept.orm.deserialize.TableToCsv;
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
 /**
@@ -49,7 +49,7 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * @see Connector
  * @see QuerySelect
  */
-public abstract class Table<T extends Table<T>> implements Factory<T>, modelToFile<T> {
+public abstract class Table<T extends Table<T>> implements Factory<T> {
     private String nameTable;
     private String primaryKeyName = "id";
     private Map<String, Object> columns = new HashMap<>();

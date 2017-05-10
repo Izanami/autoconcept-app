@@ -9,8 +9,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import tk.ap17.app.autoconcept.orm.Connector;
 import tk.ap17.app.autoconcept.orm.Table;
+import tk.ap17.app.autoconcept.orm.deserialize.TableToCsv;
 
-public class Contacts extends Table<Contacts> {
+public class Contacts extends Table<Contacts> implements TableToCsv<Contacts> {
 	private StringProperty professionnel;
 	private StringProperty adresse;
 	private StringProperty ville;

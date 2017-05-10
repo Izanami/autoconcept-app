@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Logger;
-
 import tk.ap17.app.autoconcept.orm.deserialize.modelToFile;
 import tk.ap17.app.autoconcept.orm.query.QuerySelect;
 
@@ -320,9 +319,11 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
      * For each
      *
      **/
+
     //public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
         //do {
             //lambda.apply(this);
         //} while(next());
     //}
+
 }

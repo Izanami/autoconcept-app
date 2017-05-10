@@ -112,7 +112,7 @@
                           </rowConstraints>
                            <children>
                               <Label prefHeight="16.0" prefWidth="187.0" text="Particulier / Pro :" />
-                              <Label fx:id="fsCatLabel" text="Label" GridPane.columnIndex="1" />
+                              <Label fx:id="fsCatLabel" GridPane.columnIndex="1" />
                               <Label text="Adresse :" GridPane.rowIndex="1" />
                               <Label text="Nom :" GridPane.rowIndex="4" />
                               <Label text="Prénom :" GridPane.rowIndex="5" />
@@ -121,18 +121,18 @@
                               <Label text="Courriel :" GridPane.rowIndex="8" />
                               <Label text="Téléphone :" GridPane.rowIndex="9" />
                               <Label text="Date d'inscription :" GridPane.rowIndex="10" />
-                              <Label fx:id="fsAdresseLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label fx:id="fsNomLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <Label fx:id="fsPrenomLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <Label fx:id="fsDdnLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                              <Label fx:id="fsSexeLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                              <Label fx:id="fsCourrielLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                              <Label fx:id="fsTelephoneLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                              <Label fx:id="fsInscriptionLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                              <Label fx:id="fsAdresseLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="fsNomLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label fx:id="fsPrenomLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Label fx:id="fsDdnLabel" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <Label fx:id="fsSexeLabel" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <Label fx:id="fsCourrielLabel" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                              <Label fx:id="fsTelephoneLabel" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                              <Label fx:id="fsInscriptionLabel" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                               <Label text="Ville :" GridPane.rowIndex="2" />
                               <Label text="Code postal :" GridPane.rowIndex="3" />
-                              <Label fx:id="fsVilleLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label fx:id="fsCodePostalLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="fsVilleLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="fsCodePostalLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children>

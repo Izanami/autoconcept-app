@@ -21,7 +21,7 @@ public class Contacts extends Table<Contacts> {
 	private IntegerProperty sexe;
 	private StringProperty courriel;
 	private StringProperty telephone;
-	private ObjectProperty<LocalDate> anciennete;
+	private SimpleStringProperty anciennete;
 
 	public Contacts(Connector connector) {
 		super(connector);
@@ -38,16 +38,18 @@ public class Contacts extends Table<Contacts> {
 	 */
 	public Contacts(Connector connector, String nom, String prenom, String dateDeNaissance) {
 		super(connector);
-		this.nom = new SimpleStringProperty(nom);
-		this.prenom = new SimpleStringProperty(prenom);
-		this.dateDeNaissance = new SimpleStringProperty(dateDeNaissance);
-
-		// Some initial dummy data, just for convenient testing.
+		
+		this.professionnel = new SimpleStringProperty("Professionnel");
 		this.adresse = new SimpleStringProperty("7 rue du bois");
 		this.ville = new SimpleStringProperty("Pau");
 		this.codePostal = new SimpleIntegerProperty(64000);
-		//this.anciennete = new SimpleObjectProperty<LocalDate>(LocalDate.of(1994, 9, 25));
+		this.nom = new SimpleStringProperty(nom);
+		this.prenom = new SimpleStringProperty(prenom);
+		this.dateDeNaissance = new SimpleStringProperty(dateDeNaissance);
+		this.sexe = new SimpleIntegerProperty(0);
+		this.courriel = new SimpleStringProperty ("nom.prenom@exemple.com");
 		this.telephone = new SimpleStringProperty("0102030405");
+		this.anciennete = new SimpleStringProperty("12/04/1997");
 	}
 
 	public String getProfessionnel() {
@@ -170,15 +172,15 @@ public class Contacts extends Table<Contacts> {
 		return telephone;
 	}
 
-	public LocalDate getAnciennete() {
+	public String getAnciennete() {
 		return anciennete.get();
 	}
 
-	public void setAnciennete(LocalDate anciennete) {
+	public void setAnciennete(String anciennete) {
 		this.anciennete.set(anciennete);
 	}
 
-	public ObjectProperty<LocalDate> ancienneteProperty() {
+	public StringProperty ancienneteProperty() {
 		return anciennete;
 	}
 }

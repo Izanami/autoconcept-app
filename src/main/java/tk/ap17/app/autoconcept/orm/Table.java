@@ -189,11 +189,9 @@ public abstract class Table<T extends Table<T>> implements modelToFile<T> {
      * Next row
      *
      **/
-    public boolean next() throws SQLException {
+    public Boolean next() throws SQLException {
         resetLoadedField();
-        getResultSet().next();
-
-        return getResultSet() != null;
+        return getResultSet().next();
     }
 
     /**

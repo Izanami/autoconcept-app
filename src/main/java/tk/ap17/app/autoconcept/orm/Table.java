@@ -214,25 +214,6 @@ public abstract class Table<T extends Table<T>> implements Factory<T> {
     }
 
     /**
-     * Flush cache
-     *
-     **/
-    public void resetLoadedField() {
-        setLoadedField(new ArrayList<String>());
-    }
-
-    /**
-     * Returns itself.
-     *
-     * It methods is used in interface likes QuerySelect
-     *
-     * @return
-     */
-    public Table<T> getTable() {
-        return this;
-    }
-
-    /**
      * For each
      *
      **/

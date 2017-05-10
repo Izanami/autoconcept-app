@@ -182,6 +182,7 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
         ResultSet result_set = getTable().execute(this.compile());
         result_set.next();
         table.setResultSet(result_set);
+        table.initialize();
         return table;
     }
 

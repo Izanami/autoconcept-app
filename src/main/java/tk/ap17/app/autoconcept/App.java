@@ -24,214 +24,191 @@ import tk.ap17.app.autoconcept.controllers.AuthController;
 import tk.ap17.app.autoconcept.controllers.ContactController;
 import tk.ap17.app.autoconcept.models.Contacts;
 import tk.ap17.app.autoconcept.orm.Connector;
+import tk.ap17.app.autoconcept.orm.Mysql;
 
 /**
  * Autoconcept
  *
  */
 public class App extends Application {
-	private Stage primaryStage;
-	private BorderPane rootLayout;
-	private Connector connector;
-	private ObservableList<Contacts> contact = FXCollections.observableArrayList();
+    private Stage primaryStage;
+    private BorderPane rootLayout;
+    private Connector connector;
+    private ObservableList<Contacts> contact = FXCollections.observableArrayList();
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Autoconcept-App");
+        initRootLayout();
+        showAuthentification();
+    }
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Autoconcept-App");
-		initRootLayout();
-		showAuthentification();
-	}
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-		
-	public App() {
-		contact.add(new Contacts(connector, "bousquet", "kelian", "25/09/1994"));
-		contact.add(new Contacts(connector, "jeser", "adrien", "06/10/1989"));
-		contact.add(new Contacts(connector, "devaux", "mathias", "19/09/1977"));
-		contact.add(new Contacts(connector, "vistot", "michael", "15/12/1987"));
-	}
-	
-	public ObservableList<Contacts> getContact() {
+    public App() {
+    }
+
+    public ObservableList<Contacts> getContact() {
         return contact;
     }
-	
-	/**
-	 * Initializes the root layout.
-	 */
-	public void initRootLayout() {
-		try {
-			// Load root layout from fxml file.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(App.class.getResource("RootLayout.fxml"));
-			rootLayout = (BorderPane) loader.load();
 
-			// Show the scene containing the root layout.
-			Scene scene = new Scene(rootLayout);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void showAuthentification() throws IOException {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/Authentification.fxml"));
-
-			VBox Authentification = (VBox) loader.load();
-
-			// Show the scene containing the root layout.
-			Scene scene = new Scene(Authentification);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-
-			AuthController controller = loader.getController();
-			controller.setApp(this);
-
-			// primaryStage.close();
-		} catch (Exception e) {
-			exceptionDialog(e, "An exception was throw.");
-		}
-	}
-
-	public void showAccueil() throws IOException {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/AccueilAppli.fxml"));
-
-			VBox Accueil = (VBox) loader.load();
-
-			// Show the scene containing the root layout.
-			Scene scene = new Scene(Accueil);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-
-			AccueilController controller = loader.getController();
-			controller.setApp(this);
-			controller.username();
-			controller.initialize();
-
-			// primaryStage.close();
-		} catch (Exception e) {
-			exceptionDialog(e, "An exception was throw.");
-		}
-	}
-
-	public void showContact() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/ModuleContact.fxml"));
-
-			VBox Contact = (VBox) loader.load();
-
-			// Show the scene containing the root layout.
-			Scene scene = new Scene(Contact);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-
-			ContactController controller = loader.getController();
-			controller.setApp(this);
-			controller.afficherDonnees(controller.getApp());
-			controller.choixCategorie();
-
-
-		} catch (Exception e) {
-			exceptionDialog(e, "An exception was throw.");
-		}
-	}
-	
     /**
-     * Opens a dialog to edit details for the specified person. If the user
-     * clicks OK, the changes are saved into the provided person object and true
-     * is returned.
-     *
-     * @param person the contact object to be edited
-     * @return true if the user clicked OK, false otherwise.
+     * Initializes the root layout.
      */
-//    public boolean showPersonEditDialog(Contacts contact) {
-//        try {
-//            // Load the fxml file and create a new stage for the popup dialog.
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(App.class.getResource("PersonEditDialog.fxml"));
-//            AnchorPane page = (AnchorPane) loader.load();
-//
-//            // Create the dialog Stage.
-//            Stage dialogStage = new Stage();
-//            dialogStage.setTitle("Edit Person");
-//            dialogStage.initModality(Modality.WINDOW_MODAL);
-//            dialogStage.initOwner(primaryStage);
-//            Scene scene = new Scene(page);
-//            dialogStage.setScene(scene);
-//
-//            // Set the person into the controller.
-//            PersonEditDialogController controller = loader.getController();
-//            controller.setDialogStage(dialogStage);
-//            controller.setPerson(contact);
-//
-//            // Show the dialog and wait until the user closes it
-//            dialogStage.showAndWait();
-//
-//            return controller.isOkClicked();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+    public void initRootLayout() {
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(App.class.getResource("RootLayout.fxml"));
+            rootLayout = (BorderPane) loader.load();
 
-	
-	/**
-	 * Show a expection dialoag
-	 *
-	 **/
-	private void exceptionDialog(Exception exception, String message) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Exception Dialog");
-		alert.setHeaderText("Look, an Exception Dialog");
-		alert.setContentText(message);
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-		// Create expandable Exception.
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		exception.printStackTrace(pw);
-		String exceptionText = sw.toString();
+    public void showAuthentification() throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/Authentification.fxml"));
 
-		Label label = new Label("The exception stacktrace was:");
+            VBox Authentification = (VBox) loader.load();
 
-		TextArea textArea = new TextArea(exceptionText);
-		textArea.setEditable(false);
-		textArea.setWrapText(true);
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(Authentification);
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-		textArea.setMaxWidth(Double.MAX_VALUE);
-		textArea.setMaxHeight(Double.MAX_VALUE);
-		GridPane.setVgrow(textArea, Priority.ALWAYS);
-		GridPane.setHgrow(textArea, Priority.ALWAYS);
+            AuthController controller = loader.getController();
+            controller.setApp(this);
 
-		GridPane expContent = new GridPane();
-		expContent.setMaxWidth(Double.MAX_VALUE);
-		expContent.add(label, 0, 0);
-		expContent.add(textArea, 0, 1);
+            // primaryStage.close();
+        } catch (Exception e) {
+            exceptionDialog(e, "An exception was throw.");
+        }
+    }
 
-		// Set expandable Exception into the dialog pane.
-		alert.getDialogPane().setExpandableContent(expContent);
+    public void showAccueil() throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/AccueilAppli.fxml"));
 
-		alert.showAndWait();
-	}
+            VBox Accueil = (VBox) loader.load();
 
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(Accueil);
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-	public void setPrimaryStage(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-	}
+            AccueilController controller = loader.getController();
+            controller.setApp(this);
+            controller.username();
+            controller.initialize();
 
-	public Connector getConnector() {
-		return connector;
-	}
+            // "06/10/1989"));
+            // contact.add(new Contacts(connector, "devaux", "mathias",
+            // "19/09/1977"));
+            // contact.add(new Contacts(connector, "vistot", "michael",
+            // "15/12/1987"));
 
-	public void setConnector(Connector connector) {
-		this.connector = connector;
-	}
+            // primaryStage.close();
+        } catch (Exception e) {
+            exceptionDialog(e, "An exception was throw.");
+        }
+    }
+
+    public void showContact() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("javafx/ModuleContact.fxml"));
+
+            VBox Contact = (VBox) loader.load();
+
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(Contact);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            ContactController controller = loader.getController();
+            controller.setApp(this);
+            controller.afficherDonnees(controller.getApp());
+            controller.choixCategorie();
+
+            Mysql mysql = new Mysql();
+            mysql.setHost("localhost");
+            mysql.setUser("root");
+            mysql.setPassword("autoconcept");
+            mysql.connect();
+
+            Contacts contacts = new Contacts(mysql);
+            Contacts row = contacts.select("*").execute();
+
+            do {
+                contact.add(row);
+                row = row.next();
+            } while(row.getHasNext());
+
+        } catch (Exception e) {
+            exceptionDialog(e, "An exception was throw.");
+        }
+    }
+
+    /**
+     * Show a expection dialoag
+     *
+     **/
+    private void exceptionDialog(Exception exception, String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Exception Dialog");
+        alert.setHeaderText("Look, an Exception Dialog");
+        alert.setContentText(message);
+
+        // Create expandable Exception.
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        String exceptionText = sw.toString();
+
+        Label label = new Label("The exception stacktrace was:");
+
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+
+        // Set expandable Exception into the dialog pane.
+        alert.getDialogPane().setExpandableContent(expContent);
+
+        alert.showAndWait();
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public Connector getConnector() {
+        return connector;
+    }
+
+    public void setConnector(Connector connector) {
+        this.connector = connector;
+    }
+
 }

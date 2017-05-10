@@ -177,11 +177,12 @@ public class QuerySelect<T extends Table<T>> implements QueryWhere {
      *             Requete refuser par le serveur.
      * @throws ExceptionOrm
      */
-    public Table<T> execute() throws SQLException, ExceptionOrm {
+    public T execute() throws SQLException, ExceptionOrm {
+        T table = getTable().create();
         ResultSet result_set = getTable().execute(this.compile());
         result_set.next();
-        this.table.setResultSet(result_set);
-        return this.table;
+        table.setResultSet(result_set);
+        return table;
     }
 
     /**

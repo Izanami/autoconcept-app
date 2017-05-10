@@ -181,4 +181,8 @@ public class Contacts extends Table<Contacts> {
 	public ObjectProperty<LocalDate> ancienneteProperty() {
 		return anciennete;
 	}
+
+    public Contacts create() {
+        return new Contacts(getConnector());
+    }
 }

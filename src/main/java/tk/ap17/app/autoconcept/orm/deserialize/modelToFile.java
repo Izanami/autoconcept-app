@@ -41,7 +41,7 @@ public interface modelToFile<T extends Table<T>> {
             return true;
         };
 
-        table.forEach(lambda);
+        //table.forEach(lambda);
 
         out.close();
     }

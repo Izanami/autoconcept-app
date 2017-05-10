@@ -34,7 +34,7 @@ import tk.ap17.app.autoconcept.orm.query.QuerySelect;
  * @see Connector
  * @see QuerySelect
  */
-public abstract class Table<T extends Table<T>> implements modelToFile<T> {
+public abstract class Table<T extends Table<T>> implements Factory<T> {
     private String nameTable;
     private String primaryKeyName = "id";
     private Map<String, Object> columns = new HashMap<>();
@@ -189,9 +189,11 @@ public abstract class Table<T extends Table<T>> implements modelToFile<T> {
      * Next row
      *
      **/
-    public Boolean next() throws SQLException {
-        resetLoadedField();
-        return getResultSet().next();
+    public T next() throws SQLException {
+        T newTable = create();
+        getResultSet().next();
+        newTable.setResultSet(getResultSet());
+        return newTable;
     }
 
     /**
@@ -317,9 +319,11 @@ public abstract class Table<T extends Table<T>> implements modelToFile<T> {
      * For each
      *
      **/
-    public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
-        do {
-            lambda.apply(this);
-        } while (next());
-    }
+
+    //public void forEach(Function< Table<T>, Boolean> lambda) throws SQLException {
+        //do {
+            //lambda.apply(this);
+        //} while(next());
+    //}
+
 }

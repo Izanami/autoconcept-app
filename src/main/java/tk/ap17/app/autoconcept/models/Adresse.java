@@ -11,4 +11,8 @@ public class Adresse extends Table<Adresse> {
     public Adresse create() {
         return new Adresse(getConnector());
     }
+
+    public Adresse initialize() {
+        return this;
+    }
 }
